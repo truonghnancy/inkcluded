@@ -81,10 +81,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				94FD3B2AB153812810DE99FE /* Pods_inkcluded_405.framework in Frameworks */,
+<<<<<<< HEAD
 				07A00B6B1E2EC3E800DD68F7 /* Bolts.framework in Frameworks */,
 				07A00B6C1E2EC3E800DD68F7 /* FBSDKCoreKit.framework in Frameworks */,
 				07A00B6D1E2EC3E800DD68F7 /* FBSDKLoginKit.framework in Frameworks */,
+=======
+				94FD3B2AB153812810DE99FE /* Pods_inkcluded_405.framework in Frameworks */,
+>>>>>>> 7af72e3d09d227a30d6c04d29bd59088fb76a406
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

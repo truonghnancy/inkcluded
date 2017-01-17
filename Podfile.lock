@@ -1,0 +1,12 @@
+PODS:
+  - MROGeometry (0.1.1)
+
+DEPENDENCIES:
+  - MROGeometry (~> 0.1)
+
+SPEC CHECKSUMS:
+  MROGeometry: 8c2bf11e870851a3ea8f5cbaa554fafb5fe5ac8c
+
+PODFILE CHECKSUM: ceba2b74136bf41257dd92f04fcda1205d56edc0
+
+COCOAPODS: 1.1.1
