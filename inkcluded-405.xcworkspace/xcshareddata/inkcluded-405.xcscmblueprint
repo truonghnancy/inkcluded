@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "3176CD5AF09AD0642BF3A06AAB5DEB77B67D0917",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "1DCE1180E16D047DCD9885A5E8AFADE39CA445EC" : 9223372036854775807,
+    "3176CD5AF09AD0642BF3A06AAB5DEB77B67D0917" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "E7D9B8D3-BD7D-425B-94FE-F7E5C320D59B",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "1DCE1180E16D047DCD9885A5E8AFADE39CA445EC" : "",
+    "3176CD5AF09AD0642BF3A06AAB5DEB77B67D0917" : "inkcluded_405\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "inkcluded-405",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "inkcluded-405.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/joshccc\/CampPolyHikes.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "1DCE1180E16D047DCD9885A5E8AFADE39CA445EC"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/bitbucket.org\/payuen\/inkcluded_405.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "3176CD5AF09AD0642BF3A06AAB5DEB77B67D0917"
+    }
+  ]
+}

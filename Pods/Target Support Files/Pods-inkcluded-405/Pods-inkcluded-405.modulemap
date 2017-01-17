@@ -1,0 +1,6 @@
+framework module Pods_inkcluded_405 {
+  umbrella header "Pods-inkcluded-405-umbrella.h"
+
+  export *
+  module * { export * }
+}
