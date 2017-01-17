@@ -7,9 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		07A00B6B1E2EC3E800DD68F7 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07A00B681E2EC3E800DD68F7 /* Bolts.framework */; };
-		07A00B6C1E2EC3E800DD68F7 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07A00B691E2EC3E800DD68F7 /* FBSDKCoreKit.framework */; };
-		07A00B6D1E2EC3E800DD68F7 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07A00B6A1E2EC3E800DD68F7 /* FBSDKLoginKit.framework */; };
 		07A00B6F1E2EC51F00DD68F7 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A00B6E1E2EC51F00DD68F7 /* LoginViewController.swift */; };
 		15A978991E28D89E007E4B21 /* GroupsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A978981E28D89E007E4B21 /* GroupsViewController.swift */; };
 		15A9789B1E28D922007E4B21 /* CanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A9789A1E28D922007E4B21 /* CanvasViewController.swift */; };
@@ -44,9 +41,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		07A00B681E2EC3E800DD68F7 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
-		07A00B691E2EC3E800DD68F7 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
-		07A00B6A1E2EC3E800DD68F7 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		07A00B6E1E2EC51F00DD68F7 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		07A00B701E2EC71B00DD68F7 /* inkcluded-405.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "inkcluded-405.entitlements"; sourceTree = "<group>"; };
 		15A978981E28D89E007E4B21 /* GroupsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsViewController.swift; sourceTree = "<group>"; };
@@ -82,9 +76,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				94FD3B2AB153812810DE99FE /* Pods_inkcluded_405.framework in Frameworks */,
-				07A00B6B1E2EC3E800DD68F7 /* Bolts.framework in Frameworks */,
-				07A00B6C1E2EC3E800DD68F7 /* FBSDKCoreKit.framework in Frameworks */,
-				07A00B6D1E2EC3E800DD68F7 /* FBSDKLoginKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,9 +127,6 @@
 		15EBA6F51E27079E00B38D0E = {
 			isa = PBXGroup;
 			children = (
-				07A00B681E2EC3E800DD68F7 /* Bolts.framework */,
-				07A00B691E2EC3E800DD68F7 /* FBSDKCoreKit.framework */,
-				07A00B6A1E2EC3E800DD68F7 /* FBSDKLoginKit.framework */,
 				15EBA7001E27079E00B38D0E /* inkcluded-405 */,
 				15EBA7151E27079F00B38D0E /* inkcluded-405Tests */,
 				15EBA7201E27079F00B38D0E /* inkcluded-405UITests */,
