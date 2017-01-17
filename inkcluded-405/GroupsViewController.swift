@@ -17,5 +17,8 @@ class GroupsViewController: UIViewController {
         
         
     }
-
+    @IBAction func createNewMessage(_ sender: Any) {
+        // TODO: This does nothing because Christopher has no idea what he's
+        //  doing Will fix later.
+    }
 }
