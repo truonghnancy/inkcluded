@@ -8,6 +8,8 @@
 
 import Foundation
 import UIKit
+import FBSDKCoreKit
+import FBSDKLoginKit
 
 class GroupsViewController: UIViewController {
     
@@ -17,6 +19,18 @@ class GroupsViewController: UIViewController {
         
         
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        // Do any additional setup after loading the view, typically from a nib.
+        
+//        if (FBSDKAccessToken.current() == nil)
+//        {
+//            self.performSegue(withIdentifier: "showLogin" , sender: self)
+//        }
+        
+    }
+    
     @IBAction func createNewMessage(_ sender: Any) {
         // TODO: This does nothing because Christopher has no idea what he's
         //  doing Will fix later.

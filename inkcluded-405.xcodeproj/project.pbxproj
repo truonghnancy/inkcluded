@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		07A00B6F1E2EC51F00DD68F7 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A00B6E1E2EC51F00DD68F7 /* LoginViewController.swift */; };
 		15A978991E28D89E007E4B21 /* GroupsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A978981E28D89E007E4B21 /* GroupsViewController.swift */; };
 		15A9789B1E28D922007E4B21 /* CanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A9789A1E28D922007E4B21 /* CanvasViewController.swift */; };
 		15A9789D1E28D947007E4B21 /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A9789C1E28D947007E4B21 /* CanvasView.swift */; };
@@ -40,6 +41,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		07A00B6E1E2EC51F00DD68F7 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		07A00B701E2EC71B00DD68F7 /* inkcluded-405.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "inkcluded-405.entitlements"; sourceTree = "<group>"; };
 		15A978981E28D89E007E4B21 /* GroupsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsViewController.swift; sourceTree = "<group>"; };
 		15A9789A1E28D922007E4B21 /* CanvasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasViewController.swift; sourceTree = "<group>"; };
 		15A9789C1E28D947007E4B21 /* CanvasView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
@@ -116,6 +119,7 @@
 			children = (
 				15A978981E28D89E007E4B21 /* GroupsViewController.swift */,
 				15A9789A1E28D922007E4B21 /* CanvasViewController.swift */,
+				07A00B6E1E2EC51F00DD68F7 /* LoginViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -145,6 +149,7 @@
 		15EBA7001E27079E00B38D0E /* inkcluded-405 */ = {
 			isa = PBXGroup;
 			children = (
+				07A00B701E2EC71B00DD68F7 /* inkcluded-405.entitlements */,
 				15A978A01E29944A007E4B21 /* Controller */,
 				15A9789F1E299444007E4B21 /* View */,
 				15A9789E1E29943E007E4B21 /* Model */,
@@ -275,7 +280,13 @@
 				TargetAttributes = {
 					15EBA6FD1E27079E00B38D0E = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = JGHSPGAWB2;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 					15EBA7111E27079F00B38D0E = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -479,6 +490,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07A00B6F1E2EC51F00DD68F7 /* LoginViewController.swift in Sources */,
 				15A978991E28D89E007E4B21 /* GroupsViewController.swift in Sources */,
 				15A9789B1E28D922007E4B21 /* CanvasViewController.swift in Sources */,
 				15A9789D1E28D947007E4B21 /* CanvasView.swift in Sources */,
@@ -634,6 +646,12 @@
 			baseConfigurationReference = 892F434D1390A6A7A4AE4786 /* Pods-inkcluded-405.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "inkcluded-405/inkcluded-405.entitlements";
+				DEVELOPMENT_TEAM = JGHSPGAWB2;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "inkcluded-405/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -648,6 +666,12 @@
 			baseConfigurationReference = D2F757171BC42ACD49C8C658 /* Pods-inkcluded-405.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "inkcluded-405/inkcluded-405.entitlements";
+				DEVELOPMENT_TEAM = JGHSPGAWB2;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "inkcluded-405/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
