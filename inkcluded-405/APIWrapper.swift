@@ -57,10 +57,10 @@ class APIWrapper : APIProtocol {
     let user4 = User(id: 4, firstName: "eric", lastName: "roh");
     let user5 = User(id: 5, firstName: "nancy", lastName: "truong");
     let user6 = User(id: 6, firstName: "david", lastName: "janzen");
-    let user7 = User(id: 7, firstName: "david", lastName: "janzen");
-    let user8 = User(id: 8, firstName: "david", lastName: "janzen");
-    let user9 = User(id: 9, firstName: "david", lastName: "janzen");
-    let user10 = User(id: 10, firstName: "david", lastName: "janzen");
+    let user7 = User(id: 7, firstName: "dave", lastName: "cool");
+    let user8 = User(id: 8, firstName: "jonny", lastName: "appleseed");
+    let user9 = User(id: 9, firstName: "loopy", lastName: "doopy");
+    let user10 = User(id: 10, firstName: "james", lastName: "wang");
     
     let group1 = Group(id: 1, members: [1, 2, 3, 4], groupName: "one", admin: 1);
     let group2 = Group(id: 2, members: [1, 2], groupName: "two", admin: 1);
