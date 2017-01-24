@@ -280,7 +280,6 @@
 				TargetAttributes = {
 					15EBA6FD1E27079E00B38D0E = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = JGHSPGAWB2;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Keychain = {
@@ -647,7 +646,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "inkcluded-405/inkcluded-405.entitlements";
-				DEVELOPMENT_TEAM = JGHSPGAWB2;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -667,7 +666,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "inkcluded-405/inkcluded-405.entitlements";
-				DEVELOPMENT_TEAM = JGHSPGAWB2;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
