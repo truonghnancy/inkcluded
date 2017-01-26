@@ -152,7 +152,7 @@ class APIWrapper : APIProtocol {
         });
     }
     
-    func sendMessage(message: Message) {
-        self.messageList.append(message);
-    }
+//    func sendMessage(message: Message) {
+//        self.messageList.append(message);
+//    }
 }

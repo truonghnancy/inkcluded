@@ -99,7 +99,7 @@ class APIWrapperTest: XCTestCase {
         XCTAssertTrue(validIds.contains(allMessages[2].id))
     }
     
-    func testSendMessage() {
-        
-    }
+//    func testSendMessage() {
+//        
+//    }
 }

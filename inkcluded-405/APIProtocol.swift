@@ -19,5 +19,5 @@ protocol APIProtocol {
     func getGroupById(groupId: Int) -> Group;
     
     func getAllMessagesInGroup(groupId: Int) -> [Message];
-    func sendMessage(message: Message);
+//    func sendMessage(message: Message);
 }
