@@ -1,7 +1,7 @@
 language: objective-c
 script: 
  - xcodebuild -workspace inkcluded-405.xcworkspace -scheme inkcluded-405 -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
- - xcodebuild clean build build-for-testing test -workspace caravan-ios.xcworkspace -scheme caravan-ios -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
+ - xcodebuild clean build build-for-testing test -workspace inkcluded-405.xcworkspace -scheme inkcluded-405 -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
 notifications:
   slack: boba-slo:yOTZTRMNoMyYIWGhpDX7xqLl
 osx_image: xcode8.2
