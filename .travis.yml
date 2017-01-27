@@ -1,6 +1,6 @@
 language: objective-c
 script:
- - xcodebuild clean build build-for-testing test -workspace inkcluded-405.xcworkspace -scheme inkcluded-405 -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
+ - xcodebuild clean build-for-testing test -workspace inkcluded-405.xcworkspace -scheme inkcluded-405 -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO -destination 'platform=iOS Simulator,name=iPhone 6,OS=10.2'
 notifications:
   slack: boba-slo:yOTZTRMNoMyYIWGhpDX7xqLl
 osx_image: xcode8.2
