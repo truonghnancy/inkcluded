@@ -4,3 +4,8 @@ script:
 notifications:
   slack: boba-slo:yOTZTRMNoMyYIWGhpDX7xqLl
 osx_image: xcode8.2
+# safelist
+branches:
+  only:
+  - master
+  - INK-14
