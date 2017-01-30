@@ -7,30 +7,42 @@
 //
 
 import UIKit
-import FBSDKCoreKit
-import FBSDKLoginKit
+import CoreData
+//import FBSDKCoreKit
+//import FBSDKLoginKit
 
-class LoginViewController: UIViewController,  FBSDKLoginButtonDelegate {
-
+class LoginViewController: UIViewController {
+    
+    @IBOutlet weak var facebookLogin: UIButton!
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        let loginFBButton = FBSDKLoginButton()
-        loginFBButton.readPermissions = ["public_profile", "email", "user_friends"]
-        loginFBButton.center = self.view.center
-        
-        loginFBButton.delegate = self
-        
-        self.view.addSubview(loginFBButton)
-
+//        let loginFBButton = FBSDKLoginButton()
+//        loginFBButton.readPermissions = ["public_profile", "email", "user_friends"]
+//        loginFBButton.center = self.view.center
+//        
+//        loginFBButton.delegate = self
+//        
+//        self.view.addSubview(loginFBButton)
+        print("\t\tviewDidLoad")
+//        self.facebookButtonPressed(sender: facebookLogin)
     }
 
     override func didReceiveMemoryWarning() {
+        print("hello")
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func facebookButtonPressed(sender: AnyObject?)
+    {
+        print("facebook button pressed")
+        self.loginAndGetData()
+    }
 
     /*
     // MARK: - Navigation
@@ -41,22 +53,50 @@ class LoginViewController: UIViewController,  FBSDKLoginButtonDelegate {
         // Pass the selected object to the new view controller.
     }
     */
-    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
-        
-        if error == nil && result.token != nil
-        {
-            print("Logged in")
-            UserDefaults.standard.set(result.token.tokenString, forKey: "oauthKey")
-            UserDefaults.standard.synchronize()
-            
-            self.dismiss(animated: true, completion: nil)
-        }
-    }
-    
-    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
-        print("user logged out")
-        UserDefaults.standard.removeObject(forKey: "oauthKey")
-    }
+//    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
+//        
+//        if error == nil && result.token != nil
+//        {
+//            print("Logged in")
+//            UserDefaults.standard.set(result.token.tokenString, forKey: "oauthKey")
+//            UserDefaults.standard.synchronize()
+//            
+//            self.dismiss(animated: true, completion: nil)
+//        }
+//    }
+//    
+//    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
+//        print("user logged out")
+//        UserDefaults.standard.removeObject(forKey: "oauthKey")
+//    }
 
+    func loginAndGetData() {
+        print("\t\tIn loginAndGetData")
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        print("appDelegate data " + String(describing: appDelegate))
+        print("client data " + String(describing: appDelegate.client?.currentUser))
+        
+        guard let client = appDelegate.client, client.currentUser == nil else {
+            print("returning")
+            return
+        }
+        
+        let loginBlock: MSClientLoginBlock = {(user, error) -> Void in
+            if (error != nil) {
+                print("Error: \(error?.localizedDescription)")
+            }
+            else {
+                client.currentUser = user
+                print("User logged in: \(user?.userId)")
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
+        print("passed all this")
+        
+        client.login(withProvider:"facebook", urlScheme: "penmessageapp.azurewebsites.net", controller: self, animated: true, completion: loginBlock)
+        print("login")
+        
+    }
+   
 
 }

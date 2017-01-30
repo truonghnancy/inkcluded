@@ -8,8 +8,8 @@
 
 import Foundation
 import UIKit
-import FBSDKCoreKit
-import FBSDKLoginKit
+//import FBSDKCoreKit
+//import FBSDKLoginKit
 
 class GroupsViewController: UIViewController {
     
@@ -26,7 +26,7 @@ class GroupsViewController: UIViewController {
         
 //        if (FBSDKAccessToken.current() == nil)
 //        {
-//            self.performSegue(withIdentifier: "showLogin" , sender: self)
+            self.performSegue(withIdentifier: "showLogin" , sender: self)
 //        }
         
     }
