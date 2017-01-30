@@ -13,10 +13,6 @@ import CoreData
 
 class LoginViewController: UIViewController {
     
-    @IBOutlet weak var facebookLogin: UIButton!
-    
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -29,21 +25,18 @@ class LoginViewController: UIViewController {
 //        
 //        self.view.addSubview(loginFBButton)
         print("\t\tviewDidLoad")
-//        self.facebookButtonPressed(sender: facebookLogin)
     }
 
+    @IBAction func facebookButtonPress(_ sender: Any) {
+        self.loginAndGetData()
+    }
+    
     override func didReceiveMemoryWarning() {
         print("hello")
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func facebookButtonPressed(sender: AnyObject?)
-    {
-        print("facebook button pressed")
-        self.loginAndGetData()
-    }
-
     /*
     // MARK: - Navigation
 
@@ -92,9 +85,9 @@ class LoginViewController: UIViewController {
             }
         }
         print("passed all this")
-        
+
         client.login(withProvider:"facebook", urlScheme: "penmessageapp.azurewebsites.net", controller: self, animated: true, completion: loginBlock)
-        print("login")
+        print("login: " + String(describing: client))
         
     }
    
