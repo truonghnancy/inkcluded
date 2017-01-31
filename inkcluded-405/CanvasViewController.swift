@@ -12,44 +12,28 @@ import MROGeometry
 
 
 class CanvasViewController: UIViewController {
-    @IBOutlet var canvasView: CanvasView!
-    private var model: CanvasModel?
+    
+    
+    @IBOutlet weak var canvas: UIView!
+    private var drawView: DrawView?
+    @IBOutlet weak var sendButton: UIButton!
+    
+    @IBAction func sendButtonPressed(_ sender: Any) {
+        drawView?.saveStrokes();
+        let fileManager = FileManager.default
+        let url = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first as? NSURL
+        print(url)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        model = CanvasModel()
-        canvasView.controller = self
-    }
-    @IBAction func sendButtonPressed(_ sender: Any) {
-        makeSerializedCanvas()
-    }
-    
-    func startCurrentLine(point: CGPoint) {
-        model?.startCurrentLine(point: point)
-    }
-    
-    func addPointToCurrentLine(point: CGPoint) {
-        model?.addPointToCurrentLine(point: point)
+        self.view.backgroundColor = UIColor.white
         
-    }
-    
-    func addLastPointToCurrentLine(point: CGPoint) {
-        model?.addLastPointToCurrentLine(point: point)
-    }
-    
-    func getAllPaths() -> [UIBezierPath] {
-        return (model?.getAllPaths())!
-    }
-    
-    func makeSerializedCanvas() {
-        let bezierpaths : [UIBezierPath]? = getAllPaths()
+        drawView = DrawView(frame: self.view.frame)
         
-        for bzpath in (bezierpaths)! {
-            
-            // string that holds all the points in one Bezier Path
-            let string = String(cString: CGPathToCString(bzpath.cgPath, 0, 0))
-            print(string)
-        }
+        canvas.addSubview(drawView!)
+        drawView?.frame = canvas.bounds
+        canvas.bringSubview(toFront: sendButton)
     }
 }
