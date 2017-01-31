@@ -13,8 +13,6 @@
 		157CCE301E355D7000096337 /* APIProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157CCE2F1E355D7000096337 /* APIProtocol.swift */; };
 		15A978991E28D89E007E4B21 /* GroupsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A978981E28D89E007E4B21 /* GroupsViewController.swift */; };
 		15A9789B1E28D922007E4B21 /* CanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A9789A1E28D922007E4B21 /* CanvasViewController.swift */; };
-		15A9789D1E28D947007E4B21 /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A9789C1E28D947007E4B21 /* CanvasView.swift */; };
-		15A978A21E2994BF007E4B21 /* CanvasModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A978A11E2994BF007E4B21 /* CanvasModel.swift */; };
 		15DA464C1E38074900DE515A /* APIWrapperTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DA464B1E38074900DE515A /* APIWrapperTest.swift */; };
 		15DA464E1E380A0400DE515A /* APIWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157CCE2C1E35590700096337 /* APIWrapper.swift */; };
 		15DA464F1E380AC100DE515A /* APIProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157CCE2F1E355D7000096337 /* APIProtocol.swift */; };
@@ -27,6 +25,9 @@
 		40F865A6725D8820F56B8B8C /* Pods_inkcluded_405UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A91286597B4880684D0F00B8 /* Pods_inkcluded_405UITests.framework */; };
 		511B13F71CC0BF7A3E91B09F /* Pods_inkcluded_405Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EF4486F25C1DC46A245DD95 /* Pods_inkcluded_405Tests.framework */; };
 		94FD3B2AB153812810DE99FE /* Pods_inkcluded_405.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF60963865909A6CB6D3F7E0 /* Pods_inkcluded_405.framework */; };
+		EE5A8EFE1E404A2200BC44AF /* WILLCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE5A8EFD1E404A2200BC44AF /* WILLCore.framework */; };
+		EE5A8F011E404B2800BC44AF /* DrawView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE5A8F001E404B2800BC44AF /* DrawView.m */; };
+		EE5A8F041E404B4000BC44AF /* Stroke.m in Sources */ = {isa = PBXBuildFile; fileRef = EE5A8F031E404B4000BC44AF /* Stroke.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,8 +55,6 @@
 		157CCE2F1E355D7000096337 /* APIProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIProtocol.swift; sourceTree = "<group>"; };
 		15A978981E28D89E007E4B21 /* GroupsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsViewController.swift; sourceTree = "<group>"; };
 		15A9789A1E28D922007E4B21 /* CanvasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasViewController.swift; sourceTree = "<group>"; };
-		15A9789C1E28D947007E4B21 /* CanvasView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
-		15A978A11E2994BF007E4B21 /* CanvasModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasModel.swift; sourceTree = "<group>"; };
 		15DA464B1E38074900DE515A /* APIWrapperTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIWrapperTest.swift; sourceTree = "<group>"; };
 		15EBA6FE1E27079E00B38D0E /* inkcluded-405.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "inkcluded-405.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		15EBA7011E27079F00B38D0E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -78,6 +77,12 @@
 		C37A30159C98E7994E8EBEDB /* Pods-inkcluded-405UITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-inkcluded-405UITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-inkcluded-405UITests/Pods-inkcluded-405UITests.debug.xcconfig"; sourceTree = "<group>"; };
 		D2F757171BC42ACD49C8C658 /* Pods-inkcluded-405.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-inkcluded-405.release.xcconfig"; path = "Pods/Target Support Files/Pods-inkcluded-405/Pods-inkcluded-405.release.xcconfig"; sourceTree = "<group>"; };
 		DF60963865909A6CB6D3F7E0 /* Pods_inkcluded_405.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_inkcluded_405.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EE5A8EFD1E404A2200BC44AF /* WILLCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WILLCore.framework; path = Frameworks/WILLCore.framework; sourceTree = "<group>"; };
+		EE5A8EFF1E404B2800BC44AF /* inkcluded-405-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "inkcluded-405-Bridging-Header.h"; sourceTree = "<group>"; };
+		EE5A8F001E404B2800BC44AF /* DrawView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawView.m; sourceTree = "<group>"; };
+		EE5A8F021E404B3400BC44AF /* DrawView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DrawView.h; sourceTree = "<group>"; };
+		EE5A8F031E404B4000BC44AF /* Stroke.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Stroke.m; sourceTree = "<group>"; };
+		EE5A8F051E404B4A00BC44AF /* Stroke.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Stroke.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE5A8EFE1E404A2200BC44AF /* WILLCore.framework in Frameworks */,
 				94FD3B2AB153812810DE99FE /* Pods_inkcluded_405.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -127,8 +133,9 @@
 		15A9789E1E29943E007E4B21 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				15A978A11E2994BF007E4B21 /* CanvasModel.swift */,
 				157CCE2C1E35590700096337 /* APIWrapper.swift */,
+				EE5A8F031E404B4000BC44AF /* Stroke.m */,
+				EE5A8F051E404B4A00BC44AF /* Stroke.h */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -138,6 +145,8 @@
 			children = (
 				150CAD0E1E3ECF37003255DB /* TableViewCells */,
 				15A9789C1E28D947007E4B21 /* CanvasView.swift */,
+				EE5A8F001E404B2800BC44AF /* DrawView.m */,
+				EE5A8F021E404B3400BC44AF /* DrawView.h */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -183,6 +192,7 @@
 				15A9789F1E299444007E4B21 /* View */,
 				15A9789E1E29943E007E4B21 /* Model */,
 				15EBA7011E27079F00B38D0E /* AppDelegate.swift */,
+				EE5A8EFF1E404B2800BC44AF /* inkcluded-405-Bridging-Header.h */,
 				15EBA7051E27079F00B38D0E /* Main.storyboard */,
 				15EBA7081E27079F00B38D0E /* Assets.xcassets */,
 				15EBA70A1E27079F00B38D0E /* LaunchScreen.storyboard */,
@@ -226,6 +236,7 @@
 		FA5CDF0585B1B344D4526D21 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EE5A8EFD1E404A2200BC44AF /* WILLCore.framework */,
 				DF60963865909A6CB6D3F7E0 /* Pods_inkcluded_405.framework */,
 				8EF4486F25C1DC46A245DD95 /* Pods_inkcluded_405Tests.framework */,
 				A91286597B4880684D0F00B8 /* Pods_inkcluded_405UITests.framework */,
@@ -310,6 +321,7 @@
 				TargetAttributes = {
 					15EBA6FD1E27079E00B38D0E = {
 						CreatedOnToolsVersion = 8.2.1;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Keychain = {
@@ -522,12 +534,13 @@
 				157CCE301E355D7000096337 /* APIProtocol.swift in Sources */,
 				07A00B6F1E2EC51F00DD68F7 /* LoginViewController.swift in Sources */,
 				15A978991E28D89E007E4B21 /* GroupsViewController.swift in Sources */,
+				EE5A8F041E404B4000BC44AF /* Stroke.m in Sources */,
 				15A9789B1E28D922007E4B21 /* CanvasViewController.swift in Sources */,
 				150CAD101E3ECF73003255DB /* GroupsTableViewCell.swift in Sources */,
 				15A9789D1E28D947007E4B21 /* CanvasView.swift in Sources */,
+				EE5A8F011E404B2800BC44AF /* DrawView.m in Sources */,
 				15EBA7021E27079F00B38D0E /* AppDelegate.swift in Sources */,
 				157CCE2D1E35590700096337 /* APIWrapper.swift in Sources */,
-				15A978A21E2994BF007E4B21 /* CanvasModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -681,17 +694,36 @@
 			baseConfigurationReference = 892F434D1390A6A7A4AE4786 /* Pods-inkcluded-405.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "inkcluded-405/inkcluded-405.entitlements";
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Frameworks",
 				);
 				INFOPLIST_FILE = "inkcluded-405/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					"\"Bolts\"",
+					"-framework",
+					"\"FBSDKCoreKit\"",
+					"-framework",
+					"\"FBSDKLoginKit\"",
+					"-framework",
+					"\"FBSDKShareKit\"",
+					"-framework",
+					"\"MROGeometry\"",
+					"-lc++",
+					"-lz",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "boba.inkcluded-405";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "inkcluded-405/inkcluded-405-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -701,17 +733,35 @@
 			baseConfigurationReference = D2F757171BC42ACD49C8C658 /* Pods-inkcluded-405.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "inkcluded-405/inkcluded-405.entitlements";
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Frameworks",
 				);
 				INFOPLIST_FILE = "inkcluded-405/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					"\"Bolts\"",
+					"-framework",
+					"\"FBSDKCoreKit\"",
+					"-framework",
+					"\"FBSDKLoginKit\"",
+					"-framework",
+					"\"FBSDKShareKit\"",
+					"-framework",
+					"\"MROGeometry\"",
+					"-lc++",
+					"-lz",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "boba.inkcluded-405";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "inkcluded-405/inkcluded-405-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
