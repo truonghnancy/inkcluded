@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		07A00B6F1E2EC51F00DD68F7 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A00B6E1E2EC51F00DD68F7 /* LoginViewController.swift */; };
+		150CAD101E3ECF73003255DB /* GroupsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150CAD0F1E3ECF73003255DB /* GroupsTableViewCell.swift */; };
 		157CCE2D1E35590700096337 /* APIWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157CCE2C1E35590700096337 /* APIWrapper.swift */; };
 		157CCE301E355D7000096337 /* APIProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157CCE2F1E355D7000096337 /* APIProtocol.swift */; };
 		15A978991E28D89E007E4B21 /* GroupsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A978981E28D89E007E4B21 /* GroupsViewController.swift */; };
@@ -49,6 +50,7 @@
 /* Begin PBXFileReference section */
 		07A00B6E1E2EC51F00DD68F7 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		07A00B701E2EC71B00DD68F7 /* inkcluded-405.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "inkcluded-405.entitlements"; sourceTree = "<group>"; };
+		150CAD0F1E3ECF73003255DB /* GroupsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsTableViewCell.swift; sourceTree = "<group>"; };
 		157CCE2C1E35590700096337 /* APIWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIWrapper.swift; sourceTree = "<group>"; };
 		157CCE2F1E355D7000096337 /* APIProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIProtocol.swift; sourceTree = "<group>"; };
 		15A978981E28D89E007E4B21 /* GroupsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsViewController.swift; sourceTree = "<group>"; };
@@ -108,6 +110,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		150CAD0E1E3ECF37003255DB /* TableViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				150CAD0F1E3ECF73003255DB /* GroupsTableViewCell.swift */,
+			);
+			name = TableViewCells;
+			sourceTree = "<group>";
+		};
 		157CCE2E1E355D5D00096337 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
@@ -128,6 +138,7 @@
 		15A9789F1E299444007E4B21 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				150CAD0E1E3ECF37003255DB /* TableViewCells */,
 				15A9789C1E28D947007E4B21 /* CanvasView.swift */,
 			);
 			name = View;
@@ -515,6 +526,7 @@
 				07A00B6F1E2EC51F00DD68F7 /* LoginViewController.swift in Sources */,
 				15A978991E28D89E007E4B21 /* GroupsViewController.swift in Sources */,
 				15A9789B1E28D922007E4B21 /* CanvasViewController.swift in Sources */,
+				150CAD101E3ECF73003255DB /* GroupsTableViewCell.swift in Sources */,
 				15A9789D1E28D947007E4B21 /* CanvasView.swift in Sources */,
 				15EBA7021E27079F00B38D0E /* AppDelegate.swift in Sources */,
 				157CCE2D1E35590700096337 /* APIWrapper.swift in Sources */,
