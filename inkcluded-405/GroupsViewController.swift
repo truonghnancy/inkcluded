@@ -11,12 +11,23 @@ import UIKit
 import FBSDKCoreKit
 import FBSDKLoginKit
 
+@objc
+protocol GroupsViewControllerDelegate {
+    @objc optional func toggleLeftPanel()
+}
+
 class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet var groupsTableView: UITableView!
     
     let apiWrapper: APIWrapper = APIWrapper()
     var groups : [Group]?
+    var delegate: GroupsViewControllerDelegate?
+    var containerView: ContainerViewController?
+    
+    @IBAction func menuTapped(_ sender: AnyObject) {
+        delegate?.toggleLeftPanel?()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
