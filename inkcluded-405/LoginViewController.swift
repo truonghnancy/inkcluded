@@ -28,9 +28,15 @@ class LoginViewController: UIViewController {
     }
 
     @IBAction func facebookButtonPress(_ sender: Any) {
-        self.loginAndGetData()
+        self.loginAndGetData("facebook")
     }
     
+    @IBAction func googleButtonPress(_ sender: Any) {
+        self.loginAndGetData("google")
+    }
+    @IBAction func microsoftButtonPress(_ sender: Any) {
+        self.loginAndGetData("microsoftaccount")
+    }
     override func didReceiveMemoryWarning() {
         print("hello")
         super.didReceiveMemoryWarning()
@@ -63,7 +69,7 @@ class LoginViewController: UIViewController {
 //        UserDefaults.standard.removeObject(forKey: "oauthKey")
 //    }
 
-    func loginAndGetData() {
+    func loginAndGetData(oauthType: String) {
         print("\t\tIn loginAndGetData")
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         print("appDelegate data " + String(describing: appDelegate))
@@ -86,7 +92,7 @@ class LoginViewController: UIViewController {
         }
         print("passed all this")
 
-        client.login(withProvider:"facebook", urlScheme: "penmessageapp.azurewebsites.net", controller: self, animated: true, completion: loginBlock)
+        client.login(withProvider: oauthType, urlScheme: "penmessageapp.azurewebsites.net", controller: self, animated: true, completion: loginBlock)
         print("login: " + String(describing: client))
         
     }
