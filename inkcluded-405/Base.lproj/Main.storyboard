@@ -42,7 +42,6 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="facebookButtonPress:" destination="ufI-Xi-QbX" eventType="touchUpInside" id="5mW-fQ-2fb"/>
                                     <action selector="googleButtonPress:" destination="ufI-Xi-QbX" eventType="touchUpInside" id="Lf9-23-g5d"/>
                                 </connections>
                             </button>
@@ -55,7 +54,6 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="facebookButtonPress:" destination="ufI-Xi-QbX" eventType="touchUpInside" id="TfX-tz-Jq7"/>
                                     <action selector="microsoftButtonPress:" destination="ufI-Xi-QbX" eventType="touchUpInside" id="Ccz-bF-3ls"/>
                                 </connections>
                             </button>

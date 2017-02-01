@@ -16,31 +16,22 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-//        let loginFBButton = FBSDKLoginButton()
-//        loginFBButton.readPermissions = ["public_profile", "email", "user_friends"]
-//        loginFBButton.center = self.view.center
-//        
-//        loginFBButton.delegate = self
-//        
-//        self.view.addSubview(loginFBButton)
         print("\t\tviewDidLoad")
     }
 
     @IBAction func facebookButtonPress(_ sender: Any) {
-        self.loginAndGetData("facebook")
+        self.loginAndGetData(oauthType: "facebook")
     }
     
     @IBAction func googleButtonPress(_ sender: Any) {
-        self.loginAndGetData("google")
+        self.loginAndGetData(oauthType: "google")
     }
     @IBAction func microsoftButtonPress(_ sender: Any) {
-        self.loginAndGetData("microsoftaccount")
+        self.loginAndGetData(oauthType: "microsoftaccount")
     }
+    
     override func didReceiveMemoryWarning() {
-        print("hello")
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     /*
@@ -52,22 +43,6 @@ class LoginViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-//    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
-//        
-//        if error == nil && result.token != nil
-//        {
-//            print("Logged in")
-//            UserDefaults.standard.set(result.token.tokenString, forKey: "oauthKey")
-//            UserDefaults.standard.synchronize()
-//            
-//            self.dismiss(animated: true, completion: nil)
-//        }
-//    }
-//    
-//    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
-//        print("user logged out")
-//        UserDefaults.standard.removeObject(forKey: "oauthKey")
-//    }
 
     func loginAndGetData(oauthType: String) {
         print("\t\tIn loginAndGetData")
@@ -82,7 +57,7 @@ class LoginViewController: UIViewController {
         
         let loginBlock: MSClientLoginBlock = {(user, error) -> Void in
             if (error != nil) {
-                print("Error: \(error?.localizedDescription)")
+                print("Error message: \(error?.localizedDescription)")
             }
             else {
                 client.currentUser = user
@@ -92,8 +67,8 @@ class LoginViewController: UIViewController {
         }
         print("passed all this")
 
-        client.login(withProvider: oauthType, urlScheme: "penmessageapp.azurewebsites.net", controller: self, animated: true, completion: loginBlock)
-        print("login: " + String(describing: client))
+        client.login(withProvider: oauthType, urlScheme: "inkcluded-405", controller: self, animated: true, completion: loginBlock)
+        print("login: " + String(describing: client.currentUser))
         
     }
    
