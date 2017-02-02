@@ -13,16 +13,35 @@ import MROGeometry
 
 class CanvasViewController: UIViewController {
     
-    
-    @IBOutlet weak var canvas: UIView!
     private var drawView: DrawView?
+    @IBOutlet weak var canvas: UIView!
     @IBOutlet weak var sendButton: UIButton!
+    @IBOutlet weak var loadButton: UIButton!
     
+    /**
+     * Saves the canvas tot he default canvas path. The default will doc path is:
+     * /Users/<USER>/Library/Developer/CoreSimulator/Devices/<SIMULATOR-ID>/data/Containers/Data/Application/<APP-ID>/Documents/
+     *
+     **/
     @IBAction func sendButtonPressed(_ sender: Any) {
         drawView?.saveStrokes();
-        let fileManager = FileManager.default
-        let url = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first as? NSURL
-        print(url)
+        
+        // CODE SMELL: these 3 functions will print out the destination in the simulator the will doc is saved to
+        //let fileManager = FileManager.default
+        //let url = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first as? NSURL
+        //print(url)
+    }
+    
+    // Loads a completely new canvas and discards the old canvas. Placeholder button just for canvas bugtesting.
+    @IBAction func loadButtonPressed(_ sender: Any) {
+        drawView?.removeFromSuperview();
+        
+        drawView = DrawView(frame: canvas.bounds)
+        drawView?.decodeStrokesFromDocumentPath();
+        
+        canvas.addSubview(drawView!)
+        canvas.bringSubview(toFront: sendButton)
+        canvas.bringSubview(toFront: loadButton)
     }
     
     override func viewDidLoad() {
@@ -30,10 +49,11 @@ class CanvasViewController: UIViewController {
         
         self.view.backgroundColor = UIColor.white
         
-        drawView = DrawView(frame: self.view.frame)
+        drawView = DrawView(frame: canvas.bounds)
         
         canvas.addSubview(drawView!)
-        drawView?.frame = canvas.bounds
+        //drawView?.frame = canvas.bounds
         canvas.bringSubview(toFront: sendButton)
+        canvas.bringSubview(toFront: loadButton)
     }
 }

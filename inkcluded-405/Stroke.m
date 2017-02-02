@@ -1,6 +1,6 @@
 //
 //  Stroke.m
-//  WillDemo
+//  inkluded-405
 //
 //  Created by Josh Choi on 1/23/17.
 //  Copyright © 2017 Josh Choi. All rights reserved.
@@ -10,6 +10,7 @@
 
 @implementation Stroke
 
+// Used to represent a stroke for storage/serialization.
 +(Stroke*) strokeWithPoints:(WCMFloatVector*)points andStride:(int)stride andWidth:(float)width andColor:(UIColor*)color andTs:(float)ts andTf:(float)tf andBlendMode:(WCMBlendMode)blendmode
 {
     Stroke * result = [[Stroke alloc] init];

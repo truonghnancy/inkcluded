@@ -1,6 +1,6 @@
 //
 //  DrawView.h
-//  WillDemo
+//  inkluded-405
 //
 //  Created by Josh Choi on 1/22/17.
 //  Copyright © 2017 Josh Choi. All rights reserved.
@@ -14,6 +14,8 @@
 @interface DrawView : UIView
 
 - (void) saveStrokes;
+
+- (void) decodeStrokesFromDocumentPath;
 
 @end
 

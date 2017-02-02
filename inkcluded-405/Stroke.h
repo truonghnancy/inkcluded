@@ -1,6 +1,6 @@
 //
 //  Stroke.h
-//  WillDemo
+//  inkluded-405
 //
 //  Created by Josh Choi on 1/23/17.
 //  Copyright © 2017 Josh Choi. All rights reserved.
