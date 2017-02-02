@@ -48,10 +48,10 @@ class LoginViewController: UIViewController {
         print("\t\tIn loginAndGetData")
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         print("appDelegate data " + String(describing: appDelegate))
-        print("client data " + String(describing: appDelegate.client?.currentUser))
+        print("client data " + String(describing: appDelegate.client))
         
-        guard let client = appDelegate.client, client.currentUser == nil else {
-            print("returning")
+        guard let client = appDelegate.client, client.currentUser?.userId == nil else {
+            print("returning " + String(describing: appDelegate.client?.currentUser?.userId))
             return
         }
         
