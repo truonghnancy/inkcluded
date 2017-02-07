@@ -25,6 +25,9 @@
 		40F865A6725D8820F56B8B8C /* Pods_inkcluded_405UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A91286597B4880684D0F00B8 /* Pods_inkcluded_405UITests.framework */; };
 		511B13F71CC0BF7A3E91B09F /* Pods_inkcluded_405Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EF4486F25C1DC46A245DD95 /* Pods_inkcluded_405Tests.framework */; };
 		94FD3B2AB153812810DE99FE /* Pods_inkcluded_405.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF60963865909A6CB6D3F7E0 /* Pods_inkcluded_405.framework */; };
+		CC1FDB521E3D9B3800B38C11 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1FDB511E3D9B3800B38C11 /* WebKit.framework */; };
+		CC7358AB1E429EC600496F35 /* MicrosoftAzureMobile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC7358AA1E429EC600496F35 /* MicrosoftAzureMobile.framework */; };
+		CCFD64A41E3EEF600097BE78 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCFD64A31E3EEF600097BE78 /* SafariServices.framework */; };
 		EE5A8EFE1E404A2200BC44AF /* WILLCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE5A8EFD1E404A2200BC44AF /* WILLCore.framework */; };
 		EE5A8F011E404B2800BC44AF /* DrawView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE5A8F001E404B2800BC44AF /* DrawView.m */; };
 		EE5A8F041E404B4000BC44AF /* Stroke.m in Sources */ = {isa = PBXBuildFile; fileRef = EE5A8F031E404B4000BC44AF /* Stroke.m */; };
@@ -75,6 +78,11 @@
 		8EF4486F25C1DC46A245DD95 /* Pods_inkcluded_405Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_inkcluded_405Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A91286597B4880684D0F00B8 /* Pods_inkcluded_405UITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_inkcluded_405UITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C37A30159C98E7994E8EBEDB /* Pods-inkcluded-405UITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-inkcluded-405UITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-inkcluded-405UITests/Pods-inkcluded-405UITests.debug.xcconfig"; sourceTree = "<group>"; };
+		CC1FDB511E3D9B3800B38C11 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		CC7358AA1E429EC600496F35 /* MicrosoftAzureMobile.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MicrosoftAzureMobile.framework; path = "inkcluded-405/MicrosoftAzureMobile.framework"; sourceTree = "<group>"; };
+		CC930B8B1E3D801000E9A118 /* inkcluded-405-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "inkcluded-405-Bridging-Header.h"; path = "inkcluded-405/inkcluded-405-Bridging-Header.h"; sourceTree = "<group>"; };
+		CCFD64A31E3EEF600097BE78 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
+		CCFD64A51E3EFC9D0097BE78 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = "../../Library/Developer/Xcode/DerivedData/inkcluded-405-dsyouagevapbudgqckcaedxmeqqs/Build/Products/Debug-iphonesimulator/FBSDKCoreKit/FBSDKCoreKit.framework"; sourceTree = "<group>"; };
 		D2F757171BC42ACD49C8C658 /* Pods-inkcluded-405.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-inkcluded-405.release.xcconfig"; path = "Pods/Target Support Files/Pods-inkcluded-405/Pods-inkcluded-405.release.xcconfig"; sourceTree = "<group>"; };
 		DF60963865909A6CB6D3F7E0 /* Pods_inkcluded_405.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_inkcluded_405.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE5A8EFD1E404A2200BC44AF /* WILLCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WILLCore.framework; path = Frameworks/WILLCore.framework; sourceTree = "<group>"; };
@@ -90,6 +98,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CC7358AB1E429EC600496F35 /* MicrosoftAzureMobile.framework in Frameworks */,
+				CCFD64A41E3EEF600097BE78 /* SafariServices.framework in Frameworks */,
+				CC1FDB521E3D9B3800B38C11 /* WebKit.framework in Frameworks */,
 				EE5A8EFE1E404A2200BC44AF /* WILLCore.framework in Frameworks */,
 				94FD3B2AB153812810DE99FE /* Pods_inkcluded_405.framework in Frameworks */,
 			);
@@ -143,13 +154,10 @@
 		15A9789F1E299444007E4B21 /* View */ = {
 			isa = PBXGroup;
 			children = (
-<<<<<<< HEAD
 				150CAD0E1E3ECF37003255DB /* TableViewCells */,
 				15A9789C1E28D947007E4B21 /* CanvasView.swift */,
-=======
 				EE5A8F001E404B2800BC44AF /* DrawView.m */,
 				EE5A8F021E404B3400BC44AF /* DrawView.h */,
->>>>>>> WILLCanvas
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -167,6 +175,7 @@
 		15EBA6F51E27079E00B38D0E = {
 			isa = PBXGroup;
 			children = (
+				CC930B8B1E3D801000E9A118 /* inkcluded-405-Bridging-Header.h */,
 				15EBA7001E27079E00B38D0E /* inkcluded-405 */,
 				15EBA7151E27079F00B38D0E /* inkcluded-405Tests */,
 				15EBA7201E27079F00B38D0E /* inkcluded-405UITests */,
@@ -239,6 +248,9 @@
 		FA5CDF0585B1B344D4526D21 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CC7358AA1E429EC600496F35 /* MicrosoftAzureMobile.framework */,
+				CCFD64A31E3EEF600097BE78 /* SafariServices.framework */,
+				CC1FDB511E3D9B3800B38C11 /* WebKit.framework */,
 				EE5A8EFD1E404A2200BC44AF /* WILLCore.framework */,
 				DF60963865909A6CB6D3F7E0 /* Pods_inkcluded_405.framework */,
 				8EF4486F25C1DC46A245DD95 /* Pods_inkcluded_405Tests.framework */,
@@ -539,12 +551,9 @@
 				15A978991E28D89E007E4B21 /* GroupsViewController.swift in Sources */,
 				EE5A8F041E404B4000BC44AF /* Stroke.m in Sources */,
 				15A9789B1E28D922007E4B21 /* CanvasViewController.swift in Sources */,
-<<<<<<< HEAD
 				150CAD101E3ECF73003255DB /* GroupsTableViewCell.swift in Sources */,
 				15A9789D1E28D947007E4B21 /* CanvasView.swift in Sources */,
-=======
 				EE5A8F011E404B2800BC44AF /* DrawView.m in Sources */,
->>>>>>> WILLCanvas
 				15EBA7021E27079F00B38D0E /* AppDelegate.swift in Sources */,
 				157CCE2D1E35590700096337 /* APIWrapper.swift in Sources */,
 			);
@@ -705,12 +714,24 @@
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
+					"$(PROJECT_DIR)/inkcluded-405",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Frameworks",
 				);
 				INFOPLIST_FILE = "inkcluded-405/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-iquote",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/MROGeometry/MROGeometry.framework/Headers\"",
+				);
+				"OTHER_CFLAGS[arch=*]" = (
+					"$(inherited)",
+					"-iquote",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/MROGeometry/MROGeometry.framework/Headers\"",
+				);
+				"OTHER_CPLUSPLUSFLAGS[arch=*]" = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -744,12 +765,22 @@
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
+					"$(PROJECT_DIR)/inkcluded-405",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Frameworks",
 				);
 				INFOPLIST_FILE = "inkcluded-405/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-iquote",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/MROGeometry/MROGeometry.framework/Headers\"",
+				);
+				"OTHER_CFLAGS[arch=*]" = (
+					"$(inherited)",
+					"-iquote",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/MROGeometry/MROGeometry.framework/Headers\"",
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",

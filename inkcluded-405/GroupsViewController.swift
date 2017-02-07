@@ -8,8 +8,8 @@
 
 import Foundation
 import UIKit
-import FBSDKCoreKit
-import FBSDKLoginKit
+//import FBSDKCoreKit
+//import FBSDKLoginKit
 
 class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -54,12 +54,11 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        // Do any additional setup after loading the view, typically from a nib.
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         
-//        if (FBSDKAccessToken.current() == nil)
-//        {
-//            self.performSegue(withIdentifier: "showLogin" , sender: self)
-//        }
+        if (appDelegate.client?.currentUser == nil){
+            self.performSegue(withIdentifier: "showLogin" , sender: self)
+        }
         
     }
     
