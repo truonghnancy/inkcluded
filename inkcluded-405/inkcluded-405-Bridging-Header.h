@@ -6,9 +6,11 @@
 //  Copyright © 2017 Boba. All rights reserved.
 //
 
-#ifndef inkcluded_405_Bridging_Header_h
-#define inkcluded_405_Bridging_Header_h
+#ifndef inkluded_405_Bridging_Header_h
+#define inkluded_405_Bridging_Header_h
 
+#import "DrawView.h"
+#import <WILLCore/WacomInkSerialization.h>
 #import <MicrosoftAzureMobile/MicrosoftAzureMobile.h>
 
-#endif /* inkcluded_405_Bridging_Header_h */
+#endif

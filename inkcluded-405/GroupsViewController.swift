@@ -11,12 +11,44 @@ import UIKit
 //import FBSDKCoreKit
 //import FBSDKLoginKit
 
-class GroupsViewController: UIViewController {
+class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    @IBOutlet var groupsTableView: UITableView!
+    
+    let apiWrapper: APIWrapper = APIWrapper()
+    var groups : [Group]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.groups = apiWrapper.getAllGroups()
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return groups!.count;
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = self.groupsTableView.dequeueReusableCell(withIdentifier: "groupsCell") as! GroupsTableViewCell
+        let group = self.groups?[indexPath.row];
+        let names: [String] = (group?.members.map({ (memberId) -> String in
+            return apiWrapper.getFriendById(userId: memberId).firstName;
+        }))!
+        let finalNames = names.filter { (name) -> Bool in
+            return name != self.apiWrapper.getCurrentUser().firstName;
+        }
+    
+        cell.groupName.text = group?.groupName
+        cell.groupDetails.text = finalNames.joined(separator: ", ")
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
     }
     

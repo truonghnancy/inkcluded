@@ -12,44 +12,48 @@ import MROGeometry
 
 
 class CanvasViewController: UIViewController {
-    @IBOutlet var canvasView: CanvasView!
-    private var model: CanvasModel?
+    
+    private var drawView: DrawView?
+    @IBOutlet weak var canvas: UIView!
+    @IBOutlet weak var sendButton: UIButton!
+    @IBOutlet weak var loadButton: UIButton!
+    
+    /**
+     * Saves the canvas tot he default canvas path. The default will doc path is:
+     * /Users/<USER>/Library/Developer/CoreSimulator/Devices/<SIMULATOR-ID>/data/Containers/Data/Application/<APP-ID>/Documents/
+     *
+     **/
+    @IBAction func sendButtonPressed(_ sender: Any) {
+        drawView?.saveStrokes();
+        
+        // CODE SMELL: these 3 functions will print out the destination in the simulator the will doc is saved to
+        //let fileManager = FileManager.default
+        //let url = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first as? NSURL
+        //print(url)
+    }
+    
+    // Loads a completely new canvas and discards the old canvas. Placeholder button just for canvas bugtesting.
+    @IBAction func loadButtonPressed(_ sender: Any) {
+        drawView?.removeFromSuperview();
+        
+        drawView = DrawView(frame: canvas.bounds)
+        drawView?.decodeStrokesFromDocumentPath();
+        
+        canvas.addSubview(drawView!)
+        canvas.bringSubview(toFront: sendButton)
+        canvas.bringSubview(toFront: loadButton)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        model = CanvasModel()
-        canvasView.controller = self
-    }
-    @IBAction func sendButtonPressed(_ sender: Any) {
-        makeSerializedCanvas()
-    }
-    
-    func startCurrentLine(point: CGPoint) {
-        model?.startCurrentLine(point: point)
-    }
-    
-    func addPointToCurrentLine(point: CGPoint) {
-        model?.addPointToCurrentLine(point: point)
+        self.view.backgroundColor = UIColor.white
         
-    }
-    
-    func addLastPointToCurrentLine(point: CGPoint) {
-        model?.addLastPointToCurrentLine(point: point)
-    }
-    
-    func getAllPaths() -> [UIBezierPath] {
-        return (model?.getAllPaths())!
-    }
-    
-    func makeSerializedCanvas() {
-        let bezierpaths : [UIBezierPath]? = getAllPaths()
+        drawView = DrawView(frame: canvas.bounds)
         
-        for bzpath in (bezierpaths)! {
-            
-            // string that holds all the points in one Bezier Path
-            let string = String(cString: CGPathToCString(bzpath.cgPath, 0, 0))
-            print(string)
-        }
+        canvas.addSubview(drawView!)
+        //drawView?.frame = canvas.bounds
+        canvas.bringSubview(toFront: sendButton)
+        canvas.bringSubview(toFront: loadButton)
     }
 }
