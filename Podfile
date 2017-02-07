@@ -6,9 +6,7 @@ target 'inkcluded-405' do
   use_frameworks!
 
   # Pods for inkcluded-405
-  pod 'FBSDKCoreKit'
-  pod 'FBSDKShareKit'
-  pod 'FBSDKLoginKit'
+
   
   pod 'MROGeometry', '~> 0.1'
 

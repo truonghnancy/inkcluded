@@ -7,31 +7,33 @@
 //
 
 import UIKit
-import FBSDKCoreKit
-import FBSDKLoginKit
+import CoreData
+//import FBSDKCoreKit
+//import FBSDKLoginKit
 
-class LoginViewController: UIViewController,  FBSDKLoginButtonDelegate {
-
+class LoginViewController: UIViewController {
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-        let loginFBButton = FBSDKLoginButton()
-        loginFBButton.readPermissions = ["public_profile", "email", "user_friends"]
-        loginFBButton.center = self.view.center
-        
-        loginFBButton.delegate = self
-        
-        self.view.addSubview(loginFBButton)
-
+        print("\t\tviewDidLoad")
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    @IBAction func facebookButtonPress(_ sender: Any) {
+        self.loginAndGetData(oauthType: "facebook")
     }
     
-
+    @IBAction func googleButtonPress(_ sender: Any) {
+        self.loginAndGetData(oauthType: "google")
+    }
+    @IBAction func microsoftButtonPress(_ sender: Any) {
+        self.loginAndGetData(oauthType: "microsoftaccount")
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
     /*
     // MARK: - Navigation
 
@@ -41,22 +43,34 @@ class LoginViewController: UIViewController,  FBSDKLoginButtonDelegate {
         // Pass the selected object to the new view controller.
     }
     */
-    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
-        
-        if error == nil && result.token != nil
-        {
-            print("Logged in")
-            UserDefaults.standard.set(result.token.tokenString, forKey: "oauthKey")
-            UserDefaults.standard.synchronize()
-            
-            self.dismiss(animated: true, completion: nil)
-        }
-    }
-    
-    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
-        print("user logged out")
-        UserDefaults.standard.removeObject(forKey: "oauthKey")
-    }
 
+    func loginAndGetData(oauthType: String) {
+        print("\t\tIn loginAndGetData")
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        print("appDelegate data " + String(describing: appDelegate))
+        print("client data " + String(describing: appDelegate.client))
+        
+        guard let client = appDelegate.client, client.currentUser?.userId == nil else {
+            print("returning " + String(describing: appDelegate.client?.currentUser?.userId))
+            return
+        }
+        
+        let loginBlock: MSClientLoginBlock = {(user, error) -> Void in
+            if (error != nil) {
+                print("Error message: \(error?.localizedDescription)")
+            }
+            else {
+                client.currentUser = user
+                print("User logged in: \(user?.userId)")
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
+        print("passed all this")
+
+        client.login(withProvider: oauthType, urlScheme: "inkcluded-405", controller: self, animated: true, completion: loginBlock)
+        print("login: " + String(describing: client.currentUser))
+        
+    }
+   
 
 }

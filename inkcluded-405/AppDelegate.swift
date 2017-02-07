@@ -7,18 +7,29 @@
 //
 
 import UIKit
-import FBSDKCoreKit
-
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    var client : MSClient?
+    
+    func application(_ application: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        print("first one called")
+        if url.scheme?.lowercased() == "inkcluded-405" {
+            return (self.client!.resume(with: url as URL))
+        }
+        else {
+            return false
+        }
+    }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        print("second one called")
+        self.client = MSClient(
+            applicationURLString:"https://penmessageapp.azurewebsites.net"
+        )
+        print("client " + String(describing: self.client))
         
         window = UIWindow(frame: UIScreen.main.bounds)
         
@@ -30,10 +41,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
-    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-        
-        return FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
-    }
+//    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+//        if url.scheme?.lowercased() == "http://penmessageapp.azurewebsites.net" {
+//            return (self.client!.resume(with: url as URL))
+//        }
+//        else {
+//            return false
+//        }
+//    }
     
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
