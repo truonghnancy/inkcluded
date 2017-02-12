@@ -13,7 +13,7 @@ import MROGeometry
 
 class CanvasViewController: UIViewController {
     
-    private var drawView: DrawView?
+    var drawView: DrawView?
 
     @IBOutlet weak var canvas: UIView!
     @IBOutlet weak var sendButton: UIButton!
@@ -21,8 +21,7 @@ class CanvasViewController: UIViewController {
     
     private var menu: CanvasMenuView?
     var selectImageVC: SelectImageViewController?
-    var imageLayer: UIView?
-    private var orderedSubViews: [UIView] = [] // 0: drawView 1:sendButton 2:loadButton 3:imageLayer 4:menu
+    private var orderedSubViews: [UIView] = [] // 0: drawView 1:sendButton 2:loadButton 3:menu
     
     /**
      * Saves the canvas tot he default canvas path. The default will doc path is:
@@ -71,16 +70,12 @@ class CanvasViewController: UIViewController {
         selectImageVC = storyboard.instantiateViewController(withIdentifier: "selectImageVC") as? SelectImageViewController
         selectImageVC?.selectImageDelegate = self
         
-        self.imageLayer = UIView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: canvas.frame.size))
-        
         self.orderedSubViews.append(drawView!)
         self.orderedSubViews.append(sendButton)
         self.orderedSubViews.append(loadButton)
-        self.orderedSubViews.append(imageLayer!)
         self.orderedSubViews.append(menu!)
         
         canvas.addSubview(drawView!)
-        canvas.addSubview(imageLayer!)
         canvas.addSubview(menu!)
         
         bringSubViewToFrontInOrder()
@@ -98,6 +93,6 @@ extension CanvasViewController: CanvasMenuDelegate {
 extension CanvasViewController: SelectImageDelegate {
     func didSelectImage(image: UIImageView) {
         image.frame.origin = CGPoint(x: (canvas.frame.width - image.frame.width) / 2, y: (canvas.frame.height - image.frame.height) / 2)
-        self.imageLayer!.addSubview(image)
+        self.drawView!.addSubview(image)
     }
 }
