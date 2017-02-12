@@ -49,7 +49,8 @@ public class CanvasMenuView: UIView {
     }
 
     init(size: CGSize) {
-        let origin = CGPoint(x: size.width - CanvasMenuView.MENU_WIDTH, y: (size.height * CanvasMenuView.MENU_HEIGHT_RATIO) / 2)
+        let borderWidth: CGFloat = 2.0
+        let origin = CGPoint(x: size.width - CanvasMenuView.MENU_WIDTH + borderWidth * 2, y: (size.height * CanvasMenuView.MENU_HEIGHT_RATIO) / 2)
         let frameSize = CGSize(width: CanvasMenuView.MENU_WIDTH, height: size.height * CanvasMenuView.MENU_HEIGHT_RATIO)
         
         super.init(frame: CGRect(origin: origin, size: frameSize))
@@ -57,7 +58,7 @@ public class CanvasMenuView: UIView {
         self.itemList = [CanvasMenuButton(type: CanvasMenuItem.INSERT_IMAGE)]
         addMenuButtonToView(items: self.itemList!)
         
-        self.layer.borderWidth = 2
+        self.layer.borderWidth = borderWidth
         self.layer.borderColor = UIColor.black.cgColor
         self.layer.cornerRadius = 5.0
         self.backgroundColor = UIColor.lightGray
