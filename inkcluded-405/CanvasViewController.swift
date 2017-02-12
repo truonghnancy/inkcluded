@@ -14,9 +14,12 @@ import MROGeometry
 class CanvasViewController: UIViewController {
     
     private var drawView: DrawView?
+
     @IBOutlet weak var canvas: UIView!
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var loadButton: UIButton!
+    
+    private var menu: CanvasMenuView?
     
     /**
      * Saves the canvas tot he default canvas path. The default will doc path is:
@@ -51,9 +54,20 @@ class CanvasViewController: UIViewController {
         
         drawView = DrawView(frame: canvas.bounds)
         
+        menu = CanvasMenuView(size: self.view.frame.size)
+        menu?.delegate = self;
+        
+        canvas.addSubview(menu!)
         canvas.addSubview(drawView!)
         //drawView?.frame = canvas.bounds
         canvas.bringSubview(toFront: sendButton)
         canvas.bringSubview(toFront: loadButton)
+        canvas.bringSubview(toFront: menu!)
+    }
+}
+
+extension CanvasViewController: CanvasMenuDelegate {
+    func didClickOnMenuItem(item: CanvasMenuItem) {
+        
     }
 }
