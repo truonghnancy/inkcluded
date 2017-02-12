@@ -18,6 +18,8 @@
 		15DA464F1E380AC100DE515A /* APIProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157CCE2F1E355D7000096337 /* APIProtocol.swift */; };
 		15EBA3E51E50ED39006821C9 /* CanvasMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EBA3E41E50ED39006821C9 /* CanvasMenuView.swift */; };
 		15EBA3E81E50F0D1006821C9 /* CanvasMenuDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EBA3E71E50F0D1006821C9 /* CanvasMenuDelegate.swift */; };
+		15EBA3EC1E5116AE006821C9 /* SelectImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EBA3EB1E5116AE006821C9 /* SelectImageViewController.swift */; };
+		15EBA3EE1E511E13006821C9 /* SelectImageDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EBA3ED1E511E13006821C9 /* SelectImageDelegate.swift */; };
 		15EBA7021E27079F00B38D0E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EBA7011E27079F00B38D0E /* AppDelegate.swift */; };
 		15EBA7071E27079F00B38D0E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15EBA7051E27079F00B38D0E /* Main.storyboard */; };
 		15EBA7091E27079F00B38D0E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 15EBA7081E27079F00B38D0E /* Assets.xcassets */; };
@@ -63,6 +65,8 @@
 		15DA464B1E38074900DE515A /* APIWrapperTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIWrapperTest.swift; sourceTree = "<group>"; };
 		15EBA3E41E50ED39006821C9 /* CanvasMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasMenuView.swift; sourceTree = "<group>"; };
 		15EBA3E71E50F0D1006821C9 /* CanvasMenuDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasMenuDelegate.swift; sourceTree = "<group>"; };
+		15EBA3EB1E5116AE006821C9 /* SelectImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectImageViewController.swift; sourceTree = "<group>"; };
+		15EBA3ED1E511E13006821C9 /* SelectImageDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectImageDelegate.swift; sourceTree = "<group>"; };
 		15EBA6FE1E27079E00B38D0E /* inkcluded-405.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "inkcluded-405.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		15EBA7011E27079F00B38D0E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		15EBA7061E27079F00B38D0E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -172,6 +176,7 @@
 				15A978981E28D89E007E4B21 /* GroupsViewController.swift */,
 				15A9789A1E28D922007E4B21 /* CanvasViewController.swift */,
 				07A00B6E1E2EC51F00DD68F7 /* LoginViewController.swift */,
+				15EBA3EB1E5116AE006821C9 /* SelectImageViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -180,6 +185,7 @@
 			isa = PBXGroup;
 			children = (
 				15EBA3E71E50F0D1006821C9 /* CanvasMenuDelegate.swift */,
+				15EBA3ED1E511E13006821C9 /* SelectImageDelegate.swift */,
 			);
 			name = Delegates;
 			sourceTree = "<group>";
@@ -568,9 +574,11 @@
 				15A9789B1E28D922007E4B21 /* CanvasViewController.swift in Sources */,
 				150CAD101E3ECF73003255DB /* GroupsTableViewCell.swift in Sources */,
 				EE5A8F011E404B2800BC44AF /* DrawView.m in Sources */,
+				15EBA3EC1E5116AE006821C9 /* SelectImageViewController.swift in Sources */,
 				15EBA7021E27079F00B38D0E /* AppDelegate.swift in Sources */,
 				157CCE2D1E35590700096337 /* APIWrapper.swift in Sources */,
 				15EBA3E51E50ED39006821C9 /* CanvasMenuView.swift in Sources */,
+				15EBA3EE1E511E13006821C9 /* SelectImageDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

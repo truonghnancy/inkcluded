@@ -20,6 +20,9 @@ class CanvasViewController: UIViewController {
     @IBOutlet weak var loadButton: UIButton!
     
     private var menu: CanvasMenuView?
+    var selectImageVC: SelectImageViewController?
+    var imageLayer: UIView?
+    private var orderedSubViews: [UIView] = [] // 0: drawView 1:sendButton 2:loadButton 3:imageLayer 4:menu
     
     /**
      * Saves the canvas tot he default canvas path. The default will doc path is:
@@ -43,8 +46,15 @@ class CanvasViewController: UIViewController {
         drawView?.decodeStrokesFromDocumentPath();
         
         canvas.addSubview(drawView!)
-        canvas.bringSubview(toFront: sendButton)
-        canvas.bringSubview(toFront: loadButton)
+        self.orderedSubViews[0] = drawView!
+        
+        self.bringSubViewToFrontInOrder()
+    }
+    
+    func bringSubViewToFrontInOrder() {
+        for view in self.orderedSubViews {
+            canvas.bringSubview(toFront: view)
+        }
     }
     
     override func viewDidLoad() {
@@ -57,17 +67,37 @@ class CanvasViewController: UIViewController {
         menu = CanvasMenuView(size: self.view.frame.size)
         menu?.delegate = self;
         
-        canvas.addSubview(menu!)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        selectImageVC = storyboard.instantiateViewController(withIdentifier: "selectImageVC") as? SelectImageViewController
+        selectImageVC?.selectImageDelegate = self
+        
+        self.imageLayer = UIView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: canvas.frame.size))
+        
+        self.orderedSubViews.append(drawView!)
+        self.orderedSubViews.append(sendButton)
+        self.orderedSubViews.append(loadButton)
+        self.orderedSubViews.append(imageLayer!)
+        self.orderedSubViews.append(menu!)
+        
         canvas.addSubview(drawView!)
-        //drawView?.frame = canvas.bounds
-        canvas.bringSubview(toFront: sendButton)
-        canvas.bringSubview(toFront: loadButton)
-        canvas.bringSubview(toFront: menu!)
+        canvas.addSubview(imageLayer!)
+        canvas.addSubview(menu!)
+        
+        bringSubViewToFrontInOrder()
     }
 }
 
 extension CanvasViewController: CanvasMenuDelegate {
     func didClickOnMenuItem(item: CanvasMenuItem) {
-        
+        if item == .INSERT_IMAGE {
+            self.present(self.selectImageVC!, animated: true, completion: nil)
+        }
+    }
+}
+
+extension CanvasViewController: SelectImageDelegate {
+    func didSelectImage(image: UIImageView) {
+        image.frame.origin = CGPoint(x: (canvas.frame.width - image.frame.width) / 2, y: (canvas.frame.height - image.frame.height) / 2)
+        self.imageLayer!.addSubview(image)
     }
 }
