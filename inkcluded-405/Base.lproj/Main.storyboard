@@ -98,18 +98,14 @@
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <state key="normal" title="New Message"/>
                                                 <connections>
-                                                    <action selector="createNewMessage:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Yqv-Pi-kbP"/>
-                                                    <segue destination="WEB-ve-wAz" kind="show" id="aFW-nA-zsF"/>
+                                                    <segue destination="WEB-ve-wAz" kind="show" id="3tA-xm-ABW"/>
                                                 </connections>
                                             </button>
-                                            <connections>
-                                                <action selector="createNewMessage:" destination="BYZ-38-t0r" id="Wh1-ai-Y05"/>
-                                            </connections>
                                         </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="x3e-0M-aN4">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="x3e-0M-aN4">
                                 <rect key="frame" x="0.0" y="64" width="375" height="539"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -190,24 +186,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="136.23188405797103" y="138.58695652173915"/>
-        </scene>
-        <!--Side Panel View Controller-->
-        <scene sceneID="gLR-ck-YBU">
-            <objects>
-                <viewController storyboardIdentifier="LeftViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="GuE-u0-dxU" customClass="SidePanelViewController" customModule="inkcluded_405" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="lTA-kO-Ebv"/>
-                        <viewControllerLayoutGuide type="bottom" id="pWI-0v-85g"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Y3b-mz-nX9">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="oTR-cn-iqI" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="982" y="818"/>
         </scene>
         <!--Canvas View Controller-->
         <scene sceneID="wXS-JR-BIy">

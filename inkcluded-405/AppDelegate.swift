@@ -31,13 +31,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         )
         print("client " + String(describing: self.client))
         
-        window = UIWindow(frame: UIScreen.main.bounds)
-        
-        let containerViewController = ContainerViewController()
-        
-        window!.rootViewController = containerViewController
-        window!.makeKeyAndVisible()
-        
         return true
     }
 
