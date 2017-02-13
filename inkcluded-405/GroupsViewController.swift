@@ -33,6 +33,7 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         // making the menu view
         menuView = UIView.init(frame: CGRect(x: -400, y: 0, width: 400, height: self.view.frame.height))
         menuView!.backgroundColor = UIColor.black
+        
         self.view.addSubview(menuView!)
         
         // create & add the screen edge gesture recognizer to open the menu
@@ -41,34 +42,19 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         edgePanGR.delegate = self
         self.view.addGestureRecognizer(edgePanGR)
         
-        // create & add the pan gesture recognizer to pull the menu back
-        let panGR = UIPanGestureRecognizer(target: self, action: #selector(self.handlePan(recognizer:)))
-        panGR.delegate = self
-        menuView!.addGestureRecognizer(panGR)
-        
         //create & add the tap gesutre recognizer to close the menu
         let tapGR = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(recognizer:)))
         tapGR.delegate = self
         self.view.addGestureRecognizer(tapGR)
-        
     }
     
     
     // GESTURE RECOGNIZERS
     func handleEdgePan(recognizer: UIScreenEdgePanGestureRecognizer) {
         // open animation of menu
-        UIView.animate(withDuration: 1.0, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: .curveEaseOut, animations: {
-            self.openMenu()
-        }, completion: { finished in
-            self.menuState = .Expanded
-        })
+        self.openMenu()
         
         // TODO: should also disable all buttons on the groups view
-    }
-    
-    func handlePan(recognizer: UIPanGestureRecognizer) {
-        menuState = .Collapsed
-        
     }
     
     func handleTap(recognizer: UITapGestureRecognizer) {
@@ -76,22 +62,26 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let point = recognizer.location(in: self.view)
         if (menuState == .Expanded && point.x >= 300){
             // close the menu
-            UIView.animate(withDuration: 1.0, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0, options: .curveEaseOut, animations: {
-                self.closeMenu()
-            }, completion: { finished in
-                self.menuState = .Collapsed
-                print("state: \(self.menuState)")
-            })
+           self.closeMenu()
         }
     }
     
     // ANIMATIONS
     func closeMenu() {
-        menuView!.frame.origin.x = -400 // <= replace this magic number
+        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
+            self.menuView!.frame.origin.x = -400 // <= replace this magic number
+        }, completion: { finished in
+            self.menuState = .Collapsed
+            print("state: \(self.menuState)")
+        })
     }
     
     func openMenu() {
-        menuView!.frame.origin.x = -100 // <= replace this magic number
+        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
+            self.menuView!.frame.origin.x = -100 // <= replace this magic number
+        }, completion: { finished in
+            self.menuState = .Expanded
+        })
     }
     
     // BUTTON ACTION
