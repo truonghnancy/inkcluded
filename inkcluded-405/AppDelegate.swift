@@ -13,7 +13,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var client : MSClient?
-    var userEntry : AnyHashable?
+    var userEntry : [AnyHashable : Any]?
+    var apiWrapper: APIWrapper?
     
     func application(_ application: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         print("first one called")

@@ -15,17 +15,19 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     @IBOutlet var groupsTableView: UITableView!
     
-    let apiWrapper: APIWrapper = APIWrapper()
     var groups : [Group]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //let appDelegate = UIApplication.shared.delegate as! AppDelegate
         
-        self.groups = apiWrapper.getAllGroups()
+        //self.performSegue(withIdentifier: "showLogin" , sender: self)
+        
+        //wait
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return groups!.count;
+        return 0;
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -33,18 +35,22 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let appdelegate = UIApplication.shared.delegate as! AppDelegate
         let cell = self.groupsTableView.dequeueReusableCell(withIdentifier: "groupsCell") as! GroupsTableViewCell
-        let group = self.groups?[indexPath.row];
-        let names: [String] = (group?.members.map({ (memberId) -> String in
-            return apiWrapper.getFriendById(userId: memberId).firstName;
-        }))!
-        let finalNames = names.filter { (name) -> Bool in
-            return name != self.apiWrapper.getCurrentUser().firstName;
+        print("ffff")
+        if (appdelegate.client?.currentUser != nil) {
+            
+            let userEntry = appdelegate.userEntry as! [AnyHashable : String]
+            let group = self.groups?[indexPath.row];
+            let names: [String] = (group?.members.map({ (member) -> String in
+                return member.firstName}))!
+            let finalNames = names.filter { (name) -> Bool in
+                return name != userEntry[AnyHashable("firstname")];
         }
-    
+        
         cell.groupName.text = group?.groupName
         cell.groupDetails.text = finalNames.joined(separator: ", ")
-        
+        }
         return cell
     }
     
@@ -53,13 +59,15 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         
-        if (appDelegate.client?.currentUser == nil){
+        if (appDelegate.userEntry == nil) {
             self.performSegue(withIdentifier: "showLogin" , sender: self)
         }
-        
+        if (appDelegate.userEntry != nil) {
+            appDelegate.apiWrapper = APIWrapper()
+            self.groups = appDelegate.apiWrapper?.getAllGroups()
+        }
     }
     
     @IBAction func createNewMessage(_ sender: Any) {

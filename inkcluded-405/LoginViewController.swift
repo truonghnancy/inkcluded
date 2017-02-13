@@ -63,7 +63,7 @@ class LoginViewController: UIViewController {
                 client.currentUser = user
                 print("User logged in: \(user?.userId)")
                 self.addUserToDatabase(client: client)
-                self.dismiss(animated: true, completion: nil)
+//                self.dismiss(animated: true, completion: nil)
             }
         }
         print("passed all this")
@@ -75,9 +75,10 @@ class LoginViewController: UIViewController {
     func addUserToDatabase(client : MSClient) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let sid = client.currentUser?.userId
+        //let sid = "testingagain"
         let userTable = client.table(withName: "User")
         let query = userTable.query(with: NSPredicate(format: "id = %@", sid!))
-        var userEntry = appDelegate.userEntry
+        //var tempentry : [AnyHashable : Any]?
         
         query.read { (result, error) in
             if let err = error {
@@ -87,14 +88,23 @@ class LoginViewController: UIViewController {
                     if error != nil {
                         print(error!)
                     } else  {
-                        userEntry = result as! AnyHashable
+                        print("inserted")
+                        appDelegate.userEntry = result
+                        print(appDelegate.userEntry!)
+                        self.dismiss(animated: true, completion: nil)
+
                     }
                 }
-            } else if let items = result?.items {
-                userEntry = result!
-                print(items)
+            } else if (result?.items) != nil {
+                print("selected")
+                appDelegate.userEntry = (result?.items?[0])!
+                print(appDelegate.userEntry!)
+                self.dismiss(animated: true, completion: nil)
+
             }
+
         }
+        print("heroh")
     }
    
 
