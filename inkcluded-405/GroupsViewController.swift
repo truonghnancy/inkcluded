@@ -11,7 +11,12 @@ import UIKit
 //import FBSDKCoreKit
 //import FBSDKLoginKit
 
-class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+enum menuState {
+    case Expanded
+    case Collapsed
+}
+
+class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate {
     
     @IBOutlet var groupsTableView: UITableView!
     
@@ -24,7 +29,44 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         self.groups = apiWrapper.getAllGroups()
         
+        // making the menu view
         menuView = UIView.init(frame: CGRect(x: -400, y: 0, width: 400, height: self.view.frame.height))
+        menuView!.backgroundColor = UIColor.black
+        self.view.addSubview(menuView!)
+        
+        // create & add the screen edge gesture recognizer
+        let edgePanGR = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(self.handleEdgePan(recognizer:)))
+        edgePanGR.edges = .left
+        edgePanGR.delegate = self
+        self.view.addGestureRecognizer(edgePanGR)
+        
+        // create & add the pan gesture recognizer
+        let panGR = UIPanGestureRecognizer(target: self, action: #selector(self.handlePan(recognizer:)))
+        panGR.delegate = self
+        menuView!.addGestureRecognizer(panGR)
+        
+        //create & add the tap gesutre recognizer
+        let tapGR = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(recognizer:)))
+        tapGR.delegate = self
+        self.view.addGestureRecognizer(tapGR)
+        
+    }
+    
+    func handleEdgePan(recognizer: UIScreenEdgePanGestureRecognizer) {
+        // animation of menu
+        UIView.animate(withDuration: 1.0, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: .curveEaseOut, animations: {
+            self.menuView!.frame.origin.x = -60
+        }, completion: { finished in
+            print("Yay animation!")
+        })
+    }
+    
+    func handlePan(recognizer: UIPanGestureRecognizer) {
+        
+    }
+    
+    func handleTap(recognizer: UITapGestureRecognizer) {
+        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
