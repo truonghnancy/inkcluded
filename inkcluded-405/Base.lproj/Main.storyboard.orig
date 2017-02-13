@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <<<<<<< HEAD
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C68" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina5_5" orientation="portrait">
 =======
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
->>>>>>> 5914d0e14fe5936cbe10128a69b96dc63c6f9025
     <device id="retina4_7" orientation="portrait">
+>>>>>>> 5cefff5959d4595f99e81ce49c30e57e1b140229
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -86,6 +87,12 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <items>
                                     <navigationItem title="Groups" id="BWk-2v-bgx">
+<<<<<<< HEAD
+                                        <barButtonItem key="rightBarButtonItem" title="New Message" id="sEn-vQ-1xE">
+                                            <connections>
+                                                <segue destination="l8m-89-xx1" kind="show" id="cWK-ZT-4FK"/>
+                                            </connections>
+=======
                                         <barButtonItem key="leftBarButtonItem" id="rbn-HL-w1D">
                                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="1bp-km-IBY">
                                                 <rect key="frame" x="16" y="7" width="83" height="30"/>
@@ -105,6 +112,7 @@
                                                     <segue destination="WEB-ve-wAz" kind="show" id="3tA-xm-ABW"/>
                                                 </connections>
                                             </button>
+>>>>>>> 5cefff5959d4595f99e81ce49c30e57e1b140229
                                         </barButtonItem>
                                     </navigationItem>
                                 </items>
@@ -117,7 +125,11 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="70"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Neg-Ge-6NF" id="naO-iH-xd4">
+<<<<<<< HEAD
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="69"/>
+=======
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="70"/>
+>>>>>>> 5cefff5959d4595f99e81ce49c30e57e1b140229
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9VW-tU-XfI">
@@ -190,6 +202,75 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="136.23188405797103" y="138.58695652173915"/>
+        </scene>
+        <!--Recipients View Controller-->
+        <scene sceneID="4ge-jD-O5A">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IKq-2j-GBn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController title="Recipients View Controller" id="l8m-89-xx1" customClass="RecipientsViewController" customModule="inkcluded_405" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="eU3-Vs-G4H"/>
+                        <viewControllerLayoutGuide type="bottom" id="jez-uM-3yx"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="hQR-dz-ePO">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mrZ-Es-ta1">
+                                <rect key="frame" x="0.0" y="20" width="414" height="44"/>
+                                <items>
+                                    <navigationItem title="New Message" id="adE-VQ-0An">
+                                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="Rlx-px-wuG">
+                                            <connections>
+                                                <segue destination="BYZ-38-t0r" kind="show" id="jtm-Jo-i40"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="Select" id="kcz-Sm-KKP">
+                                            <connections>
+                                                <action selector="selectPressed:" destination="l8m-89-xx1" id="mXl-SI-RoB"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Nzv-e3-Wa1">
+                                <rect key="frame" x="0.0" y="64" width="414" height="672"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="friendCell" rowHeight="44" id="kbQ-WO-8jZ" customClass="FriendTableViewCell" customModule="inkcluded_405" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="kbQ-WO-8jZ" id="Gwx-8S-fo4">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <sections/>
+                                <connections>
+                                    <outlet property="dataSource" destination="l8m-89-xx1" id="AKy-sg-drU"/>
+                                    <outlet property="delegate" destination="l8m-89-xx1" id="nTU-at-CQK"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Nzv-e3-Wa1" firstAttribute="leading" secondItem="mrZ-Es-ta1" secondAttribute="leading" id="5nb-Lk-czi"/>
+                            <constraint firstItem="Nzv-e3-Wa1" firstAttribute="top" secondItem="mrZ-Es-ta1" secondAttribute="bottom" id="KXz-bM-hKt"/>
+                            <constraint firstItem="Nzv-e3-Wa1" firstAttribute="centerY" secondItem="hQR-dz-ePO" secondAttribute="centerY" constant="32" id="MWG-Pf-ZdQ"/>
+                            <constraint firstItem="Nzv-e3-Wa1" firstAttribute="centerX" secondItem="hQR-dz-ePO" secondAttribute="centerX" id="ZaD-eM-pKS"/>
+                            <constraint firstItem="Nzv-e3-Wa1" firstAttribute="bottom" secondItem="jez-uM-3yx" secondAttribute="top" id="gZp-Sb-LKb"/>
+                            <constraint firstItem="Nzv-e3-Wa1" firstAttribute="trailing" secondItem="mrZ-Es-ta1" secondAttribute="trailing" id="pWG-uG-6Rs"/>
+                            <constraint firstItem="Nzv-e3-Wa1" firstAttribute="leading" secondItem="hQR-dz-ePO" secondAttribute="leading" id="wiR-wB-1HY"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="friendsTableView" destination="Nzv-e3-Wa1" id="bjs-Gx-TrK"/>
+                        <segue destination="WEB-ve-wAz" kind="show" identifier="newCanvasSegue" id="Rtv-oo-sCb"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="871" y="139"/>
         </scene>
         <!--Canvas View Controller-->
         <scene sceneID="wXS-JR-BIy">
@@ -307,7 +388,11 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hab-n5-FjM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
+<<<<<<< HEAD
+            <point key="canvasLocation" x="1622" y="139"/>
+=======
             <point key="canvasLocation" x="2015.2" y="63.418290854572717"/>
+>>>>>>> 5cefff5959d4595f99e81ce49c30e57e1b140229
         </scene>
     </scenes>
     <resources>
