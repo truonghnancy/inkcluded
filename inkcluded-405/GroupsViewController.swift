@@ -56,12 +56,11 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     // GESTURE RECOGNIZERS
     func handleEdgePan(recognizer: UIScreenEdgePanGestureRecognizer) {
-        menuState = .Expanded
-        // animation of menu
+        // open animation of menu
         UIView.animate(withDuration: 1.0, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: .curveEaseOut, animations: {
-            self.menuView!.frame.origin.x = -100 // <= replace this magic number
+            self.openMenu()
         }, completion: { finished in
-            print("Yay animation! and also the state: \(self.menuState)")
+            self.menuState = .Expanded
         })
         
         // TODO: should also disable all buttons on the groups view
@@ -75,11 +74,10 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func handleTap(recognizer: UITapGestureRecognizer) {
         // check if menu is expanded & if tap is in correct area
         let point = recognizer.location(in: self.view)
-        //print("point x-coord: \(point.x) - width: \(self.view.frame.width)")
-        if (menuState == .Expanded && point.x >= 300){ // <= fix the magic number!
+        if (menuState == .Expanded && point.x >= 300){
             // close the menu
             UIView.animate(withDuration: 1.0, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0, options: .curveEaseOut, animations: {
-                self.menuView!.frame.origin.x = -400 // <= replace this magic number
+                self.closeMenu()
             }, completion: { finished in
                 self.menuState = .Collapsed
                 print("state: \(self.menuState)")
@@ -87,11 +85,24 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
     }
     
-    // animations
+    // ANIMATIONS
+    func closeMenu() {
+        menuView!.frame.origin.x = -400 // <= replace this magic number
+    }
     
+    func openMenu() {
+        menuView!.frame.origin.x = -100 // <= replace this magic number
+    }
     
     // BUTTON ACTION
     @IBAction func menuTapped(_ sender: UIButton) {
+        if (menuState == .Collapsed) {
+            openMenu()
+            menuState = .Expanded
+        } else {
+            closeMenu()
+            menuState = .Collapsed
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
