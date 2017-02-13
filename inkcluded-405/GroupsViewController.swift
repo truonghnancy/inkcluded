@@ -8,20 +8,91 @@
 
 import Foundation
 import UIKit
-import FBSDKCoreKit
-import FBSDKLoginKit
+//import FBSDKCoreKit
+//import FBSDKLoginKit
 
-class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+enum menuState {
+    case Expanded
+    case Collapsed
+}
+
+class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate {
     
     @IBOutlet var groupsTableView: UITableView!
     
     let apiWrapper: APIWrapper = APIWrapper()
     var groups : [Group]?
+    var menuView: UIView?
+    var menuState: menuState = .Collapsed
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.groups = apiWrapper.getAllGroups()
+        
+        // making the menu view
+        menuView = UIView.init(frame: CGRect(x: -400, y: 0, width: 400, height: self.view.frame.height))
+        menuView!.backgroundColor = UIColor.black
+        
+        self.view.addSubview(menuView!)
+        
+        // create & add the screen edge gesture recognizer to open the menu
+        let edgePanGR = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(self.handleEdgePan(recognizer:)))
+        edgePanGR.edges = .left
+        edgePanGR.delegate = self
+        self.view.addGestureRecognizer(edgePanGR)
+        
+        //create & add the tap gesutre recognizer to close the menu
+        let tapGR = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(recognizer:)))
+        tapGR.delegate = self
+        self.view.addGestureRecognizer(tapGR)
+    }
+    
+    
+    // GESTURE RECOGNIZERS
+    func handleEdgePan(recognizer: UIScreenEdgePanGestureRecognizer) {
+        // open animation of menu
+        self.openMenu()
+        
+        // TODO: should also disable all buttons on the groups view
+    }
+    
+    func handleTap(recognizer: UITapGestureRecognizer) {
+        // check if menu is expanded & if tap is in correct area
+        let point = recognizer.location(in: self.view)
+        if (menuState == .Expanded && point.x >= 300){
+            // close the menu
+           self.closeMenu()
+        }
+    }
+    
+    // ANIMATIONS
+    func closeMenu() {
+        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
+            self.menuView!.frame.origin.x = -400 // <= replace this magic number
+        }, completion: { finished in
+            self.menuState = .Collapsed
+            print("state: \(self.menuState)")
+        })
+    }
+    
+    func openMenu() {
+        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
+            self.menuView!.frame.origin.x = -100 // <= replace this magic number
+        }, completion: { finished in
+            self.menuState = .Expanded
+        })
+    }
+    
+    // BUTTON ACTION
+    @IBAction func menuTapped(_ sender: UIButton) {
+        if (menuState == .Collapsed) {
+            openMenu()
+            menuState = .Expanded
+        } else {
+            closeMenu()
+            menuState = .Collapsed
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -54,12 +125,11 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        // Do any additional setup after loading the view, typically from a nib.
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         
-//        if (FBSDKAccessToken.current() == nil)
-//        {
-//            self.performSegue(withIdentifier: "showLogin" , sender: self)
-//        }
+        if (appDelegate.client?.currentUser == nil){
+            self.performSegue(withIdentifier: "showLogin" , sender: self)
+        }
         
     }
     
