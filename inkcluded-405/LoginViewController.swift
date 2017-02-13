@@ -62,6 +62,7 @@ class LoginViewController: UIViewController {
             else {
                 client.currentUser = user
                 print("User logged in: \(user?.userId)")
+                self.addUserToDatabase(client: client)
                 self.dismiss(animated: true, completion: nil)
             }
         }
@@ -69,7 +70,31 @@ class LoginViewController: UIViewController {
 
         client.login(withProvider: oauthType, urlScheme: "inkcluded-405", controller: self, animated: true, completion: loginBlock)
         print("login: " + String(describing: client.currentUser))
+    }
+    
+    func addUserToDatabase(client : MSClient) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let sid = client.currentUser?.userId
+        let userTable = client.table(withName: "User")
+        let query = userTable.query(with: NSPredicate(format: "id = %@", sid!))
+        var userEntry = appDelegate.userEntry
         
+        query.read { (result, error) in
+            if let err = error {
+                print("ERROR ", err)
+            } else if result?.items?.count == 0 {
+                userTable.insert(["id" : sid!]) { (result, error) in
+                    if error != nil {
+                        print(error!)
+                    } else  {
+                        userEntry = result as! AnyHashable
+                    }
+                }
+            } else if let items = result?.items {
+                userEntry = result!
+                print(items)
+            }
+        }
     }
    
 

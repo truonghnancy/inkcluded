@@ -8,7 +8,6 @@ target 'inkcluded-405' do
   # Pods for inkcluded-405
 
   
-  pod 'MROGeometry', '~> 0.1'
 
   target 'inkcluded-405Tests' do
     inherit! :search_paths

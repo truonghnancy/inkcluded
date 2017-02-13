@@ -756,17 +756,6 @@
 				);
 				"OTHER_CPLUSPLUSFLAGS[arch=*]" = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-framework",
-					"\"Bolts\"",
-					"-framework",
-					"\"FBSDKCoreKit\"",
-					"-framework",
-					"\"FBSDKLoginKit\"",
-					"-framework",
-					"\"FBSDKShareKit\"",
-					"-framework",
-					"\"MROGeometry\"",
 					"-lc++",
 					"-lz",
 				);
@@ -806,17 +795,6 @@
 					"\"$PODS_CONFIGURATION_BUILD_DIR/MROGeometry/MROGeometry.framework/Headers\"",
 				);
 				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-framework",
-					"\"Bolts\"",
-					"-framework",
-					"\"FBSDKCoreKit\"",
-					"-framework",
-					"\"FBSDKLoginKit\"",
-					"-framework",
-					"\"FBSDKShareKit\"",
-					"-framework",
-					"\"MROGeometry\"",
 					"-lc++",
 					"-lz",
 				);
