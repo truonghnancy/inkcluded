@@ -77,13 +77,15 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
         }
         // Otherwise, create a new group using the selected recipients.
         else {
-            // TODO: The mock API wrapper only has getters, not setters. Once
-            //       the backend is complete, actually do something with these
-            //       recipients.
+            var members = [Int]()
+            
             print("Recipients:")
             for recipient : User in selectedRecipients {
                 print("   \(recipient.firstName) \(recipient.lastName)")
+                members.append(recipient.id)
             }
+            // TODO: Pass this new group to the canvas view.
+            apiWrapper.createGroup(members: members, name: "New Group")
         
             // Segue to the canvas view.
             self.performSegue(withIdentifier: "newCanvasSegue", sender: self)
