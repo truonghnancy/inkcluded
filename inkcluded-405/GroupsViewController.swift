@@ -11,7 +11,7 @@ import UIKit
 //import FBSDKCoreKit
 //import FBSDKLoginKit
 
-class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate {
+class GroupsViewController: UIViewController {
     
     @IBOutlet var groupsTableView: UITableView!
     
@@ -44,7 +44,34 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.view.addGestureRecognizer(tapGR)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        if (appDelegate.client?.currentUser == nil){
+            self.performSegue(withIdentifier: "showLogin" , sender: self)
+        }
+        
+    }
     
+    // BUTTON ACTION
+    @IBAction func menuTapped(_ sender: UIButton) {
+        if (menuOpen == false) {
+            openMenu()
+            menuOpen = true
+        } else {
+            closeMenu()
+            menuOpen = false
+        }
+    }
+    
+    @IBAction func createNewMessage(_ sender: Any) {
+        // TODO: This does nothing because Christopher has no idea what he's
+        //  doing Will fix later.
+    }
+}
+
+extension GroupsViewController: UIGestureRecognizerDelegate {
     // GESTURE RECOGNIZERS
     func handleEdgePan(recognizer: UIScreenEdgePanGestureRecognizer) {
         // open animation of menu
@@ -58,7 +85,7 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let point = recognizer.location(in: self.view)
         if (menuOpen && point.x >= 300){
             // close the menu
-           self.closeMenu()
+            self.closeMenu()
         }
     }
     
@@ -78,18 +105,9 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
             self.menuOpen = true
         })
     }
-    
-    // BUTTON ACTION
-    @IBAction func menuTapped(_ sender: UIButton) {
-        if (menuOpen == false) {
-            openMenu()
-            menuOpen = true
-        } else {
-            closeMenu()
-            menuOpen = false
-        }
-    }
-    
+}
+
+extension GroupsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return groups!.count;
     }
@@ -107,7 +125,7 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let finalNames = names.filter { (name) -> Bool in
             return name != self.apiWrapper.getCurrentUser().firstName;
         }
-    
+        
         cell.groupName.text = group?.groupName
         cell.groupDetails.text = finalNames.joined(separator: ", ")
         
@@ -116,20 +134,5 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        
-        if (appDelegate.client?.currentUser == nil){
-            self.performSegue(withIdentifier: "showLogin" , sender: self)
-        }
-        
-    }
-    
-    @IBAction func createNewMessage(_ sender: Any) {
-        // TODO: This does nothing because Christopher has no idea what he's
-        //  doing Will fix later.
     }
 }
