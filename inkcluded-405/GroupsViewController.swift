@@ -19,6 +19,8 @@ class GroupsViewController: UIViewController {
     var groups : [Group]?
     var menuView: UIView?
     var menuOpen: Bool = false
+    let menuSize: CGFloat = 0.8
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,20 +28,20 @@ class GroupsViewController: UIViewController {
         self.groups = apiWrapper.getAllGroups()
         
         // making the menu view
-        menuView = UIView.init(frame: CGRect(x: -400, y: 0, width: 400, height: self.view.frame.height))
-        menuView!.backgroundColor = UIColor.black
+        menuView = UITableView.init(frame: CGRect(x: -(self.view.frame.width*menuSize),
+                                                  y: 0.0,
+                                                  width: self.view.frame.width*menuSize,
+                                                  height: self.view.frame.height))
         
         self.view.addSubview(menuView!)
         
         // create & add the screen edge gesture recognizer to open the menu
         let edgePanGR = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(self.handleEdgePan(recognizer:)))
         edgePanGR.edges = .left
-        edgePanGR.delegate = self
         self.view.addGestureRecognizer(edgePanGR)
         
         //create & add the tap gesutre recognizer to close the menu
         let tapGR = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(recognizer:)))
-        tapGR.delegate = self
         tapGR.cancelsTouchesInView = false
         self.view.addGestureRecognizer(tapGR)
     }
@@ -47,22 +49,16 @@ class GroupsViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        
+        /*
         if (appDelegate.client?.currentUser == nil){
             self.performSegue(withIdentifier: "showLogin" , sender: self)
-        }
+        }*/
         
     }
     
     // BUTTON ACTION
     @IBAction func menuTapped(_ sender: UIButton) {
-        if (menuOpen == false) {
-            openMenu()
-            menuOpen = true
-        } else {
-            closeMenu()
-            menuOpen = false
-        }
+        openMenu()
     }
     
     @IBAction func createNewMessage(_ sender: Any) {
@@ -83,7 +79,7 @@ extension GroupsViewController: UIGestureRecognizerDelegate {
     func handleTap(recognizer: UITapGestureRecognizer) {
         // check if menu is expanded & if tap is in correct area
         let point = recognizer.location(in: self.view)
-        if (menuOpen && point.x >= 300){
+        if (menuOpen && point.x >= (self.view.frame.width*menuSize)){
             // close the menu
             self.closeMenu()
         }
@@ -92,7 +88,7 @@ extension GroupsViewController: UIGestureRecognizerDelegate {
     // ANIMATIONS
     func closeMenu() {
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
-            self.menuView!.frame.origin.x = -400 // <= replace this magic number
+            self.menuView!.frame.origin.x = -(self.view.frame.width*self.menuSize)
         }, completion: { finished in
             self.menuOpen = false
         })
@@ -100,7 +96,7 @@ extension GroupsViewController: UIGestureRecognizerDelegate {
     
     func openMenu() {
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
-            self.menuView!.frame.origin.x = -100 // <= replace this magic number
+            self.menuView!.frame.origin.x = CGPoint.zero.x
         }, completion: { finished in
             self.menuOpen = true
         })
