@@ -11,11 +11,6 @@ import UIKit
 //import FBSDKCoreKit
 //import FBSDKLoginKit
 
-enum menuState {
-    case Expanded
-    case Collapsed
-}
-
 class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate {
     
     @IBOutlet var groupsTableView: UITableView!
@@ -23,7 +18,7 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     let apiWrapper: APIWrapper = APIWrapper()
     var groups : [Group]?
     var menuView: UIView?
-    var menuState: menuState = .Collapsed
+    var menuOpen: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,6 +40,7 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         //create & add the tap gesutre recognizer to close the menu
         let tapGR = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(recognizer:)))
         tapGR.delegate = self
+        tapGR.cancelsTouchesInView = false
         self.view.addGestureRecognizer(tapGR)
     }
     
@@ -60,7 +56,7 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func handleTap(recognizer: UITapGestureRecognizer) {
         // check if menu is expanded & if tap is in correct area
         let point = recognizer.location(in: self.view)
-        if (menuState == .Expanded && point.x >= 300){
+        if (menuOpen && point.x >= 300){
             // close the menu
            self.closeMenu()
         }
@@ -71,8 +67,7 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
             self.menuView!.frame.origin.x = -400 // <= replace this magic number
         }, completion: { finished in
-            self.menuState = .Collapsed
-            print("state: \(self.menuState)")
+            self.menuOpen = false
         })
     }
     
@@ -80,18 +75,18 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
             self.menuView!.frame.origin.x = -100 // <= replace this magic number
         }, completion: { finished in
-            self.menuState = .Expanded
+            self.menuOpen = true
         })
     }
     
     // BUTTON ACTION
     @IBAction func menuTapped(_ sender: UIButton) {
-        if (menuState == .Collapsed) {
+        if (menuOpen == false) {
             openMenu()
-            menuState = .Expanded
+            menuOpen = true
         } else {
             closeMenu()
-            menuState = .Collapsed
+            menuOpen = false
         }
     }
     
