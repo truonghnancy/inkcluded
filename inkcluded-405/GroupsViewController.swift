@@ -49,10 +49,10 @@ class GroupsViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        /*
+        
         if (appDelegate.client?.currentUser == nil){
             self.performSegue(withIdentifier: "showLogin" , sender: self)
-        }*/
+        }
         
     }
     
