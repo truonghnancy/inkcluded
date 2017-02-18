@@ -98,7 +98,6 @@ extension GroupsViewController: UIGestureRecognizerDelegate {
     
     func openMenu() {
         groupsTableView.isUserInteractionEnabled = false
-        print(self.navigationItem.rightBarButtonItem)
         self.navigationItem.rightBarButtonItem?.isEnabled = false
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
             self.menuView!.frame.origin.x = CGPoint.zero.x
