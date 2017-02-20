@@ -67,9 +67,12 @@ class APIWrapper : APIProtocol {
         self.groupList = self._getGroupsAPI(client: client!, sid: String(describing: appDelegate.userEntry![AnyHashable("id")]!))
     }
     
+    /*
+        Gets the groups the user is a part of.
+     */
     func _getGroupsAPI(client: MSClient, sid: String) -> [Group] {
-        let groupTable = client.table(withName: "Group")
-        let query = groupTable.query(with: NSPredicate(format: "id = %@", sid))
+        let groupTable = client.table(withName: "GroupXUser")
+        let query = groupTable.query(with: NSPredicate(format: "userid = %@", sid))
         var groups: [Group] = []
         
         
@@ -80,7 +83,8 @@ class APIWrapper : APIProtocol {
             } else if let items = result?.items {
                 print(items)
                 for item in items {
-                    groups.append(Group(id: item["id"] as! String, members: self._getGroupMembersAPI(client: client, groupId: item["id"] as! String), groupName: item["name"] as! String, admin: item["adminid"] as! String))
+                    let (groupName, admin) = self._getGroupInfo(client: client, groupId: item["groupid"] as! String)
+                    groups.append(Group(id: item["groupid"] as! String, members: self._getGroupMembersAPI(client: client, groupId: item["groupid"] as! String), groupName: groupName, admin: admin))
                 }
             }
         }
@@ -88,6 +92,29 @@ class APIWrapper : APIProtocol {
         return groups
     }
     
+    /*
+        Gets the name and the admin of a group
+        returns a tuple (name, admin)
+    */
+    func _getGroupInfo (client: MSClient, groupId: String) -> (String, String) {
+        let groupTable = client.table(withName: "Group")
+        let query = groupTable.query(with: NSPredicate(format: "id = %@", groupId))
+        var groupInfo: (String, String)?
+        
+        query.read { (result, error) in
+            if let err = error {
+                print("Selecting group info failed: ", err)
+            } else if let item = result?.items?[0] {
+                groupInfo = (item["name"] as! String, item["adminid"] as! String)
+            }
+        }
+        
+        return groupInfo!
+    }
+    
+    /*
+        Gets the member(s) of the group.
+    */
     func _getGroupMembersAPI(client: MSClient, groupId: String) -> [User] {
         let gxuTable = client.table(withName: "GroupXUser")
         let QS_GXU = gxuTable.query(with: NSPredicate(format: "groupid = %@", groupId))
