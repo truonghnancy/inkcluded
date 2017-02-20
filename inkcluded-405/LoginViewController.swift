@@ -79,32 +79,38 @@ class LoginViewController: UIViewController {
         let userTable = client.table(withName: "User")
         let query = userTable.query(with: NSPredicate(format: "id = %@", sid!))
         //var tempentry : [AnyHashable : Any]?
+        let dispatchqueue = DispatchQueue.global()
         
-        query.read { (result, error) in
-            if let err = error {
-                print("ERROR ", err)
-            } else if result?.items?.count == 0 {
-                userTable.insert(["id" : sid!]) { (result, error) in
-                    if error != nil {
-                        print(error!)
-                    } else  {
-                        print("inserted")
-                        appDelegate.userEntry = result
-                        print(appDelegate.userEntry!)
-                        self.dismiss(animated: true, completion: nil)
-
+        dispatchqueue.sync {
+            query.read { (result, error) in
+                if let err = error {
+                    print("ERROR ", err)
+                } else if result?.items?.count == 0 {
+                    userTable.insert(["id" : sid!]) { (result, error) in
+                        if error != nil {
+                            print(error!)
+                        } else  {
+                            print("inserted")
+                            appDelegate.userEntry = result
+                            print(appDelegate.userEntry!)
+                            self.dismiss(animated: true, completion: nil)
+                            
+                        }
                     }
+                } else if (result?.items) != nil {
+                    print("selected")
+                    appDelegate.userEntry = (result?.items?[0])!
+                    print(appDelegate.userEntry!)
+                    self.dismiss(animated: true, completion: nil)
+                    
                 }
-            } else if (result?.items) != nil {
-                print("selected")
-                appDelegate.userEntry = (result?.items?[0])!
-                print(appDelegate.userEntry!)
-                self.dismiss(animated: true, completion: nil)
-
             }
-
+            
         }
-        print("heroh")
+        dispatchqueue.sync {
+            print("heroh")
+        }
+        
     }
    
 

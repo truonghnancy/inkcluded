@@ -16,6 +16,10 @@
 		15DA464C1E38074900DE515A /* APIWrapperTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DA464B1E38074900DE515A /* APIWrapperTest.swift */; };
 		15DA464E1E380A0400DE515A /* APIWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157CCE2C1E35590700096337 /* APIWrapper.swift */; };
 		15DA464F1E380AC100DE515A /* APIProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157CCE2F1E355D7000096337 /* APIProtocol.swift */; };
+		15EBA3E51E50ED39006821C9 /* CanvasMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EBA3E41E50ED39006821C9 /* CanvasMenuView.swift */; };
+		15EBA3E81E50F0D1006821C9 /* CanvasMenuDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EBA3E71E50F0D1006821C9 /* CanvasMenuDelegate.swift */; };
+		15EBA3EC1E5116AE006821C9 /* SelectImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EBA3EB1E5116AE006821C9 /* SelectImageViewController.swift */; };
+		15EBA3EE1E511E13006821C9 /* SelectImageDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EBA3ED1E511E13006821C9 /* SelectImageDelegate.swift */; };
 		15EBA7021E27079F00B38D0E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EBA7011E27079F00B38D0E /* AppDelegate.swift */; };
 		15EBA7071E27079F00B38D0E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15EBA7051E27079F00B38D0E /* Main.storyboard */; };
 		15EBA7091E27079F00B38D0E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 15EBA7081E27079F00B38D0E /* Assets.xcassets */; };
@@ -25,12 +29,17 @@
 		40F865A6725D8820F56B8B8C /* Pods_inkcluded_405UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A91286597B4880684D0F00B8 /* Pods_inkcluded_405UITests.framework */; };
 		511B13F71CC0BF7A3E91B09F /* Pods_inkcluded_405Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EF4486F25C1DC46A245DD95 /* Pods_inkcluded_405Tests.framework */; };
 		94FD3B2AB153812810DE99FE /* Pods_inkcluded_405.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF60963865909A6CB6D3F7E0 /* Pods_inkcluded_405.framework */; };
+<<<<<<< HEAD
+		9D6636361E4073E100958C8F /* RecipientsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6636351E4073E100958C8F /* RecipientsViewController.swift */; };
+		9D7FC8841E413D0900293C83 /* FriendTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7FC8831E413D0900293C83 /* FriendTableViewCell.swift */; };
+=======
 		CC1FDB521E3D9B3800B38C11 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1FDB511E3D9B3800B38C11 /* WebKit.framework */; };
 		CC7358AB1E429EC600496F35 /* MicrosoftAzureMobile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC7358AA1E429EC600496F35 /* MicrosoftAzureMobile.framework */; };
 		CCFD64A41E3EEF600097BE78 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCFD64A31E3EEF600097BE78 /* SafariServices.framework */; };
 		EE5A8EFE1E404A2200BC44AF /* WILLCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE5A8EFD1E404A2200BC44AF /* WILLCore.framework */; };
 		EE5A8F011E404B2800BC44AF /* DrawView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE5A8F001E404B2800BC44AF /* DrawView.m */; };
 		EE5A8F041E404B4000BC44AF /* Stroke.m in Sources */ = {isa = PBXBuildFile; fileRef = EE5A8F031E404B4000BC44AF /* Stroke.m */; };
+>>>>>>> 5cefff5959d4595f99e81ce49c30e57e1b140229
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +68,10 @@
 		15A978981E28D89E007E4B21 /* GroupsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsViewController.swift; sourceTree = "<group>"; };
 		15A9789A1E28D922007E4B21 /* CanvasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasViewController.swift; sourceTree = "<group>"; };
 		15DA464B1E38074900DE515A /* APIWrapperTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIWrapperTest.swift; sourceTree = "<group>"; };
+		15EBA3E41E50ED39006821C9 /* CanvasMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasMenuView.swift; sourceTree = "<group>"; };
+		15EBA3E71E50F0D1006821C9 /* CanvasMenuDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasMenuDelegate.swift; sourceTree = "<group>"; };
+		15EBA3EB1E5116AE006821C9 /* SelectImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectImageViewController.swift; sourceTree = "<group>"; };
+		15EBA3ED1E511E13006821C9 /* SelectImageDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectImageDelegate.swift; sourceTree = "<group>"; };
 		15EBA6FE1E27079E00B38D0E /* inkcluded-405.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "inkcluded-405.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		15EBA7011E27079F00B38D0E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		15EBA7061E27079F00B38D0E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -76,6 +89,8 @@
 		892F434D1390A6A7A4AE4786 /* Pods-inkcluded-405.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-inkcluded-405.debug.xcconfig"; path = "Pods/Target Support Files/Pods-inkcluded-405/Pods-inkcluded-405.debug.xcconfig"; sourceTree = "<group>"; };
 		8B26E46F58CA9B6566173A73 /* Pods-inkcluded-405Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-inkcluded-405Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-inkcluded-405Tests/Pods-inkcluded-405Tests.release.xcconfig"; sourceTree = "<group>"; };
 		8EF4486F25C1DC46A245DD95 /* Pods_inkcluded_405Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_inkcluded_405Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D6636351E4073E100958C8F /* RecipientsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipientsViewController.swift; sourceTree = "<group>"; };
+		9D7FC8831E413D0900293C83 /* FriendTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendTableViewCell.swift; sourceTree = "<group>"; };
 		A91286597B4880684D0F00B8 /* Pods_inkcluded_405UITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_inkcluded_405UITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C37A30159C98E7994E8EBEDB /* Pods-inkcluded-405UITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-inkcluded-405UITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-inkcluded-405UITests/Pods-inkcluded-405UITests.debug.xcconfig"; sourceTree = "<group>"; };
 		CC1FDB511E3D9B3800B38C11 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
@@ -129,6 +144,7 @@
 			isa = PBXGroup;
 			children = (
 				150CAD0F1E3ECF73003255DB /* GroupsTableViewCell.swift */,
+				9D7FC8831E413D0900293C83 /* FriendTableViewCell.swift */,
 			);
 			name = TableViewCells;
 			sourceTree = "<group>";
@@ -155,9 +171,9 @@
 			isa = PBXGroup;
 			children = (
 				150CAD0E1E3ECF37003255DB /* TableViewCells */,
-				15A9789C1E28D947007E4B21 /* CanvasView.swift */,
 				EE5A8F001E404B2800BC44AF /* DrawView.m */,
 				EE5A8F021E404B3400BC44AF /* DrawView.h */,
+				15EBA3E41E50ED39006821C9 /* CanvasMenuView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -168,8 +184,22 @@
 				15A978981E28D89E007E4B21 /* GroupsViewController.swift */,
 				15A9789A1E28D922007E4B21 /* CanvasViewController.swift */,
 				07A00B6E1E2EC51F00DD68F7 /* LoginViewController.swift */,
+<<<<<<< HEAD
+				9D6636351E4073E100958C8F /* RecipientsViewController.swift */,
+=======
+				15EBA3EB1E5116AE006821C9 /* SelectImageViewController.swift */,
+>>>>>>> 5cefff5959d4595f99e81ce49c30e57e1b140229
 			);
 			name = Controller;
+			sourceTree = "<group>";
+		};
+		15EBA3E61E50F0BF006821C9 /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				15EBA3E71E50F0D1006821C9 /* CanvasMenuDelegate.swift */,
+				15EBA3ED1E511E13006821C9 /* SelectImageDelegate.swift */,
+			);
+			name = Delegates;
 			sourceTree = "<group>";
 		};
 		15EBA6F51E27079E00B38D0E = {
@@ -198,6 +228,7 @@
 		15EBA7001E27079E00B38D0E /* inkcluded-405 */ = {
 			isa = PBXGroup;
 			children = (
+				15EBA3E61E50F0BF006821C9 /* Delegates */,
 				157CCE2E1E355D5D00096337 /* Protocols */,
 				07A00B701E2EC71B00DD68F7 /* inkcluded-405.entitlements */,
 				15A978A01E29944A007E4B21 /* Controller */,
@@ -249,6 +280,7 @@
 			isa = PBXGroup;
 			children = (
 				CC7358AA1E429EC600496F35 /* MicrosoftAzureMobile.framework */,
+				CCFD64A51E3EFC9D0097BE78 /* FBSDKCoreKit.framework */,
 				CCFD64A31E3EEF600097BE78 /* SafariServices.framework */,
 				CC1FDB511E3D9B3800B38C11 /* WebKit.framework */,
 				EE5A8EFD1E404A2200BC44AF /* WILLCore.framework */,
@@ -546,16 +578,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15EBA3E81E50F0D1006821C9 /* CanvasMenuDelegate.swift in Sources */,
 				157CCE301E355D7000096337 /* APIProtocol.swift in Sources */,
 				07A00B6F1E2EC51F00DD68F7 /* LoginViewController.swift in Sources */,
 				15A978991E28D89E007E4B21 /* GroupsViewController.swift in Sources */,
 				EE5A8F041E404B4000BC44AF /* Stroke.m in Sources */,
 				15A9789B1E28D922007E4B21 /* CanvasViewController.swift in Sources */,
+				9D7FC8841E413D0900293C83 /* FriendTableViewCell.swift in Sources */,
 				150CAD101E3ECF73003255DB /* GroupsTableViewCell.swift in Sources */,
-				15A9789D1E28D947007E4B21 /* CanvasView.swift in Sources */,
 				EE5A8F011E404B2800BC44AF /* DrawView.m in Sources */,
+				15EBA3EC1E5116AE006821C9 /* SelectImageViewController.swift in Sources */,
 				15EBA7021E27079F00B38D0E /* AppDelegate.swift in Sources */,
 				157CCE2D1E35590700096337 /* APIWrapper.swift in Sources */,
+<<<<<<< HEAD
+				9D6636361E4073E100958C8F /* RecipientsViewController.swift in Sources */,
+				15A978A21E2994BF007E4B21 /* CanvasModel.swift in Sources */,
+=======
+				15EBA3E51E50ED39006821C9 /* CanvasMenuView.swift in Sources */,
+				15EBA3EE1E511E13006821C9 /* SelectImageDelegate.swift in Sources */,
+>>>>>>> 5cefff5959d4595f99e81ce49c30e57e1b140229
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -733,17 +774,6 @@
 				);
 				"OTHER_CPLUSPLUSFLAGS[arch=*]" = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-framework",
-					"\"Bolts\"",
-					"-framework",
-					"\"FBSDKCoreKit\"",
-					"-framework",
-					"\"FBSDKLoginKit\"",
-					"-framework",
-					"\"FBSDKShareKit\"",
-					"-framework",
-					"\"MROGeometry\"",
 					"-lc++",
 					"-lz",
 				);
@@ -781,18 +811,8 @@
 					"$(inherited)",
 					"-iquote",
 					"\"$PODS_CONFIGURATION_BUILD_DIR/MROGeometry/MROGeometry.framework/Headers\"",
+				);
 				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-framework",
-					"\"Bolts\"",
-					"-framework",
-					"\"FBSDKCoreKit\"",
-					"-framework",
-					"\"FBSDKLoginKit\"",
-					"-framework",
-					"\"FBSDKShareKit\"",
-					"-framework",
-					"\"MROGeometry\"",
 					"-lc++",
 					"-lz",
 				);

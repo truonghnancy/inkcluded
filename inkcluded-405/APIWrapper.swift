@@ -192,6 +192,7 @@ class APIWrapper : APIProtocol {
             gxuTable?.insert(["groupid" : groupId!, "userid" : member.id])
         }
         
+        
         newGroup = Group(id: groupId!, members: members, groupName: name, admin: userEntry[AnyHashable("id")]!)
         
         self.groupList.append(newGroup!);
