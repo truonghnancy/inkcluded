@@ -82,8 +82,18 @@ class CanvasViewController: UIViewController {
 
 extension CanvasViewController: CanvasMenuDelegate {
     func didClickOnMenuItem(item: CanvasMenuItem) {
-        if item == .INSERT_IMAGE {
+        switch item {
+        case .INSERT_IMAGE:
             self.present(self.selectImageVC!, animated: true, completion: nil)
+            break
+        case .INSERT_TEXT:
+            print("do the text thingy!")
+            // add a ui label
+            // add it as a subview
+            // figure out how to serialize??
+            break
+        default:
+            break
         }
     }
 }
