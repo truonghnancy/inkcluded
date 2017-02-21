@@ -10,6 +10,7 @@ import UIKit
 
 enum CanvasMenuItem: String {
     case INSERT_IMAGE = "IM"
+    case INSERT_TEXT = "TXT"
 }
 
 struct CanvasMenuButton {
@@ -55,7 +56,8 @@ public class CanvasMenuView: UIView {
         
         super.init(frame: CGRect(origin: origin, size: frameSize))
         
-        self.itemList = [CanvasMenuButton(type: CanvasMenuItem.INSERT_IMAGE)]
+        self.itemList = [CanvasMenuButton(type: CanvasMenuItem.INSERT_IMAGE),
+                         CanvasMenuButton(type: CanvasMenuItem.INSERT_TEXT)]
         addMenuButtonToView(items: self.itemList!)
         
         self.layer.borderWidth = borderWidth
