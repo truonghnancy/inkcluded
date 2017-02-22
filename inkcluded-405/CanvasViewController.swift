@@ -87,10 +87,10 @@ extension CanvasViewController: CanvasMenuDelegate {
             self.present(self.selectImageVC!, animated: true, completion: nil)
             break
         case .INSERT_TEXT:
-            print("do the text thingy!")
-            // add a ui label
-            // add it as a subview
-            // figure out how to serialize??
+            var myField: UITextField = UITextField (frame:CGRect.init(x: 50, y: 50, width: 100, height: 50));
+            myField.borderStyle = UITextBorderStyle.bezel
+            self.drawView!.addSubview(myField)
+            // TODO: figure out how to serialize
             break
         default:
             break
