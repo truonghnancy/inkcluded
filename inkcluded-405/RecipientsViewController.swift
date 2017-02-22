@@ -16,7 +16,7 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
     @IBOutlet var friendsTableView: UITableView!
     
     let apiWrapper: APIWrapper = APIWrapper() // The database interface
-    var selectedRecipients = [User]()         // A list of selected recipients
+    var selectedRecipients = [Int]()          // A list of selected recipients
     var friends : [User]?                     // A list of friends to select
     
     /**
@@ -26,6 +26,11 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
         super.viewDidLoad()
         // Get the list of friends from the database.
         self.friends = apiWrapper.getFriendsList()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        // Do any additional setup after loading the view, typically from a nib.
     }
     
     /**
@@ -62,9 +67,20 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
      */
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
-        // Add the friend corresponding to the cell to the list of recipients.
-        // TODO: There is currently no support for deselecting a friend.
-        self.selectedRecipients.append((self.friends?[indexPath.row])!);
+        // Add the friend corresponding to the cell to the recipients list.
+        let tempRecipient: User = (self.friends?[indexPath.row])!
+        self.selectedRecipients.append(tempRecipient.id);
+    }
+    
+    /**
+     * Responds to a cell's being deselected.
+     */
+    func tableView(_ tableView: UITableView,
+                   didDeselectRowAt indexPath: IndexPath) {
+        // Remove the friend corresponding to the cell from the recipients list.
+        let tempRecipient: User = (self.friends?[indexPath.row])!
+        let tempIdx = self.selectedRecipients.index(of: tempRecipient.id)
+        self.selectedRecipients.remove(at: tempIdx!)
     }
     
     /**
@@ -77,24 +93,17 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
         }
         // Otherwise, create a new group using the selected recipients.
         else {
-            var members = [Int]()
-            
             print("Recipients:")
-            for recipient : User in selectedRecipients {
+            for recipientIdx : Int in selectedRecipients {
+                let recipient = apiWrapper.getFriendById(userId: recipientIdx)
                 print("   \(recipient.firstName) \(recipient.lastName)")
-                members.append(recipient.id)
             }
             // TODO: Pass this new group to the canvas view.
-            apiWrapper.createGroup(members: members, name: "New Group")
+            apiWrapper.createGroup(members: selectedRecipients, name: "New Group")
         
             // Segue to the canvas view.
             self.performSegue(withIdentifier: "newCanvasSegue", sender: self)
         }
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        // Do any additional setup after loading the view, typically from a nib.
     }
 }
 
