@@ -8,8 +8,6 @@
 
 import Foundation
 import UIKit
-//import FBSDKCoreKit
-//import FBSDKLoginKit
 
 enum menuState {
     case Expanded
@@ -23,13 +21,11 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var groups : [Group]?
     var menuView: UIView?
     var menuState: menuState = .Collapsed
-    var apiWrapper : APICalls?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        apiWrapper = APICalls()
-        self.groups = apiWrapper?.getAllGroups()
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        self.groups = appDelegate.apiWrapper?.getAllGroups()
         
         // making the menu view
         menuView = UIView.init(frame: CGRect(x: -400, y: 0, width: 400, height: self.view.frame.height))
@@ -108,9 +104,9 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let appdelegate = UIApplication.shared.delegate as! AppDelegate
         let cell = self.groupsTableView.dequeueReusableCell(withIdentifier: "groupsCell") as! GroupsTableViewCell
         print("ffff")
-        if (appdelegate.client?.currentUser != nil) {
+        if (appdelegate.apiWrapper?.client.currentUser != nil) {
             
-            let userEntry = appdelegate.userEntry as! [AnyHashable : String]
+            let userEntry = appdelegate.apiWrapper?.userEntry as! [AnyHashable : String]
             let group = self.groups?[indexPath.row];
             let names: [String] = (group?.members.map({ (member) -> String in
                 return member.firstName}))!
@@ -129,17 +125,14 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        apiWrapper = APICalls()
-        super.viewDidAppear(animated)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         
-        if (appDelegate.userEntry == nil) {
+        if (appDelegate.apiWrapper?.userEntry == nil) {
+            super.viewDidAppear(animated)
             self.performSegue(withIdentifier: "showLogin" , sender: self)
-        }
-        if (appDelegate.userEntry != nil) {
-            appDelegate.apiWrapper = APIWrapper()
             self.groups = appDelegate.apiWrapper?.getAllGroups()
         }
+        
     }
     
     @IBAction func createNewMessage(_ sender: Any) {

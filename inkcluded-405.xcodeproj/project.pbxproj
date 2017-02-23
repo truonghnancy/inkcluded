@@ -9,12 +9,10 @@
 /* Begin PBXBuildFile section */
 		07A00B6F1E2EC51F00DD68F7 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A00B6E1E2EC51F00DD68F7 /* LoginViewController.swift */; };
 		150CAD101E3ECF73003255DB /* GroupsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150CAD0F1E3ECF73003255DB /* GroupsTableViewCell.swift */; };
-		157CCE2D1E35590700096337 /* APIWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157CCE2C1E35590700096337 /* APIWrapper.swift */; };
 		157CCE301E355D7000096337 /* APIProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157CCE2F1E355D7000096337 /* APIProtocol.swift */; };
 		15A978991E28D89E007E4B21 /* GroupsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A978981E28D89E007E4B21 /* GroupsViewController.swift */; };
 		15A9789B1E28D922007E4B21 /* CanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A9789A1E28D922007E4B21 /* CanvasViewController.swift */; };
 		15DA464C1E38074900DE515A /* APIWrapperTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DA464B1E38074900DE515A /* APIWrapperTest.swift */; };
-		15DA464E1E380A0400DE515A /* APIWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157CCE2C1E35590700096337 /* APIWrapper.swift */; };
 		15DA464F1E380AC100DE515A /* APIProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157CCE2F1E355D7000096337 /* APIProtocol.swift */; };
 		15EBA3E81E50F0D1006821C9 /* CanvasMenuDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EBA3E71E50F0D1006821C9 /* CanvasMenuDelegate.swift */; };
 		15EBA3EC1E5116AE006821C9 /* SelectImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EBA3EB1E5116AE006821C9 /* SelectImageViewController.swift */; };
@@ -38,6 +36,7 @@
 		EE5A8EFE1E404A2200BC44AF /* WILLCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE5A8EFD1E404A2200BC44AF /* WILLCore.framework */; };
 		EE5A8F011E404B2800BC44AF /* DrawView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE5A8F001E404B2800BC44AF /* DrawView.m */; };
 		EE5A8F041E404B4000BC44AF /* Stroke.m in Sources */ = {isa = PBXBuildFile; fileRef = EE5A8F031E404B4000BC44AF /* Stroke.m */; };
+		EEFB912D1E5C1CE30054BEE6 /* APIWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFB912C1E5C1CE30054BEE6 /* APIWrapper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,7 +60,6 @@
 		07A00B6E1E2EC51F00DD68F7 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		07A00B701E2EC71B00DD68F7 /* inkcluded-405.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "inkcluded-405.entitlements"; sourceTree = "<group>"; };
 		150CAD0F1E3ECF73003255DB /* GroupsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsTableViewCell.swift; sourceTree = "<group>"; };
-		157CCE2C1E35590700096337 /* APIWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIWrapper.swift; sourceTree = "<group>"; };
 		157CCE2F1E355D7000096337 /* APIProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIProtocol.swift; sourceTree = "<group>"; };
 		15A978981E28D89E007E4B21 /* GroupsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsViewController.swift; sourceTree = "<group>"; };
 		15A9789A1E28D922007E4B21 /* CanvasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasViewController.swift; sourceTree = "<group>"; };
@@ -105,6 +103,7 @@
 		EE5A8F021E404B3400BC44AF /* DrawView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DrawView.h; sourceTree = "<group>"; };
 		EE5A8F031E404B4000BC44AF /* Stroke.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Stroke.m; sourceTree = "<group>"; };
 		EE5A8F051E404B4A00BC44AF /* Stroke.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Stroke.h; sourceTree = "<group>"; };
+		EEFB912C1E5C1CE30054BEE6 /* APIWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIWrapper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,7 +158,7 @@
 		15A9789E1E29943E007E4B21 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				157CCE2C1E35590700096337 /* APIWrapper.swift */,
+				EEFB912C1E5C1CE30054BEE6 /* APIWrapper.swift */,
 				EE5A8F031E404B4000BC44AF /* Stroke.m */,
 				EE5A8F051E404B4A00BC44AF /* Stroke.h */,
 				CCB4C7B51E5AB0850050D3DD /* APICalls.swift */,
@@ -581,6 +580,7 @@
 				07A00B6F1E2EC51F00DD68F7 /* LoginViewController.swift in Sources */,
 				15A978991E28D89E007E4B21 /* GroupsViewController.swift in Sources */,
 				EE5A8F041E404B4000BC44AF /* Stroke.m in Sources */,
+				EEFB912D1E5C1CE30054BEE6 /* APIWrapper.swift in Sources */,
 				15A9789B1E28D922007E4B21 /* CanvasViewController.swift in Sources */,
 				9D7FC8841E413D0900293C83 /* FriendTableViewCell.swift in Sources */,
 				150CAD101E3ECF73003255DB /* GroupsTableViewCell.swift in Sources */,
@@ -588,7 +588,6 @@
 				9D9CEB9C1E51629300C6B11C /* CanvasMenuView.swift in Sources */,
 				15EBA3EC1E5116AE006821C9 /* SelectImageViewController.swift in Sources */,
 				15EBA7021E27079F00B38D0E /* AppDelegate.swift in Sources */,
-				157CCE2D1E35590700096337 /* APIWrapper.swift in Sources */,
 				9D6636361E4073E100958C8F /* RecipientsViewController.swift in Sources */,
 				15EBA3EE1E511E13006821C9 /* SelectImageDelegate.swift in Sources */,
 			);
@@ -600,7 +599,6 @@
 			files = (
 				15DA464F1E380AC100DE515A /* APIProtocol.swift in Sources */,
 				15DA464C1E38074900DE515A /* APIWrapperTest.swift in Sources */,
-				15DA464E1E380A0400DE515A /* APIWrapper.swift in Sources */,
 				15EBA7171E27079F00B38D0E /* inkcluded_405Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

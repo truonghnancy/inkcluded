@@ -8,48 +8,6 @@
 
 import Foundation
 
-struct User {
-    private(set) var id: String;
-    private(set) var firstName: String;
-    private(set) var lastName: String;
-    
-    init(id: String, firstName: String, lastName: String) {
-        self.id = id;
-        self.firstName = firstName;
-        self.lastName = lastName;
-    }
-}
-
-struct Group {
-    private(set) var id: String;
-    private(set) var members: [User];
-    private(set) var groupName: String;
-    private(set) var admin: String;
-    
-    init(id: String, members: [User], groupName: String, admin: String) {
-        self.id = id;
-        self.members = members;
-        self.groupName = groupName;
-        self.admin = admin;
-    }
-}
-
-struct Message {
-    private(set) var id: Int;
-    private(set) var url: NSURL;
-    private(set) var groupId: String;
-    private(set) var sentFrom: String;
-    private(set) var timestamp: NSDate;
-    
-    init(id: Int, url: NSURL, groupId: String, sentFrom userId: String, timestamp: NSDate) {
-        self.id = id;
-        self.url = url;
-        self.groupId = groupId;
-        self.sentFrom = userId;
-        self.timestamp = timestamp;
-    }
-}
-
 class APIWrapper : APIProtocol {
     
     var friendsList: [User];
@@ -57,14 +15,14 @@ class APIWrapper : APIProtocol {
     var messageList: [Message];
     
     init() {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let client = appDelegate.client
+        //let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        //let client = appDelegate.client
         
         self.friendsList = []
         self.groupList = []
         self.messageList = []
         
-        self.groupList = self._getGroupsAPI(client: client!, sid: String(describing: appDelegate.userEntry![AnyHashable("id")]!))
+        //self.groupList = self._getGroupsAPI(client: client!, sid: String(describing: appDelegate.userEntry![AnyHashable("id")]!))
     }
     
     /*
@@ -172,28 +130,28 @@ class APIWrapper : APIProtocol {
     
     func createGroup(members: [User], name: String) -> Group {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let client = appDelegate.client
-        let groupTable = client?.table(withName: "Group")
-        let gxuTable = client?.table(withName: "GroupXUser")
-        let userEntry = appDelegate.userEntry as! [AnyHashable : String]
+        //let client = appDelegate.client
+        //let groupTable = client?.table(withName: "Group")
+        //let gxuTable = client?.table(withName: "GroupXUser")
+        //let userEntry = appDelegate.userEntry as! [AnyHashable : String]
         var newGroup: Group?
         var groupId: String?
         
-        groupTable?.insert(["name" : name, "adminid" : userEntry[AnyHashable("id")]!]) { (result, error) in
-            if error != nil {
-                print(error!)
-            } else {
-                let item = result as! [AnyHashable : String]
-                groupId = item["id"]!
-            }
-        }
+       // groupTable?.insert(["name" : name, "adminid" : userEntry[AnyHashable("id")]!]) { (result, error) in
+       //     if error != nil {
+       //         print(error!)
+       //     } else {
+       //         let item = result as! [AnyHashable : String]
+       //         groupId = item["id"]!
+       //     }
+       // }
         
         for member in members {
-            gxuTable?.insert(["groupid" : groupId!, "userid" : member.id])
+        //    gxuTable?.insert(["groupid" : groupId!, "userid" : member.id])
         }
         
         
-        newGroup = Group(id: groupId!, members: members, groupName: name, admin: userEntry[AnyHashable("id")]!)
+        //newGroup = Group(id: groupId!, members: members, groupName: name, admin: userEntry[AnyHashable("id")]!)
         
         self.groupList.append(newGroup!);
         

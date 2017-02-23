@@ -7,39 +7,106 @@
 //
 
 import Foundation
+import RxSwift
+
+struct User {
+    private(set) var id: String;
+    private(set) var firstName: String;
+    private(set) var lastName: String;
+    
+    init(id: String, firstName: String, lastName: String) {
+        self.id = id;
+        self.firstName = firstName;
+        self.lastName = lastName;
+    }
+}
+
+struct Group {
+    private(set) var id: String;
+    private(set) var members: [User];
+    private(set) var groupName: String;
+    private(set) var admin: String;
+    
+    init(id: String, members: [User], groupName: String, admin: String) {
+        self.id = id;
+        self.members = members;
+        self.groupName = groupName;
+        self.admin = admin;
+    }
+}
+
+struct Message {
+    private(set) var id: Int;
+    private(set) var url: NSURL;
+    private(set) var groupId: String;
+    private(set) var sentFrom: String;
+    private(set) var timestamp: NSDate;
+    
+    init(id: Int, url: NSURL, groupId: String, sentFrom userId: String, timestamp: NSDate) {
+        self.id = id;
+        self.url = url;
+        self.groupId = groupId;
+        self.sentFrom = userId;
+        self.timestamp = timestamp;
+    }
+}
 
 class APICalls : APIProtocol {
     var friendsList: [User]
     var groupList: [Group]
     var messageList: [Message]
-    let _client: MSClient
+    let client: MSClient
+    var userEntry : [AnyHashable : Any]?
 
     init() {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        _client = appDelegate.client!
+        //let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        client = MSClient(
+            applicationURLString:"https://penmessageapp.azurewebsites.net"
+        )
         
         self.friendsList = []
         self.groupList = []
         self.messageList = []
+    }
+    
+    func setUserEntry(result : [AnyHashable : Any]) {
+        userEntry = result
+        self.groupList = self._getGroupsAPI(sid: String(describing: userEntry![AnyHashable("id")]!))
+        print("this is called")
+        //_getUserAPI(userId: "sid:763ebe8184b48d3c85eafe632f56f3cb")
+        //findUserByEmail(email: "rohroh94@gmail.com")
+    }
+    
+    func addUserToDatabase(vccontroller : UIViewController) {
+        let sid = client.currentUser?.userId
+        let userTable = client.table(withName: "User")
+        let query = userTable.query(with: NSPredicate(format: "id = %@", sid!))
         
-        if appDelegate.userEntry != nil {
-            self.groupList = self._getGroupsAPI(sid: String(describing: appDelegate.userEntry![AnyHashable("id")]!))
-            print("this is called")
-//            _getUserAPI(userId: "sid:763ebe8184b48d3c85eafe632f56f3cb")
-//            findUserByEmail(email: "rohroh94@gmail.com")
+        query.read { (result, error) in
+            if let err = error {
+                print("ERROR ", err)
+            } else if result?.items?.count == 0 {
+                userTable.insert(["id" : sid!]) { (result, error) in
+                    if error != nil {
+                        print(error!)
+                    } else  {
+                        self.setUserEntry(result: result!)
+                    }
+                }
+            } else if (result?.items) != nil {
+                self.setUserEntry(result: (result?.items?[0])!)
+            }
+            vccontroller.dismiss(animated: true, completion: nil)
         }
-        
     }
     
     /*
      Gets the groups the user is a part of.
      */
     func _getGroupsAPI(sid: String) -> [Group] {
-        let groupTable = _client.table(withName: "GroupXUser")
+        let groupTable = client.table(withName: "GroupXUser")
         let query = groupTable.query(with: NSPredicate(format: "userid = %@", sid))
         var groups: [Group] = []
-        
-        
         
         query.read { (result, error) in
             if let err = error {
@@ -61,7 +128,7 @@ class APICalls : APIProtocol {
      returns a tuple (name, admin)
      */
     func _getGroupInfo (groupId: String) -> (String, String) {
-        let groupTable = _client.table(withName: "Group")
+        let groupTable = client.table(withName: "Group")
         let query = groupTable.query(with: NSPredicate(format: "id = %@", groupId))
         var groupInfo: (String, String)?
         
@@ -80,7 +147,7 @@ class APICalls : APIProtocol {
      Gets the member(s) of the group.
      */
     func _getGroupMembersAPI(groupId: String) -> [User] {
-        let gxuTable = _client.table(withName: "GroupXUser")
+        let gxuTable = client.table(withName: "GroupXUser")
         let QS_GXU = gxuTable.query(with: NSPredicate(format: "groupid = %@", groupId))
         var members: [User] = []
         
@@ -103,7 +170,7 @@ class APICalls : APIProtocol {
      returns : User
      */
     func _getUserAPI(userId: String) -> User {
-        let cTable = _client.table(withName: "User")
+        let cTable = client.table(withName: "User")
         let QS_USER = cTable.query(with: NSPredicate(format: "id = %@", userId))
         var retUser: User?
         
@@ -115,14 +182,14 @@ class APICalls : APIProtocol {
                 let user = items[0]
                 retUser = User(id: user["id"] as! String, firstName: user["firstname"] as! String, lastName: user["lastname"] as! String)
             }
-            print(retUser)
+            print(retUser!)
         }
         
         return retUser!
     }
     
     func findUserByEmail(email: String) -> User {
-        let userTable = _client.table(withName: "User")
+        let userTable = client.table(withName: "User")
         let userEmail = userTable.query(with: NSPredicate(format: "email = %@", email))
         var retUser: User?
         //let sema = DispatchSemaphore(value: 0)
@@ -149,14 +216,13 @@ class APICalls : APIProtocol {
     }
     
     func createGroup(members: [User], name: String) -> Group {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let groupTable = _client.table(withName: "Group")
-        let gxuTable = _client.table(withName: "GroupXUser")
-        let userEntry = appDelegate.userEntry as! [AnyHashable : String]
+        let groupTable = client.table(withName: "Group")
+        let gxuTable = client.table(withName: "GroupXUser")
+        //let userEntry = appDelegate.userEntry as! [AnyHashable : String]
         var newGroup: Group?
         var groupId: String?
         
-        groupTable.insert(["name" : name, "adminid" : userEntry[AnyHashable("id")]!]) { (result, error) in
+        groupTable.insert(["name" : name, "adminid" : userEntry?[AnyHashable("id")] as Any]) { (result, error) in
             if error != nil {
                 print(error!)
             } else {
@@ -170,7 +236,7 @@ class APICalls : APIProtocol {
         }
         
         
-        newGroup = Group(id: groupId!, members: members, groupName: name, admin: userEntry[AnyHashable("id")]!)
+        newGroup = Group(id: groupId!, members: members, groupName: name, admin: userEntry?[AnyHashable("id")] as! String)
         
         self.groupList.append(newGroup!);
         

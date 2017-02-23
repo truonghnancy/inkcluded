@@ -6,7 +6,8 @@ target 'inkcluded-405' do
   use_frameworks!
 
   # Pods for inkcluded-405
-
+    pod 'RxSwift',    '~> 3.0'
+    pod 'RxCocoa',    '~> 3.0'
   
 
   target 'inkcluded-405Tests' do

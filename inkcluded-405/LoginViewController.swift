@@ -8,8 +8,7 @@
 
 import UIKit
 import CoreData
-//import FBSDKCoreKit
-//import FBSDKLoginKit
+import RxSwift
 
 class LoginViewController: UIViewController {
     
@@ -43,75 +42,24 @@ class LoginViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+    
     func loginAndGetData(oauthType: String) {
+        
         print("\t\tIn loginAndGetData")
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         print("appDelegate data " + String(describing: appDelegate))
-        print("client data " + String(describing: appDelegate.client))
+        print("client data " + String(describing: appDelegate.apiWrapper?.client))
         
-        guard let client = appDelegate.client, client.currentUser?.userId == nil else {
-            print("returning " + String(describing: appDelegate.client?.currentUser?.userId))
-            return
-        }
-        
-        let loginBlock: MSClientLoginBlock = {(user, error) -> Void in
-            if (error != nil) {
-                print("Error message: \(error?.localizedDescription)")
-            }
-            else {
-                client.currentUser = user
-                print("User logged in: \(user?.userId)")
-                self.addUserToDatabase(client: client)
-//                self.dismiss(animated: true, completion: nil)
-            }
-        }
-        print("passed all this")
-
-        client.login(withProvider: oauthType, urlScheme: "inkcluded-405", controller: self, animated: true, completion: loginBlock)
-        print("login: " + String(describing: client.currentUser))
-    }
-    
-    func addUserToDatabase(client : MSClient) {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let sid = client.currentUser?.userId
-        //let sid = "testingagain"
-        let userTable = client.table(withName: "User")
-        let query = userTable.query(with: NSPredicate(format: "id = %@", sid!))
-        //var tempentry : [AnyHashable : Any]?
-        let dispatchqueue = DispatchQueue.global()
-        
-        dispatchqueue.sync {
-            query.read { (result, error) in
-                if let err = error {
-                    print("ERROR ", err)
-                } else if result?.items?.count == 0 {
-                    userTable.insert(["id" : sid!]) { (result, error) in
-                        if error != nil {
-                            print(error!)
-                        } else  {
-                            print("inserted")
-                            appDelegate.userEntry = result
-                            print(appDelegate.userEntry!)
-                            self.dismiss(animated: true, completion: nil)
-                            
-                        }
-                    }
-                } else if (result?.items) != nil {
-                    print("selected")
-                    appDelegate.userEntry = (result?.items?[0])!
-                    print(appDelegate.userEntry!)
-                    self.dismiss(animated: true, completion: nil)
-                    
+        appDelegate.apiWrapper?.client.login(withProvider: oauthType, urlScheme: "inkcluded-405", controller: self, animated: true, completion:
+            {(user, error) -> Void in
+                if (error != nil) {
+                    print("Error message: \(error?.localizedDescription)")
                 }
-            }
-            
-        }
-        dispatchqueue.sync {
-            print("heroh")
-        }
-        
+                else {
+                    appDelegate.apiWrapper?.client.currentUser = user
+                    print("User logged in: \(user?.userId)")
+                    appDelegate.apiWrapper?.addUserToDatabase(vccontroller : self)
+                }
+        })
     }
-   
-
 }
