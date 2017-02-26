@@ -128,7 +128,7 @@ class APIWrapper : APIProtocol {
 //        return user1;
 //    }
     
-    func createGroup(members: [User], name: String) -> Group {
+    func createGroup(members: [User], name: String){
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         //let client = appDelegate.client
         //let groupTable = client?.table(withName: "Group")
@@ -155,7 +155,6 @@ class APIWrapper : APIProtocol {
         
         self.groupList.append(newGroup!);
         
-        return newGroup!
     }
     
     func getAllGroups() -> [Group] {

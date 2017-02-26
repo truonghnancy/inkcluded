@@ -132,7 +132,10 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
             self.performSegue(withIdentifier: "showLogin" , sender: self)
             self.groups = appDelegate.apiWrapper?.getAllGroups()
         }
-        
+        else {
+            self.groups = appDelegate.apiWrapper?.getAllGroups()
+            
+        }
     }
     
     @IBAction func createNewMessage(_ sender: Any) {

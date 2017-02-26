@@ -67,17 +67,28 @@ class APICalls : APIProtocol {
         self.friendsList = []
         self.groupList = []
         self.messageList = []
+        
+        findUserByEmail(email: "rohroh94@gmail.com") { (user) in
+            self.friendsList.append(user)
+        }
     }
     
+    /**
+     Sets the userEntry and updates the groups
+     Josh Choi
+     */
     func setUserEntry(result : [AnyHashable : Any]) {
         userEntry = result
-        self.groupList = self._getGroupsAPI(sid: String(describing: userEntry![AnyHashable("id")]!))
+        self._getGroupsAPI(sid: String(describing: userEntry![AnyHashable("id")]!))
         print("this is called")
         //_getUserAPI(userId: "sid:763ebe8184b48d3c85eafe632f56f3cb")
-        //findUserByEmail(email: "rohroh94@gmail.com")
     }
     
-    func addUserToDatabase(vccontroller : UIViewController) {
+    /**
+     Adds the User to the database if they're not already existing
+     Josh Choi
+    */
+    func addUserToDatabase(closure: @escaping ([AnyHashable : Any]) -> Void) {
         let sid = client.currentUser?.userId
         let userTable = client.table(withName: "User")
         let query = userTable.query(with: NSPredicate(format: "id = %@", sid!))
@@ -96,14 +107,15 @@ class APICalls : APIProtocol {
             } else if (result?.items) != nil {
                 self.setUserEntry(result: (result?.items?[0])!)
             }
-            vccontroller.dismiss(animated: true, completion: nil)
+            closure(self.userEntry!)
         }
     }
     
     /*
      Gets the groups the user is a part of.
+     Eric Roh
      */
-    func _getGroupsAPI(sid: String) -> [Group] {
+    func _getGroupsAPI(sid: String) {
         let groupTable = client.table(withName: "GroupXUser")
         let query = groupTable.query(with: NSPredicate(format: "userid = %@", sid))
         var groups: [Group] = []
@@ -114,20 +126,25 @@ class APICalls : APIProtocol {
             } else if let items = result?.items {
                 print(items)
                 for item in items {
-                    let (groupName, admin) = self._getGroupInfo(groupId: item["groupid"] as! String)
-                    groups.append(Group(id: item["groupid"] as! String, members: self._getGroupMembersAPI(groupId: item["groupid"] as! String), groupName: groupName, admin: admin))
+                    self._getGroupInfo(groupId: item[AnyHashable("groupId")] as! String, closure:
+                        {(groupName, adminName) -> Void in
+                            self._getGroupMembersAPI(groupId: item[AnyHashable("groupId")] as! String, closure:
+                                {(members) -> Void in
+                                    groups.append(Group(id: item[AnyHashable("groupId")] as! String, members: members, groupName: groupName, admin: adminName))
+                            })
+                    })
                 }
             }
+            self.groupList = groups
         }
-        
-        return groups
     }
     
     /*
      Gets the name and the admin of a group
      returns a tuple (name, admin)
+     Eric Roh
      */
-    func _getGroupInfo (groupId: String) -> (String, String) {
+    func _getGroupInfo (groupId: String, closure: @escaping ((String, String)) -> Void) {
         let groupTable = client.table(withName: "Group")
         let query = groupTable.query(with: NSPredicate(format: "id = %@", groupId))
         var groupInfo: (String, String)?
@@ -136,17 +153,17 @@ class APICalls : APIProtocol {
             if let err = error {
                 print("Selecting group info failed: ", err)
             } else if let item = result?.items?[0] {
-                groupInfo = (item["name"] as! String, item["adminid"] as! String)
+                groupInfo = (item[AnyHashable("name")] as! String, item[AnyHashable("adminId")] as! String)
             }
+            closure(groupInfo!)
         }
-        
-        return groupInfo!
     }
     
     /*
      Gets the member(s) of the group.
+     Eric Roh
      */
-    func _getGroupMembersAPI(groupId: String) -> [User] {
+    func _getGroupMembersAPI(groupId: String, closure: @escaping ([User]) -> Void) {
         let gxuTable = client.table(withName: "GroupXUser")
         let QS_GXU = gxuTable.query(with: NSPredicate(format: "groupid = %@", groupId))
         var members: [User] = []
@@ -157,19 +174,23 @@ class APICalls : APIProtocol {
             } else if let items = result?.items {
                 print("group members", items)
                 for item in items {
-                    members.append(self._getUserAPI(userId: item["userid"] as! String))
+                    self._getUserAPI(userId: item[AnyHashable("userId")] as! String, closure:
+                        {(user) -> Void in
+                            members.append(user)
+                    })
                 }
             }
+            closure(members)
         }
-        print("members", members)
-        return members
+
     }
     
     /**
      Gets the user from the Azure easy tables with the userId
      returns : User
+     Eric Roh
      */
-    func _getUserAPI(userId: String) -> User {
+    func _getUserAPI(userId: String, closure: @escaping (User) -> Void) {
         let cTable = client.table(withName: "User")
         let QS_USER = cTable.query(with: NSPredicate(format: "id = %@", userId))
         var retUser: User?
@@ -180,69 +201,66 @@ class APICalls : APIProtocol {
             } else if let items = result?.items {
                 print("USER IS ", items[0])
                 let user = items[0]
-                retUser = User(id: user["id"] as! String, firstName: user["firstname"] as! String, lastName: user["lastname"] as! String)
+                retUser = User(id: user[AnyHashable("id")] as! String, firstName: user[AnyHashable("firstName")] as! String, lastName: user[AnyHashable("lastName")] as! String)
             }
+            closure(retUser!)
             print(retUser!)
         }
-        
-        return retUser!
     }
-    
-    func findUserByEmail(email: String) -> User {
+    /**
+    Finds user with a email in the database tables.
+     Eric Roh
+     */
+    func findUserByEmail(email: String, closure: @escaping (User) -> Void) {
         let userTable = client.table(withName: "User")
         let userEmail = userTable.query(with: NSPredicate(format: "email = %@", email))
         var retUser: User?
-        //let sema = DispatchSemaphore(value: 0)
-        print("here???")
+
+        print(userTable)
         userEmail.read { (result, error) in
-            print("is it even here")
             if let err = error {
                 print("Error in Finding User by Email: ", err)
             } else if let items = result?.items {
-                print("USER IS ", items[0])
                 let user = items[0]
-                retUser = User(id: user["id"] as! String, firstName: user["firstname"] as! String, lastName: user["lastname"] as! String)
+                retUser = User(id: user[AnyHashable("id")] as! String, firstName: user[AnyHashable("firstName")] as! String, lastName: user[AnyHashable("lastName")] as! String)
             }
-            print("?????", retUser!)
-            //sema.signal()
+            closure(retUser!)
         }
-        sleep(4)
-        //sema.wait(timeout: .distantFuture)
-        return retUser!
     }
 
     func getFriendsList() -> [User] {
+        print(friendsList)
         return self.friendsList;
     }
     
-    func createGroup(members: [User], name: String) -> Group {
+    /**
+     Adds a new group to the database with given members and current user.
+     Eric Roh
+    */
+    func createGroup(members: [User], name: String) {
         let groupTable = client.table(withName: "Group")
         let gxuTable = client.table(withName: "GroupXUser")
         //let userEntry = appDelegate.userEntry as! [AnyHashable : String]
         var newGroup: Group?
         var groupId: String?
+        var myMembers = members
+        myMembers.append(User(id: userEntry?[AnyHashable("id")] as! String, firstName: userEntry?[AnyHashable("firstName")] as! String, lastName: userEntry?[AnyHashable("lastName")] as! String))
         
-        groupTable.insert(["name" : name, "adminid" : userEntry?[AnyHashable("id")] as Any]) { (result, error) in
+        groupTable.insert(["name" : name, "adminId" : self.userEntry?[AnyHashable("id")] as! String]) { (result, error) in
             if error != nil {
                 print(error!)
             } else {
-                let item = result as! [AnyHashable : String]
-                groupId = item["id"]!
+                groupId = result?[AnyHashable("id")]! as! String?
             }
+            
+            for member in myMembers {
+                gxuTable.insert(["groupId" : groupId!, "userId" : member.id])
+            }
+            
+            newGroup = Group(id: groupId!, members: members, groupName: name, admin: self.userEntry?[AnyHashable("id")] as! String)
+            
+            self.groupList.append(newGroup!)
         }
-        
-        for member in members {
-            gxuTable.insert(["groupid" : groupId!, "userid" : member.id])
-        }
-        
-        
-        newGroup = Group(id: groupId!, members: members, groupName: name, admin: userEntry?[AnyHashable("id")] as! String)
-        
-        self.groupList.append(newGroup!);
-        
-        return newGroup!
-        
-        
     }
     
     

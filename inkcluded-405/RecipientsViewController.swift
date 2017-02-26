@@ -15,7 +15,7 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
                                 UITableViewDataSource {
     @IBOutlet var friendsTableView: UITableView!
     
-    let apiWrapper: APIWrapper = APIWrapper() // The database interface
+    var apiWrapper: APICalls? // The database interface
     var selectedRecipients = [User]()         // A list of selected recipients
     var friends : [User]?                     // A list of friends to select
     
@@ -24,8 +24,10 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
      */
     override func viewDidLoad() {
         super.viewDidLoad()
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         // Get the list of friends from the database.
-        self.friends = apiWrapper.getFriendsList()
+        apiWrapper = appDelegate.apiWrapper
+        self.friends = apiWrapper?.getFriendsList()
     }
     
     /**
@@ -85,7 +87,7 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
                 members.append(recipient)
             }
             // TODO: Pass this new group to the canvas view.
-            apiWrapper.createGroup(members: members, name: "New Group")
+            apiWrapper?.createGroup(members: members, name: "New Group")
         
             // Segue to the canvas view.
             self.performSegue(withIdentifier: "newCanvasSegue", sender: self)

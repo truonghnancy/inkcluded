@@ -14,7 +14,7 @@ protocol APIProtocol {
     
 //    func getCurrentUser() -> User;
     
-    func createGroup(members: [User], name: String) -> Group;
+    func createGroup(members: [User], name: String);
     func getAllGroups() -> [Group];
 //    func getGroupById(groupId: Int) -> Group;
     

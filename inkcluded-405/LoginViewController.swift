@@ -43,6 +43,10 @@ class LoginViewController: UIViewController {
     }
     */
     
+    /*
+     Log in and get data of the current user
+     Josh Choi
+    */
     func loginAndGetData(oauthType: String) {
         
         print("\t\tIn loginAndGetData")
@@ -58,7 +62,10 @@ class LoginViewController: UIViewController {
                 else {
                     appDelegate.apiWrapper?.client.currentUser = user
                     print("User logged in: \(user?.userId)")
-                    appDelegate.apiWrapper?.addUserToDatabase(vccontroller : self)
+                    appDelegate.apiWrapper?.addUserToDatabase(closure:
+                        {(userEntry) -> Void in
+                            self.dismiss(animated: true, completion: nil)
+                        })
                 }
         })
     }
