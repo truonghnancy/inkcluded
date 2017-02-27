@@ -17,6 +17,7 @@ class GroupsViewController: UIViewController {
     
     let apiWrapper: APIWrapper = APIWrapper()
     var groups : [Group]?
+    var selectedGroup: Group?
     var menuView: UIView?
     var menuOpen: Bool = false
     let menuSize: CGFloat = 0.8
@@ -59,11 +60,6 @@ class GroupsViewController: UIViewController {
     // BUTTON ACTION
     @IBAction func menuTapped(_ sender: UIButton) {
         openMenu()
-    }
-    
-    @IBAction func createNewMessage(_ sender: Any) {
-        // TODO: This does nothing because Christopher has no idea what he's
-        //  doing Will fix later.
     }
 }
 
@@ -133,6 +129,17 @@ extension GroupsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        // Set the selected group and segue to the group history view.
+        self.selectedGroup = groups?[indexPath.row]
+        self.performSegue(withIdentifier: "viewHistorySegue", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // If we're segueing to the group history view, set the selected group.
+        if (segue.identifier == "viewHistorySegue") {
+            let dest: GroupHistoryViewController = segue.destination
+                      as!GroupHistoryViewController
+            dest.curGroup = selectedGroup
+        }
     }
 }
