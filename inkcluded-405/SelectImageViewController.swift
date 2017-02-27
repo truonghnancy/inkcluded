@@ -75,7 +75,7 @@ extension SelectImageViewController: UICollectionViewDelegate {
         self.dismiss(animated: true) {
             let size = CGSize(width: 80, height: 80)
             let origin = CGPoint(x: 0, y: 0)
-            let defaultImage = UIImageView(frame: CGRect(origin: origin, size: size))
+            let defaultImage = DraggableImageView(frame: CGRect(origin: origin, size: size))
             defaultImage.image = UIImage(named: "francis")
             self.selectImageDelegate.didSelectImage(image: defaultImage)
         }

@@ -198,7 +198,7 @@ class DrawView: UIView {
                 strokeRenderer.drawPoints(strokeElement.points.pointer(), finishStroke: true)
                 strokeRenderer.blendStroke(in: strokesLayer, with: strokeElement.blendMode)
             }
-            else if let imageElement = element as? UIImageView {
+            else if let imageElement = element as? DraggableImageView {
                 self.addSubview(imageElement)
             }
             else {

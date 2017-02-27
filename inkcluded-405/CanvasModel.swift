@@ -57,7 +57,7 @@ class CanvasModel {
                 section.add(path)
             }
             // if the element is a imageView
-            else if let imageElem = elem as? UIImageView {
+            else if let imageElem = elem as? DraggableImageView {
                 let imageData = UIImagePNGRepresentation(imageElem.image!)
                 let willImage = WCMDocumentSectionImage()
                 willImage.content.setData(imageData, with: WCMDocumentContentType.png())
@@ -130,7 +130,7 @@ class CanvasModel {
             else if let imageElement = element as? WCMDocumentSectionImage {
                 let imageData = imageElement.content.loadData()
                 let image = UIImage(data: imageData!)
-                let imageView = UIImageView(image: image)
+                let imageView = DraggableImageView(image: image)
                 imageView.frame = imageElement.rect
                 
                 appendElement(elem: imageView)
