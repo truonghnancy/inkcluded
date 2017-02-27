@@ -25,6 +25,7 @@
 		15EBA70C1E27079F00B38D0E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15EBA70A1E27079F00B38D0E /* LaunchScreen.storyboard */; };
 		15EBA7171E27079F00B38D0E /* inkcluded_405Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EBA7161E27079F00B38D0E /* inkcluded_405Tests.swift */; };
 		15EBA7221E27079F00B38D0E /* inkcluded_405UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EBA7211E27079F00B38D0E /* inkcluded_405UITests.swift */; };
+		15F528BE1E64B35600A27C66 /* DraggableImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F528BD1E64B35600A27C66 /* DraggableImageView.swift */; };
 		15FE85321E5EB981008206F9 /* DrawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FE85311E5EB981008206F9 /* DrawView.swift */; };
 		40F865A6725D8820F56B8B8C /* Pods_inkcluded_405UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A91286597B4880684D0F00B8 /* Pods_inkcluded_405UITests.framework */; };
 		511B13F71CC0BF7A3E91B09F /* Pods_inkcluded_405Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EF4486F25C1DC46A245DD95 /* Pods_inkcluded_405Tests.framework */; };
@@ -86,6 +87,7 @@
 		15EBA71D1E27079F00B38D0E /* inkcluded-405UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "inkcluded-405UITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		15EBA7211E27079F00B38D0E /* inkcluded_405UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = inkcluded_405UITests.swift; sourceTree = "<group>"; };
 		15EBA7231E27079F00B38D0E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		15F528BD1E64B35600A27C66 /* DraggableImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DraggableImageView.swift; sourceTree = "<group>"; };
 		15FE85311E5EB981008206F9 /* DrawView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawView.swift; sourceTree = "<group>"; };
 		5BE9018100979E04E923E4F4 /* Pods-inkcluded-405UITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-inkcluded-405UITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-inkcluded-405UITests/Pods-inkcluded-405UITests.release.xcconfig"; sourceTree = "<group>"; };
 		78F1482AE242C005A73CA9C0 /* Pods-inkcluded-405Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-inkcluded-405Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-inkcluded-405Tests/Pods-inkcluded-405Tests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 				150CAD0E1E3ECF37003255DB /* TableViewCells */,
 				15EBA3E41E50ED39006821C9 /* CanvasMenuView.swift */,
 				15FE85311E5EB981008206F9 /* DrawView.swift */,
+				15F528BD1E64B35600A27C66 /* DraggableImageView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -594,6 +597,7 @@
 				158ECEF71E5D07AD00D45DB3 /* CanvasModel.swift in Sources */,
 				EE5A8F041E404B4000BC44AF /* Stroke.m in Sources */,
 				EEFB912D1E5C1CE30054BEE6 /* APIWrapper.swift in Sources */,
+				15F528BE1E64B35600A27C66 /* DraggableImageView.swift in Sources */,
 				15A9789B1E28D922007E4B21 /* CanvasViewController.swift in Sources */,
 				9D7FC8841E413D0900293C83 /* FriendTableViewCell.swift in Sources */,
 				150CAD101E3ECF73003255DB /* GroupsTableViewCell.swift in Sources */,
@@ -602,7 +606,6 @@
 				15EBA3EC1E5116AE006821C9 /* SelectImageViewController.swift in Sources */,
 				15EBA7021E27079F00B38D0E /* AppDelegate.swift in Sources */,
 				15FE85321E5EB981008206F9 /* DrawView.swift in Sources */,
-				157CCE2D1E35590700096337 /* APIWrapper.swift in Sources */,
 				9D6636361E4073E100958C8F /* RecipientsViewController.swift in Sources */,
 				15EBA3EE1E511E13006821C9 /* SelectImageDelegate.swift in Sources */,
 			);

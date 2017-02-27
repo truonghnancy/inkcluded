@@ -9,5 +9,5 @@
 import Foundation
 
 protocol SelectImageDelegate {
-    func didSelectImage(image: UIImageView)
+    func didSelectImage(image: DraggableImageView)
 }

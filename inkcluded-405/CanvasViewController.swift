@@ -118,7 +118,7 @@ extension CanvasViewController: CanvasMenuDelegate {
 }
 
 extension CanvasViewController: SelectImageDelegate {
-    func didSelectImage(image: UIImageView) {
+    func didSelectImage(image: DraggableImageView) {
         image.frame.origin = CGPoint(x: (canvas.frame.width - image.frame.width) / 2, y: (canvas.frame.height - image.frame.height) / 2)
         self.drawView!.addSubview(image)
         self.model!.appendElement(elem: image)
