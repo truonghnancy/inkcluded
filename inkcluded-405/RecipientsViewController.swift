@@ -27,7 +27,7 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         // Get the list of friends from the database.
         apiWrapper = appDelegate.apiWrapper
-        self.friends = apiWrapper?.getFriendsList()
+        self.friends = apiWrapper?.friendsList
     }
     
     /**
@@ -87,7 +87,7 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
                 members.append(recipient)
             }
             // TODO: Pass this new group to the canvas view.
-            apiWrapper?.createGroup(members: members, name: "New Group")
+            apiWrapper?.createGroup(members: members, name: "New Group", closure: { (groups) -> Void in } )
         
             // Segue to the canvas view.
             self.performSegue(withIdentifier: "newCanvasSegue", sender: self)

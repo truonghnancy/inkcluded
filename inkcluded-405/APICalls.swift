@@ -59,7 +59,6 @@ class APICalls : APIProtocol {
     var userEntry : [AnyHashable : Any]?
 
     init() {
-        //let appDelegate = UIApplication.shared.delegate as! AppDelegate
         client = MSClient(
             applicationURLString:"https://penmessageapp.azurewebsites.net"
         )
@@ -69,7 +68,7 @@ class APICalls : APIProtocol {
         self.messageList = []
         
         findUserByEmail(email: "rohroh94@gmail.com") { (user) in
-            self.friendsList.append(user)
+            
         }
     }
     
@@ -80,8 +79,6 @@ class APICalls : APIProtocol {
     func setUserEntry(result : [AnyHashable : Any]) {
         userEntry = result
         self._getGroupsAPI(sid: String(describing: userEntry![AnyHashable("id")]!))
-        print("this is called")
-        //_getUserAPI(userId: "sid:763ebe8184b48d3c85eafe632f56f3cb")
     }
     
     /**
@@ -211,7 +208,7 @@ class APICalls : APIProtocol {
     Finds user with a email in the database tables.
      Eric Roh
      */
-    func findUserByEmail(email: String, closure: @escaping (User) -> Void) {
+    func findUserByEmail(email: String, closure: @escaping ([User]) -> Void) {
         let userTable = client.table(withName: "User")
         let userEmail = userTable.query(with: NSPredicate(format: "email = %@", email))
         var retUser: User?
@@ -224,23 +221,18 @@ class APICalls : APIProtocol {
                 let user = items[0]
                 retUser = User(id: user[AnyHashable("id")] as! String, firstName: user[AnyHashable("firstName")] as! String, lastName: user[AnyHashable("lastName")] as! String)
             }
-            closure(retUser!)
+            self.friendsList.append(retUser!)
+            closure(self.friendsList)
         }
-    }
-
-    func getFriendsList() -> [User] {
-        print(friendsList)
-        return self.friendsList;
     }
     
     /**
      Adds a new group to the database with given members and current user.
      Eric Roh
     */
-    func createGroup(members: [User], name: String) {
+    func createGroup(members: [User], name: String, closure: @escaping ([Group]) -> Void) {
         let groupTable = client.table(withName: "Group")
         let gxuTable = client.table(withName: "GroupXUser")
-        //let userEntry = appDelegate.userEntry as! [AnyHashable : String]
         var newGroup: Group?
         var groupId: String?
         var myMembers = members
@@ -260,11 +252,7 @@ class APICalls : APIProtocol {
             newGroup = Group(id: groupId!, members: members, groupName: name, admin: self.userEntry?[AnyHashable("id")] as! String)
             
             self.groupList.append(newGroup!)
+            closure(self.groupList)
         }
-    }
-    
-    
-    func getAllGroups() -> [Group] {
-        return self.groupList;
     }
 }

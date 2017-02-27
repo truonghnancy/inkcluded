@@ -128,14 +128,14 @@ class APIWrapper : APIProtocol {
 //        return user1;
 //    }
     
-    func createGroup(members: [User], name: String){
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    func createGroup(members: [User], name: String, closure: @escaping ([Group]) -> Void){
+        //let appDelegate = UIApplication.shared.delegate as! AppDelegate
         //let client = appDelegate.client
         //let groupTable = client?.table(withName: "Group")
         //let gxuTable = client?.table(withName: "GroupXUser")
         //let userEntry = appDelegate.userEntry as! [AnyHashable : String]
-        var newGroup: Group?
-        var groupId: String?
+        //var newGroup: Group?
+        //var groupId: String?
         
        // groupTable?.insert(["name" : name, "adminid" : userEntry[AnyHashable("id")]!]) { (result, error) in
        //     if error != nil {
@@ -146,19 +146,24 @@ class APIWrapper : APIProtocol {
        //     }
        // }
         
-        for member in members {
+        //for member in members {
         //    gxuTable?.insert(["groupid" : groupId!, "userid" : member.id])
-        }
+        //}
         
         
         //newGroup = Group(id: groupId!, members: members, groupName: name, admin: userEntry[AnyHashable("id")]!)
         
-        self.groupList.append(newGroup!);
+        //self.groupList.append(newGroup!);
         
     }
     
     func getAllGroups() -> [Group] {
         return self.groupList;
+    }
+    
+    func findUserByEmail(email: String, closure: @escaping ([User]) -> Void)
+    {
+        
     }
     
 //    func getGroupById(groupId: Int) -> Group {

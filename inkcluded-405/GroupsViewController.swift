@@ -25,7 +25,7 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     override func viewDidLoad() {
         super.viewDidLoad()
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        self.groups = appDelegate.apiWrapper?.getAllGroups()
+        self.groups = appDelegate.apiWrapper?.groupList
         
         // making the menu view
         menuView = UIView.init(frame: CGRect(x: -400, y: 0, width: 400, height: self.view.frame.height))
@@ -130,10 +130,10 @@ class GroupsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         if (appDelegate.apiWrapper?.userEntry == nil) {
             super.viewDidAppear(animated)
             self.performSegue(withIdentifier: "showLogin" , sender: self)
-            self.groups = appDelegate.apiWrapper?.getAllGroups()
+            self.groups = appDelegate.apiWrapper?.groupList
         }
         else {
-            self.groups = appDelegate.apiWrapper?.getAllGroups()
+            self.groups = appDelegate.apiWrapper?.groupList
             
         }
     }
