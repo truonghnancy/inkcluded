@@ -99,8 +99,20 @@ class CanvasViewController: UIViewController {
 
 extension CanvasViewController: CanvasMenuDelegate {
     func didClickOnMenuItem(item: CanvasMenuItem) {
-        if item == .INSERT_IMAGE {
+        switch item {
+        case .INSERT_IMAGE:
             self.present(self.selectImageVC!, animated: true, completion: nil)
+            break
+        case .INSERT_TEXT:
+            // TODO: replace these magic numbers
+            var myField: UITextField = UITextField (frame:CGRect.init(x: 50, y: 50, width: 100, height: 50));
+            myField.borderStyle = UITextBorderStyle.bezel
+            myField.delegate = self
+            self.drawView!.addSubview(myField)
+            // TODO: figure out how to serialize
+            break
+        default:
+            break
         }
     }
 }
@@ -124,5 +136,12 @@ extension CanvasViewController: DrawStrokesDelegate {
     
     func getAllStrokes() -> [Stroke] {
         return strokes!
+    }
+}
+
+extension CanvasViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.drawView!.endEditing(true)
+        return true
     }
 }

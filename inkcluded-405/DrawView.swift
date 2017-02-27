@@ -211,6 +211,7 @@ class DrawView: UIView {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.processTouches(touches: touches, withEvent: event!)
+        self.endEditing(true)
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
