@@ -41,7 +41,6 @@ class CanvasViewController: UIViewController {
         // Bindings
         menu?.delegate = self;
         selectImageVC?.selectImageDelegate = self
-        model!.setDrawViewSize(size: (drawView?.bounds.size)!)
         
         // Add subviews
         self.orderedSubViews.append(drawView!)
@@ -61,7 +60,7 @@ class CanvasViewController: UIViewController {
      *
      **/
     @IBAction func sendButtonPressed(_ sender: Any) {
-        model!.saveCanvasElements()
+        model!.saveCanvasElements(drawViewSize: (drawView?.bounds.size)!)
     }
     
     // Loads a completely new canvas and discards the old canvas. Placeholder button just for canvas bugtesting.
@@ -69,7 +68,7 @@ class CanvasViewController: UIViewController {
         drawView?.removeFromSuperview();
         
         drawView = getNewDrawView()
-//        drawView?.decodeStrokesFromDocumentPath();
+        drawView?.renderWILLSection(section: (model?.decodeWILLFile())!)
         
         canvas.addSubview(drawView!)
         self.orderedSubViews[0] = drawView!

@@ -192,7 +192,39 @@ class DrawView: UIView {
     }
     
     func renderWILLSection(section: WCMDocumentSection) {
-    
+        let elements = section.subelements
+        
+        for element in elements! {
+            if let strokeElement = element as? WCMDocumentSectionPaths {
+                let inkData = strokeElement.content.loadData()
+                let decoder = WCMInkDecoder(data: inkData)
+                
+                var strokePoints: WCMFloatVector? = WCMFloatVector()
+                var strokeStride: UInt32 = UInt32()
+                var strokeWidth: Float = Float()
+                var strokeColor: UIColor? = UIColor()
+                var strokeStartValue: Float = Float()
+                var strokeFinishValue: Float = Float()
+                var blendMode: WCMBlendMode = WCMBlendMode(rawValue: 0)!
+                
+                while(decoder?.decodePath(toPoints: &strokePoints, andStride: &strokeStride, andWidth: &strokeWidth, andColor: &strokeColor, andTs: &strokeStartValue, andTf: &strokeFinishValue, andBlendMode: &blendMode))! {
+                    let stroke = Stroke(points: strokePoints, andStride: Int32(strokeStride), andWidth: strokeWidth, andColor: strokeColor, andTs: strokeStartValue, andTf: strokeFinishValue, andBlendMode: blendMode)
+                    
+                    strokeRenderer.resetAndClearBuffers()
+                    strokeRenderer.drawPoints(stroke?.points.pointer(), finishStroke: true)
+                    strokeRenderer.blendStroke(in: strokesLayer, with: (stroke?.blendMode)!)
+                }
+            }
+            else if let imageElement = element as? WCMDocumentSectionImage {
+                let imageData = imageElement.content.loadData()
+                let image = UIImage(data: imageData!)
+                let imageView = UIImageView(image: image)
+                
+                self.addSubview(imageView)
+            }
+        }
+        
+        refreshViewInRect(rect: viewLayer.bounds)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

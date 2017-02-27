@@ -11,7 +11,6 @@ import Foundation
 class CanvasModel {
     let WILL_DOCUMENT_NAME = "document.will"
     var canvasElements: [AnyObject]
-    var drawViewSize: CGSize?
     
     init() {
         self.canvasElements = []
@@ -28,18 +27,14 @@ class CanvasModel {
     func getCanvasElements() -> [AnyObject] {
         return canvasElements
     }
-
-    func setDrawViewSize(size: CGSize) {
-        drawViewSize = size
-    }
     
-    func saveCanvasElements() {
+    func saveCanvasElements(drawViewSize: CGSize) {
         let inkEncoder = WCMInkEncoder()
         let doc = WCMDocument()
         let section = WCMDocumentSection()
         
         // set the size of the section
-        section.size = drawViewSize!
+        section.size = drawViewSize
         
         for elem in canvasElements {
             // if the element is a stroke
@@ -69,6 +64,9 @@ class CanvasModel {
                 
                 // add it to the section
                 section.add(willImage)
+            }
+            else {
+                print("Not expecting this type yet")
             }
         }
         
