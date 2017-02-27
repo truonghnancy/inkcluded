@@ -11,6 +11,8 @@
 		150CAD101E3ECF73003255DB /* GroupsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150CAD0F1E3ECF73003255DB /* GroupsTableViewCell.swift */; };
 		157CCE2D1E35590700096337 /* APIWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157CCE2C1E35590700096337 /* APIWrapper.swift */; };
 		157CCE301E355D7000096337 /* APIProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157CCE2F1E355D7000096337 /* APIProtocol.swift */; };
+		158ECEF51E5CF0E300D45DB3 /* DrawStrokesDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158ECEF41E5CF0E300D45DB3 /* DrawStrokesDelegate.swift */; };
+		158ECEF71E5D07AD00D45DB3 /* CanvasModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158ECEF61E5D07AD00D45DB3 /* CanvasModel.swift */; };
 		15A978991E28D89E007E4B21 /* GroupsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A978981E28D89E007E4B21 /* GroupsViewController.swift */; };
 		15A9789B1E28D922007E4B21 /* CanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A9789A1E28D922007E4B21 /* CanvasViewController.swift */; };
 		15DA464C1E38074900DE515A /* APIWrapperTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DA464B1E38074900DE515A /* APIWrapperTest.swift */; };
@@ -25,6 +27,7 @@
 		15EBA70C1E27079F00B38D0E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15EBA70A1E27079F00B38D0E /* LaunchScreen.storyboard */; };
 		15EBA7171E27079F00B38D0E /* inkcluded_405Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EBA7161E27079F00B38D0E /* inkcluded_405Tests.swift */; };
 		15EBA7221E27079F00B38D0E /* inkcluded_405UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EBA7211E27079F00B38D0E /* inkcluded_405UITests.swift */; };
+		15FE85321E5EB981008206F9 /* DrawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FE85311E5EB981008206F9 /* DrawView.swift */; };
 		40F865A6725D8820F56B8B8C /* Pods_inkcluded_405UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A91286597B4880684D0F00B8 /* Pods_inkcluded_405UITests.framework */; };
 		511B13F71CC0BF7A3E91B09F /* Pods_inkcluded_405Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EF4486F25C1DC46A245DD95 /* Pods_inkcluded_405Tests.framework */; };
 		94FD3B2AB153812810DE99FE /* Pods_inkcluded_405.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF60963865909A6CB6D3F7E0 /* Pods_inkcluded_405.framework */; };
@@ -37,7 +40,6 @@
 		CC7358AB1E429EC600496F35 /* MicrosoftAzureMobile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC7358AA1E429EC600496F35 /* MicrosoftAzureMobile.framework */; };
 		CCFD64A41E3EEF600097BE78 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCFD64A31E3EEF600097BE78 /* SafariServices.framework */; };
 		EE5A8EFE1E404A2200BC44AF /* WILLCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE5A8EFD1E404A2200BC44AF /* WILLCore.framework */; };
-		EE5A8F011E404B2800BC44AF /* DrawView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE5A8F001E404B2800BC44AF /* DrawView.m */; };
 		EE5A8F041E404B4000BC44AF /* Stroke.m in Sources */ = {isa = PBXBuildFile; fileRef = EE5A8F031E404B4000BC44AF /* Stroke.m */; };
 /* End PBXBuildFile section */
 
@@ -64,6 +66,8 @@
 		150CAD0F1E3ECF73003255DB /* GroupsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsTableViewCell.swift; sourceTree = "<group>"; };
 		157CCE2C1E35590700096337 /* APIWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIWrapper.swift; sourceTree = "<group>"; };
 		157CCE2F1E355D7000096337 /* APIProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIProtocol.swift; sourceTree = "<group>"; };
+		158ECEF41E5CF0E300D45DB3 /* DrawStrokesDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawStrokesDelegate.swift; sourceTree = "<group>"; };
+		158ECEF61E5D07AD00D45DB3 /* CanvasModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasModel.swift; sourceTree = "<group>"; };
 		15A978981E28D89E007E4B21 /* GroupsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsViewController.swift; sourceTree = "<group>"; };
 		15A9789A1E28D922007E4B21 /* CanvasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasViewController.swift; sourceTree = "<group>"; };
 		15DA464B1E38074900DE515A /* APIWrapperTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIWrapperTest.swift; sourceTree = "<group>"; };
@@ -83,6 +87,7 @@
 		15EBA71D1E27079F00B38D0E /* inkcluded-405UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "inkcluded-405UITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		15EBA7211E27079F00B38D0E /* inkcluded_405UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = inkcluded_405UITests.swift; sourceTree = "<group>"; };
 		15EBA7231E27079F00B38D0E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		15FE85311E5EB981008206F9 /* DrawView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawView.swift; sourceTree = "<group>"; };
 		5BE9018100979E04E923E4F4 /* Pods-inkcluded-405UITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-inkcluded-405UITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-inkcluded-405UITests/Pods-inkcluded-405UITests.release.xcconfig"; sourceTree = "<group>"; };
 		78F1482AE242C005A73CA9C0 /* Pods-inkcluded-405Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-inkcluded-405Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-inkcluded-405Tests/Pods-inkcluded-405Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		892F434D1390A6A7A4AE4786 /* Pods-inkcluded-405.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-inkcluded-405.debug.xcconfig"; path = "Pods/Target Support Files/Pods-inkcluded-405/Pods-inkcluded-405.debug.xcconfig"; sourceTree = "<group>"; };
@@ -103,8 +108,6 @@
 		DF60963865909A6CB6D3F7E0 /* Pods_inkcluded_405.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_inkcluded_405.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE5A8EFD1E404A2200BC44AF /* WILLCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WILLCore.framework; path = Frameworks/WILLCore.framework; sourceTree = "<group>"; };
 		EE5A8EFF1E404B2800BC44AF /* inkcluded-405-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "inkcluded-405-Bridging-Header.h"; sourceTree = "<group>"; };
-		EE5A8F001E404B2800BC44AF /* DrawView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawView.m; sourceTree = "<group>"; };
-		EE5A8F021E404B3400BC44AF /* DrawView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DrawView.h; sourceTree = "<group>"; };
 		EE5A8F031E404B4000BC44AF /* Stroke.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Stroke.m; sourceTree = "<group>"; };
 		EE5A8F051E404B4A00BC44AF /* Stroke.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Stroke.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -165,6 +168,7 @@
 				157CCE2C1E35590700096337 /* APIWrapper.swift */,
 				EE5A8F031E404B4000BC44AF /* Stroke.m */,
 				EE5A8F051E404B4A00BC44AF /* Stroke.h */,
+				158ECEF61E5D07AD00D45DB3 /* CanvasModel.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -173,9 +177,8 @@
 			isa = PBXGroup;
 			children = (
 				150CAD0E1E3ECF37003255DB /* TableViewCells */,
-				EE5A8F001E404B2800BC44AF /* DrawView.m */,
-				EE5A8F021E404B3400BC44AF /* DrawView.h */,
 				15EBA3E41E50ED39006821C9 /* CanvasMenuView.swift */,
+				15FE85311E5EB981008206F9 /* DrawView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -198,6 +201,7 @@
 			children = (
 				15EBA3E71E50F0D1006821C9 /* CanvasMenuDelegate.swift */,
 				15EBA3ED1E511E13006821C9 /* SelectImageDelegate.swift */,
+				158ECEF41E5CF0E300D45DB3 /* DrawStrokesDelegate.swift */,
 			);
 			name = Delegates;
 			sourceTree = "<group>";
@@ -584,14 +588,16 @@
 				9DB896781E5BD5D800E1B592 /* MessageTableViewCell.swift in Sources */,
 				07A00B6F1E2EC51F00DD68F7 /* LoginViewController.swift in Sources */,
 				15A978991E28D89E007E4B21 /* GroupsViewController.swift in Sources */,
+				158ECEF71E5D07AD00D45DB3 /* CanvasModel.swift in Sources */,
 				EE5A8F041E404B4000BC44AF /* Stroke.m in Sources */,
 				15A9789B1E28D922007E4B21 /* CanvasViewController.swift in Sources */,
 				9D7FC8841E413D0900293C83 /* FriendTableViewCell.swift in Sources */,
 				150CAD101E3ECF73003255DB /* GroupsTableViewCell.swift in Sources */,
-				EE5A8F011E404B2800BC44AF /* DrawView.m in Sources */,
+				158ECEF51E5CF0E300D45DB3 /* DrawStrokesDelegate.swift in Sources */,
 				9D9CEB9C1E51629300C6B11C /* CanvasMenuView.swift in Sources */,
 				15EBA3EC1E5116AE006821C9 /* SelectImageViewController.swift in Sources */,
 				15EBA7021E27079F00B38D0E /* AppDelegate.swift in Sources */,
+				15FE85321E5EB981008206F9 /* DrawView.swift in Sources */,
 				157CCE2D1E35590700096337 /* APIWrapper.swift in Sources */,
 				9D6636361E4073E100958C8F /* RecipientsViewController.swift in Sources */,
 				15EBA3EE1E511E13006821C9 /* SelectImageDelegate.swift in Sources */,
@@ -676,6 +682,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -725,6 +732,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
