@@ -61,12 +61,14 @@ class CanvasModel {
                 let imageData = UIImagePNGRepresentation(imageElem.image!)
                 let willImage = WCMDocumentSectionImage()
                 willImage.content.setData(imageData, with: WCMDocumentContentType.png())
+                willImage.rect = imageElem.frame
                 
                 // add it to the section
                 section.add(willImage)
             }
             else {
                 print("Not expecting this type yet")
+                print(elem.self)
             }
         }
         
@@ -81,13 +83,63 @@ class CanvasModel {
         doc.createDocument(atPath: willDocPath)
     }
     
-    func decodeWILLFile() -> WCMDocumentSection {
+    func restoreStateFromWILLFile() -> [AnyObject] {
         let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
         let willDocPath = documentsPath.appending(WILL_DOCUMENT_NAME)
         let doc = WCMDocument()
         
         doc.load(atPath: willDocPath)
         
-        return doc.sections![0] as! WCMDocumentSection;
+        let section = doc.sections![0] as! WCMDocumentSection
+        
+        for element in section.subelements {
+            if let strokeElement = element as? WCMDocumentSectionPaths {
+                let inkData = strokeElement.content.loadData()
+                let decoder = WCMInkDecoder(data: inkData)
+                
+                var strokePoints: WCMFloatVector? = WCMFloatVector()
+                var strokeStride: UInt32 = UInt32()
+                var strokeWidth: Float = Float()
+                var strokeColor: UIColor? = UIColor()
+                var strokeStartValue: Float = Float()
+                var strokeFinishValue: Float = Float()
+                var blendMode: WCMBlendMode = WCMBlendMode(rawValue: 0)!
+                
+                while (decoder?.decodePath(
+                    toPoints: &strokePoints,
+                    andStride: &strokeStride,
+                    andWidth: &strokeWidth,
+                    andColor: &strokeColor,
+                    andTs: &strokeStartValue, 
+                    andTf: &strokeFinishValue,
+                    andBlendMode: &blendMode))!
+                {
+                    let stroke = Stroke(
+                        points: strokePoints,
+                        andStride: Int32(strokeStride),
+                        andWidth: strokeWidth,
+                        andColor: strokeColor,
+                        andTs: strokeStartValue,
+                        andTf: strokeFinishValue,
+                        andBlendMode: blendMode
+                    )
+                    
+                    appendElement(elem: stroke!)
+                }
+            }
+            else if let imageElement = element as? WCMDocumentSectionImage {
+                let imageData = imageElement.content.loadData()
+                let image = UIImage(data: imageData!)
+                let imageView = UIImageView(image: image)
+                imageView.frame = imageElement.rect
+                
+                appendElement(elem: imageView)
+            }
+            else {
+                print("Not expecting this type")
+            }
+        }
+    
+        return canvasElements
     }
 }

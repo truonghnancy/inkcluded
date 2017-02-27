@@ -68,7 +68,11 @@ class CanvasViewController: UIViewController {
         drawView?.removeFromSuperview();
         
         drawView = getNewDrawView()
-        drawView?.renderWILLSection(section: (model?.decodeWILLFile())!)
+
+        // Clear and restore context
+        model?.clearCanvasElements()
+        let renderElements = model?.restoreStateFromWILLFile()
+        drawView?.renderWILLSection(elements: renderElements!)
         
         canvas.addSubview(drawView!)
         self.orderedSubViews[0] = drawView!
