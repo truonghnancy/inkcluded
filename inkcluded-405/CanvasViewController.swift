@@ -87,8 +87,10 @@ extension CanvasViewController: CanvasMenuDelegate {
             self.present(self.selectImageVC!, animated: true, completion: nil)
             break
         case .INSERT_TEXT:
+            // TODO: replace these magic numbers
             var myField: UITextField = UITextField (frame:CGRect.init(x: 50, y: 50, width: 100, height: 50));
             myField.borderStyle = UITextBorderStyle.bezel
+            self.drawView!.becomeFirstResponder()
             self.drawView!.addSubview(myField)
             // TODO: figure out how to serialize
             break
