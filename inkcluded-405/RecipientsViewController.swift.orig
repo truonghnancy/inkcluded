@@ -15,8 +15,13 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
                                 UITableViewDataSource {
     @IBOutlet var friendsTableView: UITableView!
     
-    var apiWrapper: APIWrapper? // The database interface
+<<<<<<< HEAD
+    var apiWrapper: APICalls? // The database interface
     var selectedRecipients = [User]()         // A list of selected recipients
+=======
+    let apiWrapper: APIWrapper = APIWrapper() // The database interface
+    var selectedRecipients = [Int]()          // A list of selected recipients
+>>>>>>> a0fe0070568316bd2ce48596148530a874d77861
     var friends : [User]?                     // A list of friends to select
     
     /**
@@ -24,10 +29,10 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
      */
     override func viewDidLoad() {
         super.viewDidLoad()
-        //let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         // Get the list of friends from the database.
-        //apiWrapper = appDelegate.apiWrapper
-        self.friends = [User]()
+        apiWrapper = appDelegate.apiWrapper
+        self.friends = apiWrapper?.friendsList
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -71,7 +76,7 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
                    didSelectRowAt indexPath: IndexPath) {
         // Add the friend corresponding to the cell to the recipients list.
         let tempRecipient: User = (self.friends?[indexPath.row])!
-        self.selectedRecipients.append(tempRecipient);
+        self.selectedRecipients.append(tempRecipient.id);
     }
     
     /**
@@ -81,8 +86,8 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
                    didDeselectRowAt indexPath: IndexPath) {
         // Remove the friend corresponding to the cell from the recipients list.
         let tempRecipient: User = (self.friends?[indexPath.row])!
-        //let tempIdx = 0//self.selectedRecipients.index(of: tempRecipient.id)
-        self.selectedRecipients.remove(at: 0)
+        let tempIdx = self.selectedRecipients.index(of: tempRecipient.id)
+        self.selectedRecipients.remove(at: tempIdx!)
     }
     
     /**
@@ -90,24 +95,34 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
      */
     @IBAction func selectPressed(_ sender: Any) {
         // If no recipients have been selected, do nothing.
-        //if selectedRecipients.isEmpty {
-        //    print("No recipients selected.")
-        //}
+        if selectedRecipients.isEmpty {
+            print("No recipients selected.")
+        }
         // Otherwise, create a new group using the selected recipients.
-        //else {
+        else {
+<<<<<<< HEAD
             var members = [User]()
             
+=======
+>>>>>>> a0fe0070568316bd2ce48596148530a874d77861
             print("Recipients:")
-            for recipientIdx : User in selectedRecipients {
-                let recipient = apiWrapper?.getFriendById(userId: recipientIdx.id)
-                print("   \(recipient?.firstName) \(recipient?.lastName)")
+            for recipientIdx : Int in selectedRecipients {
+                let recipient = apiWrapper.getFriendById(userId: recipientIdx)
+                print("   \(recipient.firstName) \(recipient.lastName)")
+<<<<<<< HEAD
+                members.append(recipient)
             }
             // TODO: Pass this new group to the canvas view.
-            apiWrapper?.createGroup(members: selectedRecipients, name: "New Group", closure: {(Group) -> Void in})
+            apiWrapper?.createGroup(members: members, name: "New Group", closure: { (groups) -> Void in } )
+=======
+            }
+            // TODO: Pass this new group to the canvas view.
+            apiWrapper.createGroup(members: selectedRecipients, name: "New Group")
+>>>>>>> a0fe0070568316bd2ce48596148530a874d77861
         
             // Segue to the canvas view.
             self.performSegue(withIdentifier: "newCanvasSegue", sender: self)
-        //}
+        }
     }
 }
 

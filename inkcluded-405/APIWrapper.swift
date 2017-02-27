@@ -118,15 +118,15 @@ class APIWrapper : APIProtocol {
         return self.friendsList;
     }
     
-//    func getFriendById(userId: Int) -> User {
-//        return self.friendsList.filter({ (user) -> Bool in
-//            return user.id == userId
-//        })[0];
-//    }
+    func getFriendById(userId: String) -> User {
+        return self.friendsList.filter({ (user) -> Bool in
+            return user.id == userId
+        })[0];
+    }
     
-//    func getCurrentUser() -> User {
-//        return user1;
-//    }
+    func getCurrentUser() -> User {
+        return User(id: "1345", firstName: "dr", lastName: "janzen")
+    }
     
     func createGroup(members: [User], name: String, closure: @escaping ([Group]) -> Void){
         //let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -172,11 +172,11 @@ class APIWrapper : APIProtocol {
 //        })[0];
 //    }
     
-//    func getAllMessagesInGroup(groupId: Int) -> [Message] {
-//        return self.messageList.filter({ (message) -> Bool in
-//            message.groupId == groupId;
-//        });
-//    }
+    func getAllMessagesInGroup(groupId: String) -> [Message] {
+        return self.messageList.filter({ (message) -> Bool in
+            message.groupId == groupId;
+        });
+    }
     
 //    func sendMessage(message: Message) {
 //        self.messageList.append(message);

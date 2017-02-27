@@ -9,8 +9,9 @@
 #ifndef inkluded_405_Bridging_Header_h
 #define inkluded_405_Bridging_Header_h
 
-#import "DrawView.h"
+#import <WILLCore/WILLCore.h>
 #import <WILLCore/WacomInkSerialization.h>
 #import <MicrosoftAzureMobile/MicrosoftAzureMobile.h>
+#import "Stroke.h"
 
 #endif
