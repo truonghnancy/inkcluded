@@ -8,8 +8,6 @@
 
 import Foundation
 import UIKit
-//import FBSDKCoreKit
-//import FBSDKLoginKit
 
 class GroupsViewController: UIViewController {
     
@@ -51,8 +49,14 @@ class GroupsViewController: UIViewController {
         super.viewDidAppear(animated)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         
-        if (appDelegate.client?.currentUser == nil){
+        if (appDelegate.apiWrapper?.client.currentUser == nil) {
+            super.viewDidAppear(animated)
             self.performSegue(withIdentifier: "showLogin" , sender: self)
+            self.groups = appDelegate.apiWrapper?.groupList
+        }
+        else {
+            self.groups = appDelegate.apiWrapper?.groupList
+            
         }
         
     }
@@ -113,15 +117,29 @@ extension GroupsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let appdelegate = UIApplication.shared.delegate as! AppDelegate
         let cell = self.groupsTableView.dequeueReusableCell(withIdentifier: "groupsCell") as! GroupsTableViewCell
         let group = self.groups?[indexPath.row];
         let names: [String] = (group?.members.map({ (memberId) -> String in
-            return apiWrapper.getFriendById(userId: memberId).firstName;
+            return apiWrapper.getFriendById(userId: memberId.id).firstName;
         }))!
         let finalNames = names.filter { (name) -> Bool in
             return name != self.apiWrapper.getCurrentUser().firstName;
         }
-        
+            
+        print("ffff")
+//        if (appdelegate.apiWrapper?.client.currentUser != nil) {
+//            
+//            let userEntry = appdelegate.apiWrapper?.userEntry as! [AnyHashable : String]
+//            let group = self.groups?[indexPath.row];
+//            let names: [String] = (group?.members.map({ (member) -> String in
+//                return member.firstName}))!
+//            
+//            let finalNames = names.filter { (name) -> Bool in
+//                return name != userEntry[AnyHashable("firstname")];
+//            }
+//        }
+//        
         cell.groupName.text = group?.groupName
         cell.groupDetails.text = finalNames.joined(separator: ", ")
         

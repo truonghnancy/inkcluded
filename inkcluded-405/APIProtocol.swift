@@ -9,15 +9,16 @@
 import Foundation
 
 protocol APIProtocol {
-    func getFriendsList() -> [User];
-    func getFriendById(userId: Int) -> User;
+//    func getFriendsList() -> [User];
+//    func getFriendById(userId: Int) -> User;
     
-    func getCurrentUser() -> User;
+//    func getCurrentUser() -> User;
     
-    func createGroup(members: [Int], name: String) -> Group;
-    func getAllGroups() -> [Group];
-    func getGroupById(groupId: Int) -> Group;
+    func createGroup(members: [User], name: String, closure: @escaping ([Group]) -> Void);
+    func findUserByEmail(email: String, closure: @escaping ([User]) -> Void);
+//    func getAllGroups() -> [Group];
+//    func getGroupById(groupId: Int) -> Group;
     
-    func getAllMessagesInGroup(groupId: Int) -> [Message];
+//    func getAllMessagesInGroup(groupId: Int) -> [Message];
 //    func sendMessage(message: Message);
 }

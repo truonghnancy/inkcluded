@@ -9,14 +9,12 @@
 /* Begin PBXBuildFile section */
 		07A00B6F1E2EC51F00DD68F7 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A00B6E1E2EC51F00DD68F7 /* LoginViewController.swift */; };
 		150CAD101E3ECF73003255DB /* GroupsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150CAD0F1E3ECF73003255DB /* GroupsTableViewCell.swift */; };
-		157CCE2D1E35590700096337 /* APIWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157CCE2C1E35590700096337 /* APIWrapper.swift */; };
 		157CCE301E355D7000096337 /* APIProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157CCE2F1E355D7000096337 /* APIProtocol.swift */; };
 		158ECEF51E5CF0E300D45DB3 /* DrawStrokesDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158ECEF41E5CF0E300D45DB3 /* DrawStrokesDelegate.swift */; };
 		158ECEF71E5D07AD00D45DB3 /* CanvasModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158ECEF61E5D07AD00D45DB3 /* CanvasModel.swift */; };
 		15A978991E28D89E007E4B21 /* GroupsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A978981E28D89E007E4B21 /* GroupsViewController.swift */; };
 		15A9789B1E28D922007E4B21 /* CanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A9789A1E28D922007E4B21 /* CanvasViewController.swift */; };
 		15DA464C1E38074900DE515A /* APIWrapperTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DA464B1E38074900DE515A /* APIWrapperTest.swift */; };
-		15DA464E1E380A0400DE515A /* APIWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157CCE2C1E35590700096337 /* APIWrapper.swift */; };
 		15DA464F1E380AC100DE515A /* APIProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157CCE2F1E355D7000096337 /* APIProtocol.swift */; };
 		15EBA3E81E50F0D1006821C9 /* CanvasMenuDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EBA3E71E50F0D1006821C9 /* CanvasMenuDelegate.swift */; };
 		15EBA3EC1E5116AE006821C9 /* SelectImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EBA3EB1E5116AE006821C9 /* SelectImageViewController.swift */; };
@@ -38,9 +36,11 @@
 		9DB896781E5BD5D800E1B592 /* MessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB896771E5BD5D800E1B592 /* MessageTableViewCell.swift */; };
 		CC1FDB521E3D9B3800B38C11 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1FDB511E3D9B3800B38C11 /* WebKit.framework */; };
 		CC7358AB1E429EC600496F35 /* MicrosoftAzureMobile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC7358AA1E429EC600496F35 /* MicrosoftAzureMobile.framework */; };
+		CCB4C7B61E5AB0850050D3DD /* APICalls.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCB4C7B51E5AB0850050D3DD /* APICalls.swift */; };
 		CCFD64A41E3EEF600097BE78 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCFD64A31E3EEF600097BE78 /* SafariServices.framework */; };
 		EE5A8EFE1E404A2200BC44AF /* WILLCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE5A8EFD1E404A2200BC44AF /* WILLCore.framework */; };
 		EE5A8F041E404B4000BC44AF /* Stroke.m in Sources */ = {isa = PBXBuildFile; fileRef = EE5A8F031E404B4000BC44AF /* Stroke.m */; };
+		EEFB912D1E5C1CE30054BEE6 /* APIWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFB912C1E5C1CE30054BEE6 /* APIWrapper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,7 +64,6 @@
 		07A00B6E1E2EC51F00DD68F7 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		07A00B701E2EC71B00DD68F7 /* inkcluded-405.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "inkcluded-405.entitlements"; sourceTree = "<group>"; };
 		150CAD0F1E3ECF73003255DB /* GroupsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsTableViewCell.swift; sourceTree = "<group>"; };
-		157CCE2C1E35590700096337 /* APIWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIWrapper.swift; sourceTree = "<group>"; };
 		157CCE2F1E355D7000096337 /* APIProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIProtocol.swift; sourceTree = "<group>"; };
 		158ECEF41E5CF0E300D45DB3 /* DrawStrokesDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawStrokesDelegate.swift; sourceTree = "<group>"; };
 		158ECEF61E5D07AD00D45DB3 /* CanvasModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasModel.swift; sourceTree = "<group>"; };
@@ -102,6 +101,7 @@
 		CC1FDB511E3D9B3800B38C11 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		CC7358AA1E429EC600496F35 /* MicrosoftAzureMobile.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MicrosoftAzureMobile.framework; path = "inkcluded-405/MicrosoftAzureMobile.framework"; sourceTree = "<group>"; };
 		CC930B8B1E3D801000E9A118 /* inkcluded-405-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "inkcluded-405-Bridging-Header.h"; path = "inkcluded-405/inkcluded-405-Bridging-Header.h"; sourceTree = "<group>"; };
+		CCB4C7B51E5AB0850050D3DD /* APICalls.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APICalls.swift; sourceTree = "<group>"; };
 		CCFD64A31E3EEF600097BE78 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		CCFD64A51E3EFC9D0097BE78 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = "../../Library/Developer/Xcode/DerivedData/inkcluded-405-dsyouagevapbudgqckcaedxmeqqs/Build/Products/Debug-iphonesimulator/FBSDKCoreKit/FBSDKCoreKit.framework"; sourceTree = "<group>"; };
 		D2F757171BC42ACD49C8C658 /* Pods-inkcluded-405.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-inkcluded-405.release.xcconfig"; path = "Pods/Target Support Files/Pods-inkcluded-405/Pods-inkcluded-405.release.xcconfig"; sourceTree = "<group>"; };
@@ -110,6 +110,7 @@
 		EE5A8EFF1E404B2800BC44AF /* inkcluded-405-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "inkcluded-405-Bridging-Header.h"; sourceTree = "<group>"; };
 		EE5A8F031E404B4000BC44AF /* Stroke.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Stroke.m; sourceTree = "<group>"; };
 		EE5A8F051E404B4A00BC44AF /* Stroke.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Stroke.h; sourceTree = "<group>"; };
+		EEFB912C1E5C1CE30054BEE6 /* APIWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIWrapper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,9 +166,10 @@
 		15A9789E1E29943E007E4B21 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				157CCE2C1E35590700096337 /* APIWrapper.swift */,
+				EEFB912C1E5C1CE30054BEE6 /* APIWrapper.swift */,
 				EE5A8F031E404B4000BC44AF /* Stroke.m */,
 				EE5A8F051E404B4A00BC44AF /* Stroke.h */,
+				CCB4C7B51E5AB0850050D3DD /* APICalls.swift */,
 				158ECEF61E5D07AD00D45DB3 /* CanvasModel.swift */,
 			);
 			name = Model;
@@ -584,12 +586,14 @@
 			files = (
 				15EBA3E81E50F0D1006821C9 /* CanvasMenuDelegate.swift in Sources */,
 				157CCE301E355D7000096337 /* APIProtocol.swift in Sources */,
+				CCB4C7B61E5AB0850050D3DD /* APICalls.swift in Sources */,
 				9DB896761E5BC42B00E1B592 /* GroupHistoryViewController.swift in Sources */,
 				9DB896781E5BD5D800E1B592 /* MessageTableViewCell.swift in Sources */,
 				07A00B6F1E2EC51F00DD68F7 /* LoginViewController.swift in Sources */,
 				15A978991E28D89E007E4B21 /* GroupsViewController.swift in Sources */,
 				158ECEF71E5D07AD00D45DB3 /* CanvasModel.swift in Sources */,
 				EE5A8F041E404B4000BC44AF /* Stroke.m in Sources */,
+				EEFB912D1E5C1CE30054BEE6 /* APIWrapper.swift in Sources */,
 				15A9789B1E28D922007E4B21 /* CanvasViewController.swift in Sources */,
 				9D7FC8841E413D0900293C83 /* FriendTableViewCell.swift in Sources */,
 				150CAD101E3ECF73003255DB /* GroupsTableViewCell.swift in Sources */,
@@ -610,7 +614,6 @@
 			files = (
 				15DA464F1E380AC100DE515A /* APIProtocol.swift in Sources */,
 				15DA464C1E38074900DE515A /* APIWrapperTest.swift in Sources */,
-				15DA464E1E380A0400DE515A /* APIWrapper.swift in Sources */,
 				15EBA7171E27079F00B38D0E /* inkcluded_405Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
