@@ -109,6 +109,7 @@ extension CanvasViewController: CanvasMenuDelegate {
             myField.borderStyle = UITextBorderStyle.bezel
             myField.delegate = self
             self.drawView!.addSubview(myField)
+            self.drawView!.becomeFirstResponder()
             // TODO: figure out how to serialize
             break
         default:
