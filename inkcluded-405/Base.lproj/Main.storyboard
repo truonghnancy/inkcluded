@@ -85,7 +85,7 @@
         <!--Groups-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="GroupsViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" customClass="GroupsViewController" customModule="inkcluded_405" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="GroupsViewController" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" customClass="GroupsViewController" customModule="inkcluded_405" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -253,7 +253,7 @@
         <!--Recipients View Controller-->
         <scene sceneID="4ge-jD-O5A">
             <objects>
-                <viewController title="Recipients View Controller" id="l8m-89-xx1" customClass="RecipientsViewController" customModule="inkcluded_405" sceneMemberID="viewController">
+                <viewController title="Recipients View Controller" automaticallyAdjustsScrollViewInsets="NO" id="l8m-89-xx1" customClass="RecipientsViewController" customModule="inkcluded_405" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="eU3-Vs-G4H"/>
                         <viewControllerLayoutGuide type="bottom" id="jez-uM-3yx"/>
@@ -430,7 +430,7 @@
         <image name="francis" width="500" height="500"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Rtv-oo-sCb"/>
         <segue reference="bc1-hO-ziX"/>
+        <segue reference="Rtv-oo-sCb"/>
     </inferredMetricsTieBreakers>
 </document>
