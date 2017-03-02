@@ -49,7 +49,7 @@ class GroupsViewController: UIViewController {
         super.viewDidAppear(animated)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         
-        /*
+        
         if (appDelegate.apiWrapper?.client.currentUser == nil) {
             super.viewDidAppear(animated)
             self.performSegue(withIdentifier: "showLogin" , sender: self)
@@ -58,7 +58,7 @@ class GroupsViewController: UIViewController {
         else {
             self.groups = appDelegate.apiWrapper?.groupList
             
-        }*/
+        }
         
     }
     
