@@ -105,8 +105,9 @@ extension CanvasViewController: CanvasMenuDelegate {
             break
         case .INSERT_TEXT:
             // TODO: replace these magic numbers
-            var myField: UITextField = UITextField (frame:CGRect.init(x: 50, y: 50, width: 100, height: 50));
-            myField.borderStyle = UITextBorderStyle.bezel
+            var myField: UITextView = UITextView (frame:CGRect.init(x: 50, y: 50, width: 100, height: 50));
+            myField.layer.borderWidth = 1.0
+            myField.layer.borderColor = UIColor.lightGray.cgColor
             myField.delegate = self
             self.drawView!.addSubview(myField)
             self.view.becomeFirstResponder()
@@ -140,7 +141,7 @@ extension CanvasViewController: DrawStrokesDelegate {
     }
 }
 
-extension CanvasViewController: UITextFieldDelegate {
+extension CanvasViewController: UITextViewDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.drawView!.endEditing(true)
         return true
