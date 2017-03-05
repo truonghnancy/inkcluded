@@ -88,25 +88,25 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
     /**
      * Responds to the 'Select' button's being pressed.
      */
-    @IBAction func selectPressed(_ sender: Any) {
+    @IBAction func selectPressed(_ sender: UIBarButtonItem) {
         // If no recipients have been selected, do nothing.
         //if selectedRecipients.isEmpty {
         //    print("No recipients selected.")
         //}
         // Otherwise, create a new group using the selected recipients.
         //else {
-            var members = [User]()
-            
-            print("Recipients:")
-            for recipientIdx : User in selectedRecipients {
-                let recipient = apiWrapper?.getFriendById(userId: recipientIdx.id)
-                print("   \(recipient?.firstName) \(recipient?.lastName)")
-            }
-            // TODO: Pass this new group to the canvas view.
-            apiWrapper?.createGroup(members: selectedRecipients, name: "New Group", closure: {(Group) -> Void in})
+        var members = [User]()
         
-            // Segue to the canvas view.
-            self.performSegue(withIdentifier: "newCanvasSegue", sender: self)
+        print("Recipients:")
+        for recipientIdx : User in selectedRecipients {
+            let recipient = apiWrapper?.getFriendById(userId: recipientIdx.id)
+            print("   \(recipient?.firstName) \(recipient?.lastName)")
+        }
+        // TODO: Pass this new group to the canvas view.
+        apiWrapper?.createGroup(members: selectedRecipients, name: "New Group", closure: {(Group) -> Void in})
+        
+        // Segue to the canvas view.
+        self.performSegue(withIdentifier: "newCanvasSegue", sender: self)
         //}
     }
 }
