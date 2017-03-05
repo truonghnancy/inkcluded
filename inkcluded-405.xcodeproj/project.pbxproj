@@ -771,6 +771,12 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Frameworks",
 				);
+				"FRAMEWORK_SEARCH_PATHS[arch=*]" = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/inkcluded-405",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
 				INFOPLIST_FILE = "inkcluded-405/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -791,6 +797,10 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "boba.inkcluded-405";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_INCLUDE_PATHS = "";
+				"SWIFT_INCLUDE_PATHS[sdk=iphoneos*]" = "";
+				"SWIFT_INCLUDE_PATHS[sdk=iphonesimulator*]" = "";
+				"SWIFT_INCLUDE_PATHS[sdk=macosx*]" = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "inkcluded-405/inkcluded-405-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -806,6 +816,12 @@
 				CODE_SIGN_ENTITLEMENTS = "inkcluded-405/inkcluded-405.entitlements";
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/inkcluded-405",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
+				"FRAMEWORK_SEARCH_PATHS[arch=*]" = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/inkcluded-405",
 					"$(PROJECT_DIR)",
@@ -830,6 +846,10 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "boba.inkcluded-405";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_INCLUDE_PATHS = "";
+				"SWIFT_INCLUDE_PATHS[sdk=iphoneos*]" = "";
+				"SWIFT_INCLUDE_PATHS[sdk=iphonesimulator*]" = "";
+				"SWIFT_INCLUDE_PATHS[sdk=macosx*]" = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "inkcluded-405/inkcluded-405-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};

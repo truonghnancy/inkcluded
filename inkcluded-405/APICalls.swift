@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import AZSClient
 
 struct User {
     private(set) var id: String;
@@ -67,9 +68,6 @@ class APICalls : APIProtocol {
         self.groupList = []
         self.messageList = []
         
-        findUserByEmail(email: "rohroh94@gmail.com") { (user) in
-            
-        }
     }
     
     /**
@@ -194,14 +192,14 @@ class APICalls : APIProtocol {
         
         QS_USER.read { (result, error) in
             if let err = error {
-                print("ERROR", err)
+                print("Error on getting user", err)
             } else if let items = result?.items {
                 print("USER IS ", items[0])
                 let user = items[0]
                 retUser = User(id: user[AnyHashable("id")] as! String, firstName: user[AnyHashable("firstName")] as! String, lastName: user[AnyHashable("lastName")] as! String)
+                closure(retUser!)
+                print(retUser!)
             }
-            closure(retUser!)
-            print(retUser!)
         }
     }
     /**
@@ -213,16 +211,18 @@ class APICalls : APIProtocol {
         let userEmail = userTable.query(with: NSPredicate(format: "email = %@", email))
         var retUser: User?
 
-        print(userTable)
+        print("calling find user by email")
         userEmail.read { (result, error) in
             if let err = error {
                 print("Error in Finding User by Email: ", err)
             } else if let items = result?.items {
                 for user in items {
+                    print("going through result")
                     retUser = User(id: user[AnyHashable("id")] as! String, firstName: user[AnyHashable("firstName")] as! String, lastName: user[AnyHashable("lastName")] as! String)
                     self.friendsList.append(retUser!)
                 }
             }
+            print("found user")
             closure(self.friendsList)
         }
     }
@@ -255,5 +255,77 @@ class APICalls : APIProtocol {
             self.groupList.append(newGroup!)
             closure(self.groupList)
         }
+    }
+    
+    /**
+     Sends a file to the group's container
+     Eric Roh
+     */
+    func sendMessage(groupId: String, file: URL) {
+        let account = try? AZSCloudStorageAccount(fromConnectionString: "DefaultEndpointsProtocol=https;AccountName=penmessagestorage;AccountKey=BV5WR1Km404XR6K8F/KxOKuAyTw0utckHVZvOqW/LO5+cUTNVdZ9hShhBS/oOR7VAjKaSlt9+nBVVLXdvRpCgQ==")
+        let blobClient = account?.getBlobClient()
+        let blobContainer = blobClient?.containerReference(fromName: groupId)
+        
+        blobContainer?.createContainerIfNotExists(completionHandler: { (error, exists) in
+            if error != nil {
+                print("Error while creating blob container", error!)
+            }
+            else {
+                let blockBlob = blobContainer?.blockBlobReference(fromName: self.userEntry?[AnyHashable("id")] as! String)
+                
+                blockBlob?.uploadFromFile(with: file, completionHandler: { (err) in
+                    if err != nil {
+                        print("Error in uploading blob", err!)
+                    }
+                })
+//                upload(from: blob, completionHandler: { (err) in
+//                    if err != nil {
+//                        print("Error in uploading blob", err!)
+//                    }
+//                })
+            }
+        })
+    }
+    
+    /*
+     Gets all messages of the group
+     */
+    func getAllMessage(groupId: String, path: String) {
+        let account = try? AZSCloudStorageAccount(fromConnectionString: "DefaultEndpointsProtocol=https;AccountName=penmessagestorage;AccountKey=BV5WR1Km404XR6K8F/KxOKuAyTw0utckHVZvOqW/LO5+cUTNVdZ9hShhBS/oOR7VAjKaSlt9+nBVVLXdvRpCgQ==")
+        let blobClient = account?.getBlobClient()
+        let blobContainer = blobClient?.containerReference(fromName: groupId)
+        
+        blobContainer?.listBlobsSegmented(with: nil, prefix: nil, useFlatBlobListing: true, blobListingDetails: AZSBlobListingDetails.all, maxResults: -1, completionHandler: { (error, result) in
+            
+            if error != nil {
+                print("Error in getting blob list", error!)
+            }
+            else {
+                
+                for blob in result!.blobs!
+                {
+                    let cblob = blob as! AZSCloudBlob
+                    self.downloadBlob(blockBlob: (blobContainer?.blockBlobReference(fromName: cblob.blobName))!, path: "")
+                }
+            }
+            
+        })
+    }
+
+    /*
+     Downloads a blob to the path
+     */
+    func downloadBlob(blockBlob: AZSCloudBlockBlob, path: String) {
+        blockBlob.downloadToFile(withPath: path, append: false) { (error) in
+            if error != nil {
+                print("Error while downloading blob", error!)
+            }
+        }
+    }
+    
+    func getFriendById(userId: String) -> User {
+        return self.friendsList.filter({ (user) -> Bool in
+            return user.id == userId
+        })[0];
     }
 }

@@ -15,7 +15,8 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
                                 UITableViewDataSource {
     @IBOutlet var friendsTableView: UITableView!
     
-    var apiWrapper: APIWrapper? // The database interface
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    var apiWrapper: APICalls?// The database interface
     var selectedRecipients = [User]()         // A list of selected recipients
     var friends : [User]?                     // A list of friends to select
     
@@ -26,8 +27,13 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
         super.viewDidLoad()
         //let appDelegate = UIApplication.shared.delegate as! AppDelegate
         // Get the list of friends from the database.
-        //apiWrapper = appDelegate.apiWrapper
-        self.friends = [User]()
+        apiWrapper = appDelegate.apiWrapper!
+        self.friends = apiWrapper?.friendsList
+        print("recipients view did load")
+        apiWrapper?.findUserByEmail(email: "rohroh94@gmail.com", closure: { (users : [User]) in
+            self.friends? += users
+            print("added ", users)
+        })
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -40,7 +46,7 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
      */
     func tableView(_ tableView: UITableView,
                    numberOfRowsInSection section: Int) -> Int {
-        return friends!.count;
+        return friends!.count
     }
     
     func tableView(_ tableView: UITableView,
