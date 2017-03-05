@@ -146,4 +146,10 @@ extension CanvasViewController: UITextViewDelegate {
         self.drawView!.endEditing(true)
         return true
     }
+    
+    func textViewDidChangeSelection(_ textView: UITextView) {
+        var textFrame = textView.frame
+        textFrame.size.height = textView.contentSize.height
+        textView.frame = textFrame
+    }
 }
