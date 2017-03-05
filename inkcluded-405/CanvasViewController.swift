@@ -126,7 +126,7 @@ extension CanvasViewController: CanvasMenuDelegate {
         self.menu?.refreshView()
     }
     
-    func shouldShowMenuItem(item: CanvasMenuItem) -> Bool {
+    func shouldEnableMenuItem(item: CanvasMenuItem) -> Bool {
         if (item == .UNDO && self.model?.getCanvasElements().count == 0) {
             return false;
         }

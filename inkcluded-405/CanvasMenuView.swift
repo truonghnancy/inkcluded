@@ -72,7 +72,7 @@ public class CanvasMenuView: UIView {
             
             item.button.addTarget(self, action: #selector(didClickOnMenuButton), for: .touchUpInside)
             
-            item.button.isEnabled = self.delegate.shouldShowMenuItem(item: item.type)
+            item.button.isEnabled = self.delegate.shouldEnableMenuItem(item: item.type)
             
             self.addSubview(item.button)
         }
@@ -80,7 +80,7 @@ public class CanvasMenuView: UIView {
     
     func refreshView() {
         self.itemList?.forEach({ (menuButton) in
-            menuButton.button.isEnabled = self.delegate.shouldShowMenuItem(item: menuButton.type)
+            menuButton.button.isEnabled = self.delegate.shouldEnableMenuItem(item: menuButton.type)
         })
     }
     
