@@ -106,7 +106,7 @@ extension CanvasViewController: CanvasMenuDelegate {
             break
         case .INSERT_TEXT:
             // TODO: replace these magic numbers
-            var myField: UITextField = UITextField (frame:CGRect.init(x: 50, y: 50, width: 100, height: 50));
+            let myField: UITextField = UITextField (frame:CGRect.init(x: 50, y: 50, width: 100, height: 50));
             myField.borderStyle = UITextBorderStyle.bezel
             myField.delegate = self
             self.drawView!.addSubview(myField)
@@ -114,11 +114,9 @@ extension CanvasViewController: CanvasMenuDelegate {
             // TODO: figure out how to serialize
             break
         case .UNDO:
-            let element = self.model?.popMostRecentElement()
+            let _ = self.model?.popMostRecentElement()
             resetDrawView(withElements: (self.model?.getCanvasElements())!)
             
-            break
-        default:
             break
         }
         
