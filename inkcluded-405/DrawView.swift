@@ -201,6 +201,9 @@ class DrawView: UIView {
             else if let imageElement = element as? DraggableImageView {
                 self.addSubview(imageElement)
             }
+            else if let textFieldElement = element as? UITextField {
+                self.addSubview(textFieldElement)
+            }
             else {
                 print("Not expecting this type")
             }

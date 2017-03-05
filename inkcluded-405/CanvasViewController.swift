@@ -164,4 +164,8 @@ extension CanvasViewController: UITextFieldDelegate {
         self.drawView!.endEditing(true)
         return true
     }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        self.model?.appendElement(elem: textField)
+    }
 }
