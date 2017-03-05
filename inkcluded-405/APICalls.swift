@@ -218,10 +218,11 @@ class APICalls : APIProtocol {
             if let err = error {
                 print("Error in Finding User by Email: ", err)
             } else if let items = result?.items {
-                let user = items[0]
-                retUser = User(id: user[AnyHashable("id")] as! String, firstName: user[AnyHashable("firstName")] as! String, lastName: user[AnyHashable("lastName")] as! String)
+                for user in items {
+                    retUser = User(id: user[AnyHashable("id")] as! String, firstName: user[AnyHashable("firstName")] as! String, lastName: user[AnyHashable("lastName")] as! String)
+                    self.friendsList.append(retUser!)
+                }
             }
-            self.friendsList.append(retUser!)
             closure(self.friendsList)
         }
     }
