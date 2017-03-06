@@ -307,7 +307,6 @@
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
-                        <outlet property="friendsSearchController" destination="Uev-oy-4cc" id="MOC-QL-wAC"/>
                         <outlet property="friendsTableView" destination="Nzv-e3-Wa1" id="bjs-Gx-TrK"/>
                         <outlet property="searchDisplayController" destination="Uev-oy-4cc" id="OEU-XN-ofE"/>
                         <segue destination="WEB-ve-wAz" kind="show" identifier="newCanvasSegue" id="Rtv-oo-sCb"/>
