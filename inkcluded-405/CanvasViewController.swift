@@ -64,7 +64,7 @@ class CanvasViewController: UIViewController {
     @IBAction func loadButtonPressed(_ sender: Any) {
         // Clear and restore context
         model?.clearCanvasElements()
-        let renderElements = model?.restoreStateFromWILLFile()
+        let renderElements = model?.restoreStateFromWILLFile(textViewDelegate: self)
         resetDrawView(withElements: renderElements!)
     }
     
@@ -106,11 +106,11 @@ extension CanvasViewController: CanvasMenuDelegate {
             break
         case .INSERT_TEXT:
             // TODO: replace these magic numbers
-            let myField: UITextField = UITextField (frame:CGRect.init(x: 50, y: 50, width: 100, height: 50));
-            myField.borderStyle = UITextBorderStyle.bezel
+            let myField: DraggableTextView = DraggableTextView(frame: CGRect.init(x: 50, y: 50, width: 150, height: 50));
             myField.delegate = self
             self.drawView!.addSubview(myField)
             self.view.becomeFirstResponder()
+            self.model?.appendElement(elem: myField)
             // TODO: figure out how to serialize
             break
         case .UNDO:
@@ -159,13 +159,21 @@ extension CanvasViewController: DrawStrokesDelegate {
     }
 }
 
-extension CanvasViewController: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        self.drawView!.endEditing(true)
-        return true
+extension CanvasViewController: UITextViewDelegate {
+//    func textFieldShouldReturn(_ textField: UITextView) -> Bool {
+//        self.drawView!.endEditing(true)
+//        return true
+//    }
+    
+    func textViewDidChangeSelection(_ textView: UITextView) {
+        var textFrame = textView.frame
+        textFrame.size.height = textView.contentSize.height
+        textView.frame = textFrame
     }
     
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        self.model?.appendElement(elem: textField)
+    func textViewDidEndEditing(_ textView: UITextView) {
+        let draggableTextView = textView as? DraggableTextView
+        draggableTextView?.configureDraggableGestureRecognizers()
+        self.drawView!.endEditing(true)
     }
 }
