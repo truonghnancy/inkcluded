@@ -67,9 +67,9 @@ class APICalls : APIProtocol {
         self.groupList = []
         self.messageList = []
         
-        findUserByEmail(email: "rohroh94@gmail.com") { (user) in
+        //findUserByEmail(email: "rohroh94@gmail.com") { (user) in
             
-        }
+        //}
     }
     
     /**
