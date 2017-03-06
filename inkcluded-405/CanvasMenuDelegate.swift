@@ -10,4 +10,6 @@ import Foundation
 
 protocol CanvasMenuDelegate: class {
     func didClickOnMenuItem(item: CanvasMenuItem);
+    
+    func shouldEnableMenuItem(item: CanvasMenuItem) -> Bool;
 }

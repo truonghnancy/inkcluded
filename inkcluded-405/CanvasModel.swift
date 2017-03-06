@@ -28,6 +28,10 @@ class CanvasModel {
         return canvasElements
     }
     
+    func popMostRecentElement() -> AnyObject! {
+        return canvasElements.popLast()
+    }
+    
     func saveCanvasElements(drawViewSize: CGSize) {
         let inkEncoder = WCMInkEncoder()
         let doc = WCMDocument()
