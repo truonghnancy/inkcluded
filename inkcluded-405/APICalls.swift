@@ -219,7 +219,7 @@ class APICalls : APIProtocol {
     Finds user with a email in the database tables.
      Eric Roh
      */
-    func findUserByEmail(email: String, closure: @escaping ([User]) -> Void) {
+    func findUserByEmail(email: String, closure: @escaping (User) -> Void) {
         let userTable = client.table(withName: "User")
         let userEmail = userTable.query(with: NSPredicate(format: "email = %@", email))
         var retUser: User?
@@ -234,7 +234,7 @@ class APICalls : APIProtocol {
                 retUser = User(id: user[AnyHashable("id")] as! String, firstName: user[AnyHashable("firstName")] as! String, lastName: user[AnyHashable("lastName")] as! String)
             }
             self.friendsList.append(retUser!)
-            closure(self.friendsList)
+            closure(retUser!)
         }
     }
     
@@ -242,7 +242,7 @@ class APICalls : APIProtocol {
      Adds a new group to the database with given members and current user.
      Eric Roh
     */
-    func createGroup(members: [User], name: String, closure: @escaping ([Group]) -> Void) {
+    func createGroup(members: [User], name: String, closure: @escaping (Group) -> Void) {
         let groupTable = client.table(withName: "Group")
         let gxuTable = client.table(withName: "GroupXUser")
         var newGroup: Group?
@@ -264,29 +264,57 @@ class APICalls : APIProtocol {
             newGroup = Group(id: groupId!, members: members, groupName: name, admin: self.userEntry?[AnyHashable("id")] as! String)
             
             self.groupList.append(newGroup!)
-            
-            let blobContainer = self.azsBlobClient.containerReference(fromName: newGroup!.id)
-            
-            blobContainer.createContainerIfNotExists(with: AZSContainerPublicAccessType.container, requestOptions: nil, operationContext: nil, completionHandler: {(error, bool) in
-                if ((error) != nil) {
-                    print("ERROR: creating container")
-                }
-            })
-            
-            closure(self.groupList)
+            closure(newGroup!)
         }
     }
     
-    func insertWillFile(filename: String, group: Group) {
-        let blobContainer = self.azsBlobClient.containerReference(fromName: group.id)
+    /**
+     Sends a file to the group's container
+     */
+    func sendMessage(groupId: String, file: URL) {
+        let blobContainer = azsBlobClient.containerReference(fromName: groupId)
         
-        blobContainer.createContainerIfNotExists(with: AZSContainerPublicAccessType.container, requestOptions: nil, operationContext: nil, completionHandler: {(error, bool) in
-            if ((error) != nil) {
-                print("ERROR: creating container")
+        blobContainer.createContainerIfNotExists(completionHandler: { (error, exists) in
+            if error != nil {
+                print("Error while creating blob container", error!)
             }
             else {
-                var blockBlob = blobContainer.blockBlobReference(fromName: )
+                let blockBlob = blobContainer.blockBlobReference(fromName: self.userEntry?[AnyHashable("id")] as! String)
+                
+                blockBlob.uploadFromFile(with: file, completionHandler: { (err) in
+                    if err != nil {
+                        print("Error in uploading blob", err!)
+                    }
+                })
             }
+        })
+    }
+    
+    /*
+     Gets all messages of a groupid
+     */
+    func getAllMessage(groupId: String) {
+        let blobContainer = azsBlobClient.containerReference(fromName: groupId)
+        
+        blobContainer.listBlobsSegmented(with: nil, prefix: nil, useFlatBlobListing: true, blobListingDetails: AZSBlobListingDetails.all, maxResults: -1, completionHandler: { (error, result) in
+            
+            if error != nil {
+                print("Error in getting blob list", error!)
+            }
+            else {
+                
+                for blob in result!.blobs!
+                {
+                    let cblob = blob as! AZSCloudBlob
+                    let blockBlob = blobContainer.blockBlobReference(fromName: cblob.blobName)
+                    blockBlob.downloadToFile(withPath: "", append: false) { (error) in
+                        if error != nil {
+                            print("Error while downloading blob", error!)
+                        }
+                    }
+                }
+            }
+            
         })
     }
 }
