@@ -191,7 +191,7 @@ class DrawView: UIView {
         }
     }
     
-    func renderWILLSection(elements: [AnyObject]) {
+    func refreshViewWithElements(elements: [AnyObject]) {
         for element in elements {
             if let strokeElement = element as? Stroke {
                 strokeRenderer.resetAndClearBuffers()
@@ -200,6 +200,9 @@ class DrawView: UIView {
             }
             else if let imageElement = element as? DraggableImageView {
                 self.addSubview(imageElement)
+            }
+            else if let textFieldElement = element as? UITextField {
+                self.addSubview(textFieldElement)
             }
             else {
                 print("Not expecting this type")

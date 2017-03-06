@@ -12,13 +12,12 @@ import UIKit
 class CanvasViewController: UIViewController {
     
     var drawView: DrawView?
-    var strokes: [Stroke]?
 
     @IBOutlet weak var canvas: UIView!
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var loadButton: UIButton!
     
-    private var menu: CanvasMenuView?
+    var menu: CanvasMenuView?
     var selectImageVC: SelectImageViewController?
     private var orderedSubViews: [UIView] = [] // 0: drawView 1:sendButton 2:loadButton 3:menu
     
@@ -29,9 +28,8 @@ class CanvasViewController: UIViewController {
         
         // Initialization
         drawView = getNewDrawView()
-        strokes = []
         model = CanvasModel()
-        menu = CanvasMenuView(size: self.view.frame.size)
+        menu = CanvasMenuView(size: self.view.frame.size, delegate: self)
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         selectImageVC = storyboard.instantiateViewController(withIdentifier: "selectImageVC") as? SelectImageViewController
         
@@ -39,7 +37,6 @@ class CanvasViewController: UIViewController {
         self.view.backgroundColor = UIColor.white
         
         // Bindings
-        menu?.delegate = self;
         selectImageVC?.selectImageDelegate = self
         
         // Add subviews
@@ -65,14 +62,18 @@ class CanvasViewController: UIViewController {
     
     // Loads a completely new canvas and discards the old canvas. Placeholder button just for canvas bugtesting.
     @IBAction func loadButtonPressed(_ sender: Any) {
-        drawView?.removeFromSuperview();
-        
-        drawView = getNewDrawView()
-
         // Clear and restore context
         model?.clearCanvasElements()
         let renderElements = model?.restoreStateFromWILLFile()
-        drawView?.renderWILLSection(elements: renderElements!)
+        resetDrawView(withElements: renderElements!)
+    }
+    
+    func resetDrawView(withElements elements: [AnyObject]) {
+        drawView?.removeFromSuperview();
+        
+        drawView = getNewDrawView()
+        
+        drawView?.refreshViewWithElements(elements: elements)
         
         canvas.addSubview(drawView!)
         self.orderedSubViews[0] = drawView!
@@ -105,16 +106,30 @@ extension CanvasViewController: CanvasMenuDelegate {
             break
         case .INSERT_TEXT:
             // TODO: replace these magic numbers
-            var myField: UITextField = UITextField (frame:CGRect.init(x: 50, y: 50, width: 100, height: 50));
+            let myField: UITextField = UITextField (frame:CGRect.init(x: 50, y: 50, width: 100, height: 50));
             myField.borderStyle = UITextBorderStyle.bezel
             myField.delegate = self
             self.drawView!.addSubview(myField)
             self.view.becomeFirstResponder()
             // TODO: figure out how to serialize
             break
-        default:
+        case .UNDO:
+            let _ = self.model?.popMostRecentElement()
+            resetDrawView(withElements: (self.model?.getCanvasElements())!)
+            
             break
         }
+        
+        // Refresh the menu
+        self.menu?.refreshView()
+    }
+    
+    func shouldEnableMenuItem(item: CanvasMenuItem) -> Bool {
+        if (item == .UNDO && self.model?.getCanvasElements().count == 0) {
+            return false;
+        }
+        
+        return true;
     }
 }
 
@@ -129,14 +144,18 @@ extension CanvasViewController: SelectImageDelegate {
 extension CanvasViewController: DrawStrokesDelegate {
     func addStroke(stroke: Stroke) {
         model!.appendElement(elem: stroke)
+        self.menu?.refreshView()
     }
     
     func clearStrokes() {
         model!.clearCanvasElements()
+        self.menu?.refreshView()
     }
     
     func getAllStrokes() -> [Stroke] {
-        return strokes!
+        return (model?.getCanvasElements().filter({ (element) -> Bool in
+            return ((element as? Stroke) != nil)
+        }))! as! [Stroke]
     }
 }
 
@@ -144,5 +163,9 @@ extension CanvasViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.drawView!.endEditing(true)
         return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        self.model?.appendElement(elem: textField)
     }
 }

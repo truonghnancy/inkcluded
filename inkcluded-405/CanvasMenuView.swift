@@ -10,7 +10,8 @@ import UIKit
 
 enum CanvasMenuItem: String {
     case INSERT_IMAGE = "IM"
-    case INSERT_TEXT = "TXT"
+    case INSERT_TEXT  = "TXT"
+    case UNDO         = "UNDO"
 }
 
 struct CanvasMenuButton {
@@ -39,25 +40,20 @@ public class CanvasMenuView: UIView {
     
     private var itemList: [CanvasMenuButton]?
 
-    private var _delegate: CanvasMenuDelegate?
-    var delegate: CanvasMenuDelegate {
-        get {
-            return self._delegate!
-        }
-        set(newVal) {
-            self._delegate = newVal
-        }
-    }
+    private var delegate: CanvasMenuDelegate!
 
-    init(size: CGSize) {
+    init(size: CGSize, delegate: CanvasMenuDelegate) {
         let borderWidth: CGFloat = 2.0
         let origin = CGPoint(x: size.width - CanvasMenuView.MENU_WIDTH + borderWidth * 2, y: (size.height * CanvasMenuView.MENU_HEIGHT_RATIO) / 2)
         let frameSize = CGSize(width: CanvasMenuView.MENU_WIDTH, height: size.height * CanvasMenuView.MENU_HEIGHT_RATIO)
         
         super.init(frame: CGRect(origin: origin, size: frameSize))
         
+        self.delegate = delegate
+        
         self.itemList = [CanvasMenuButton(type: CanvasMenuItem.INSERT_IMAGE),
-                         CanvasMenuButton(type: CanvasMenuItem.INSERT_TEXT)]
+                         CanvasMenuButton(type: CanvasMenuItem.INSERT_TEXT),
+                         CanvasMenuButton(type: CanvasMenuItem.UNDO)]
         addMenuButtonToView(items: self.itemList!)
         
         self.layer.borderWidth = borderWidth
@@ -76,8 +72,16 @@ public class CanvasMenuView: UIView {
             
             item.button.addTarget(self, action: #selector(didClickOnMenuButton), for: .touchUpInside)
             
+            item.button.isEnabled = self.delegate.shouldEnableMenuItem(item: item.type)
+            
             self.addSubview(item.button)
         }
+    }
+    
+    func refreshView() {
+        self.itemList?.forEach({ (menuButton) in
+            menuButton.button.isEnabled = self.delegate.shouldEnableMenuItem(item: menuButton.type)
+        })
     }
     
     func didClickOnMenuButton(sender: UIButton!) {

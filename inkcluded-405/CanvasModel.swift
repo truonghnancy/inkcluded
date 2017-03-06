@@ -28,6 +28,10 @@ class CanvasModel {
         return canvasElements
     }
     
+    func popMostRecentElement() -> AnyObject! {
+        return canvasElements.popLast()
+    }
+    
     func saveCanvasElements(drawViewSize: CGSize) {
         let inkEncoder = WCMInkEncoder()
         let doc = WCMDocument()
@@ -65,6 +69,15 @@ class CanvasModel {
                 
                 // add it to the section
                 section.add(willImage)
+            }
+            else if let textElement = elem as? UITextField {
+                let textData = textElement.text?.data(using: .utf8)?.base64EncodedData()
+                let willImageWrapper = WCMDocumentSectionImage()
+                let mimeType = WCMDocumentContentType.getByMimeType("image/jpeg")
+                willImageWrapper.content.setData(textData, with: mimeType)
+                willImageWrapper.rect = textElement.frame
+                
+                section.add(willImageWrapper)
             }
             else {
                 print("Not expecting this type yet")
@@ -128,12 +141,23 @@ class CanvasModel {
                 }
             }
             else if let imageElement = element as? WCMDocumentSectionImage {
-                let imageData = imageElement.content.loadData()
-                let image = UIImage(data: imageData!)
-                let imageView = DraggableImageView(image: image)
-                imageView.frame = imageElement.rect
-                
-                appendElement(elem: imageView)
+                if (imageElement.content.type.isEqual(WCMDocumentContentType.png())) {
+                    let imageData = imageElement.content.loadData()
+                    let image = UIImage(data: imageData!)
+                    let imageView = DraggableImageView(image: image)
+                    imageView.frame = imageElement.rect
+                    
+                    appendElement(elem: imageView)
+                }
+                else {
+                    if let decodedData = Data(base64Encoded: imageElement.content.loadData()),
+                        let decodedString = String(data: decodedData, encoding: .utf8) {
+                        let textField = UITextField(frame: imageElement.rect)
+                        textField.text = decodedString
+                        
+                        appendElement(elem: textField)
+                    }
+                }
             }
             else {
                 print("Not expecting this type")
