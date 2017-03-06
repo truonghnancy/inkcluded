@@ -105,7 +105,7 @@ extension CanvasViewController: CanvasMenuDelegate {
             break
         case .INSERT_TEXT:
             // TODO: replace these magic numbers
-            var myField: UITextView = UITextView (frame:CGRect.init(x: 50, y: 50, width: 150, height: 50));
+            var myField: DraggableTextView = DraggableTextView(frame: CGRect.init(x: 50, y: 50, width: 150, height: 50));
             myField.layer.borderWidth = 1.0
             myField.layer.borderColor = UIColor.lightGray.cgColor
             myField.delegate = self
