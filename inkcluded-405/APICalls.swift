@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import RxSwift
+import AZSClient
 
 struct User {
     private(set) var id: String;
@@ -57,19 +57,30 @@ class APICalls : APIProtocol {
     var messageList: [Message]
     let client: MSClient
     var userEntry : [AnyHashable : Any]?
+    //var azsAccount : AZSCloudStorageAccount?
+    var azsBlobClient : AZSCloudBlobClient
 
     init() {
         client = MSClient(
             applicationURLString:"https://penmessageapp.azurewebsites.net"
         )
         
+        var azsAccount : AZSCloudStorageAccount?
+        
+        do {
+            try azsAccount = AZSCloudStorageAccount(fromConnectionString: "DefaultEndpointsProtocol=https;AccountName=penmessagestorage;AccountKey=yms7hVcWTLxZbuZP9TE9UldDAGrcd2aKmw9qXLJQTLTR8j7njOpc8+KY8EpoabfaDw/5JeROwcOJtWJtVU0E1A")
+        }
+        catch {
+            print("unable to create azure storage account")
+        }
+        
+        azsBlobClient = (azsAccount?.getBlobClient())!
+        
         self.friendsList = []
         self.groupList = []
         self.messageList = []
         
-        findUserByEmail(email: "rohroh94@gmail.com") { (user) in
-            
-        }
+        //findUserByEmail(email: "rohroh94@gmail.com") { (user) in}
     }
     
     /**
@@ -219,6 +230,7 @@ class APICalls : APIProtocol {
                 print("Error in Finding User by Email: ", err)
             } else if let items = result?.items {
                 let user = items[0]
+                print("hello")
                 retUser = User(id: user[AnyHashable("id")] as! String, firstName: user[AnyHashable("firstName")] as! String, lastName: user[AnyHashable("lastName")] as! String)
             }
             self.friendsList.append(retUser!)
@@ -252,7 +264,38 @@ class APICalls : APIProtocol {
             newGroup = Group(id: groupId!, members: members, groupName: name, admin: self.userEntry?[AnyHashable("id")] as! String)
             
             self.groupList.append(newGroup!)
+            
+            let blobContainer = self.azsBlobClient.containerReference(fromName: newGroup!.id)
+            
+            blobContainer.createContainerIfNotExists(with: AZSContainerPublicAccessType.container, requestOptions: nil, operationContext: nil, completionHandler: {(error, bool) in
+                if ((error) != nil) {
+                    print("ERROR: creating container")
+                }
+            })
+            
             closure(self.groupList)
         }
     }
+    
+    func insertWillFile(filename: String, group: Group) {
+        let blobContainer = self.azsBlobClient.containerReference(fromName: group.id)
+        
+        blobContainer.createContainerIfNotExists(with: AZSContainerPublicAccessType.container, requestOptions: nil, operationContext: nil, completionHandler: {(error, bool) in
+            if ((error) != nil) {
+                print("ERROR: creating container")
+            }
+            else {
+                var blockBlob = blobContainer.blockBlobReference(fromName: )
+            }
+        })
+    }
 }
+
+
+
+
+
+
+
+
+
