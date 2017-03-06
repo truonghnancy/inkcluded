@@ -70,7 +70,7 @@ class CanvasModel {
                 // add it to the section
                 section.add(willImage)
             }
-            else if let textElement = elem as? UITextField {
+            else if let textElement = elem as? DraggableTextView {
                 let textData = textElement.text?.data(using: .utf8)?.base64EncodedData()
                 let willImageWrapper = WCMDocumentSectionImage()
                 let mimeType = WCMDocumentContentType.getByMimeType("image/jpeg")
@@ -96,7 +96,7 @@ class CanvasModel {
         doc.createDocument(atPath: willDocPath)
     }
     
-    func restoreStateFromWILLFile() -> [AnyObject] {
+    func restoreStateFromWILLFile(textViewDelegate: UITextViewDelegate) -> [AnyObject] {
         let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
         let willDocPath = documentsPath.appending(WILL_DOCUMENT_NAME)
         let doc = WCMDocument()
@@ -152,7 +152,8 @@ class CanvasModel {
                 else {
                     if let decodedData = Data(base64Encoded: imageElement.content.loadData()),
                         let decodedString = String(data: decodedData, encoding: .utf8) {
-                        let textField = UITextField(frame: imageElement.rect)
+                        let textField = DraggableTextView(frame: imageElement.rect)
+                        textField.delegate = textViewDelegate
                         textField.text = decodedString
                         
                         appendElement(elem: textField)

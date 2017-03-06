@@ -12,6 +12,8 @@ class DraggableTextView: UITextView {
     
     var isDraggingToMove = false
     
+    var longTapGR: UILongPressGestureRecognizer!
+    
     convenience init() {
         self.init(frame: CGRect.zero, textContainer: nil)
     }
@@ -27,23 +29,29 @@ class DraggableTextView: UITextView {
     
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
-        configureDraggableGestureRecognizers()
-    }
-    
-    func configureDraggableGestureRecognizers() {
-        print("helloo")
-        for recognizer:UIGestureRecognizer in self.gestureRecognizers! {
-            if (recognizer is UILongPressGestureRecognizer) {
-                recognizer.isEnabled = false
-            }
-        }
+        layer.borderWidth = 1.0
+        layer.borderColor = UIColor.lightGray.cgColor
+        
         self.isUserInteractionEnabled = true
-        let longTapGR = UILongPressGestureRecognizer(target: self, action: #selector(self.longTap(sender:)))
+        longTapGR = UILongPressGestureRecognizer(target: self, action: #selector(self.longTap(sender:)))
         
         longTapGR.cancelsTouchesInView = false
         longTapGR.minimumPressDuration = 1.0
         
         self.addGestureRecognizer(longTapGR)
+        
+        configureDraggableGestureRecognizers()
+    }
+    
+    func configureDraggableGestureRecognizers() {
+        for recognizer:UIGestureRecognizer in self.gestureRecognizers! {
+            if (recognizer.isEqual(self.longTapGR)) {
+                recognizer.isEnabled = true
+            }
+            else if (recognizer is UILongPressGestureRecognizer) {
+                recognizer.isEnabled = false
+            }
+        }
     }
     
     func addShawdow() {
@@ -64,16 +72,13 @@ class DraggableTextView: UITextView {
     }
     
     func longTap(sender: UIGestureRecognizer) {
-        print("In the long tap")
         if (sender.state == .began) {
             isDraggingToMove = true
             addShawdow()
-            print("start long tap")
         }
         else if (sender.state == .ended) {
             isDraggingToMove = false
             removeShadow()
-            print("end long tap")
         }
     }
     
