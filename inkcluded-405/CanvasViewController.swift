@@ -117,6 +117,9 @@ extension CanvasViewController: CanvasMenuDelegate {
             let _ = self.model?.popMostRecentElement()
             resetDrawView(withElements: (self.model?.getCanvasElements())!)
             break
+        case .DELETE:
+            print("it matched here")
+            break
         }
         
         // Refresh the menu

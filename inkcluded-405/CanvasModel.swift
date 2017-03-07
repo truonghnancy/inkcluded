@@ -24,6 +24,11 @@ class CanvasModel {
         canvasElements.removeAll()
     }
     
+    func removeCanvasElement(elem: AnyObject) {
+        // search through the elements and remove the matching one
+        
+    }
+    
     func getCanvasElements() -> [AnyObject] {
         return canvasElements
     }

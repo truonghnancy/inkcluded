@@ -12,6 +12,7 @@ enum CanvasMenuItem: String {
     case INSERT_IMAGE = "IM"
     case INSERT_TEXT  = "TXT"
     case UNDO         = "UNDO"
+    case DELETE       = "DEL"
 }
 
 struct CanvasMenuButton {
@@ -53,7 +54,8 @@ public class CanvasMenuView: UIView {
         
         self.itemList = [CanvasMenuButton(type: CanvasMenuItem.INSERT_IMAGE),
                          CanvasMenuButton(type: CanvasMenuItem.INSERT_TEXT),
-                         CanvasMenuButton(type: CanvasMenuItem.UNDO)]
+                         CanvasMenuButton(type: CanvasMenuItem.UNDO),
+                         CanvasMenuButton(type: CanvasMenuItem.DELETE)]
         addMenuButtonToView(items: self.itemList!)
         
         self.layer.borderWidth = borderWidth
@@ -64,7 +66,7 @@ public class CanvasMenuView: UIView {
     
     func addMenuButtonToView(items: [CanvasMenuButton]) {
         let padding: CGFloat = 10.0
-        var yPos = self.frame.height / 2
+        var yPos = self.frame.height / 2 - (CanvasMenuButton.BUTTON_WIDTH + padding)
         
         for item in items {
             item.button.frame.origin.y = yPos
