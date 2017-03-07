@@ -221,7 +221,6 @@ class APICalls : APIProtocol {
                 let user = items[0]
                 retUser = User(id: user[AnyHashable("id")] as! String, firstName: user[AnyHashable("firstName")] as! String, lastName: user[AnyHashable("lastName")] as! String)
             }
-            self.friendsList.append(retUser!)
             closure(self.friendsList)
         }
     }
