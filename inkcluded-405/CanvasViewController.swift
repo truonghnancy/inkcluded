@@ -116,7 +116,6 @@ extension CanvasViewController: CanvasMenuDelegate {
         case .UNDO:
             let _ = self.model?.popMostRecentElement()
             resetDrawView(withElements: (self.model?.getCanvasElements())!)
-            
             break
         }
         
@@ -160,10 +159,6 @@ extension CanvasViewController: DrawStrokesDelegate {
 }
 
 extension CanvasViewController: UITextViewDelegate {
-//    func textFieldShouldReturn(_ textField: UITextView) -> Bool {
-//        self.drawView!.endEditing(true)
-//        return true
-//    }
     
     func textViewDidChangeSelection(_ textView: UITextView) {
         var textFrame = textView.frame
@@ -175,5 +170,6 @@ extension CanvasViewController: UITextViewDelegate {
         let draggableTextView = textView as? DraggableTextView
         draggableTextView?.configureDraggableGestureRecognizers()
         self.drawView!.endEditing(true)
+        textView.isSelectable = false
     }
 }
