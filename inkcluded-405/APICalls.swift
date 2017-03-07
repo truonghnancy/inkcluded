@@ -68,7 +68,7 @@ class APICalls : APIProtocol {
         var azsAccount : AZSCloudStorageAccount?
         
         do {
-            try azsAccount = AZSCloudStorageAccount(fromConnectionString: "DefaultEndpointsProtocol=https;AccountName=penmessagestorage;AccountKey=yms7hVcWTLxZbuZP9TE9UldDAGrcd2aKmw9qXLJQTLTR8j7njOpc8+KY8EpoabfaDw/5JeROwcOJtWJtVU0E1A")
+            try azsAccount = AZSCloudStorageAccount(fromConnectionString: "DefaultEndpointsProtocol=https;AccountName=penmessagestorage;AccountKey=BV5WR1Km404XR6K8F/KxOKuAyTw0utckHVZvOqW/LO5+cUTNVdZ9hShhBS/oOR7VAjKaSlt9+nBVVLXdvRpCgQ==")
         }
         catch {
             print("unable to create azure storage account")
@@ -229,12 +229,14 @@ class APICalls : APIProtocol {
             if let err = error {
                 print("Error in Finding User by Email: ", err)
             } else if let items = result?.items {
-                let user = items[0]
-                print("hello")
-                retUser = User(id: user[AnyHashable("id")] as! String, firstName: user[AnyHashable("firstName")] as! String, lastName: user[AnyHashable("lastName")] as! String)
+                if items.count > 0 {
+                    var user = items[0]
+                    print("going through result")
+                    retUser = User(id: user[AnyHashable("id")] as! String, firstName: user[AnyHashable("firstName")] as! String, lastName: user[AnyHashable("lastName")] as! String)
+                    self.friendsList.append(retUser!)
+                    closure(retUser!)
+                }
             }
-            self.friendsList.append(retUser!)
-            closure(retUser!)
         }
     }
     
@@ -270,17 +272,16 @@ class APICalls : APIProtocol {
     
     /**
      Sends a file to the group's container
+     Josh Choi
      */
     func sendMessage(groupId: String, file: URL) {
         let blobContainer = azsBlobClient.containerReference(fromName: groupId)
-        
-        blobContainer.createContainerIfNotExists(completionHandler: { (error, exists) in
-            if error != nil {
-                print("Error while creating blob container", error!)
+        blobContainer.createContainerIfNotExists(with: AZSContainerPublicAccessType.container, requestOptions: nil, operationContext: nil, completionHandler: { (error, exists) in
+            if (error != nil) {
+                print("Error while creating blob container", error!, exists)
             }
             else {
                 let blockBlob = blobContainer.blockBlobReference(fromName: self.userEntry?[AnyHashable("id")] as! String)
-                
                 blockBlob.uploadFromFile(with: file, completionHandler: { (err) in
                     if err != nil {
                         print("Error in uploading blob", err!)
@@ -291,28 +292,32 @@ class APICalls : APIProtocol {
     }
     
     /*
-     Gets all messages of a groupid
+     Gets all messages of a groupid and requires a closure that takes in the name of all the blobs that were retrieved
+     Josh Choi
      */
-    func getAllMessage(groupId: String) {
+    func getAllMessage(groupId: String, closure: @escaping ([String]) -> Void) {
         let blobContainer = azsBlobClient.containerReference(fromName: groupId)
         
-        blobContainer.listBlobsSegmented(with: nil, prefix: nil, useFlatBlobListing: true, blobListingDetails: AZSBlobListingDetails.all, maxResults: -1, completionHandler: { (error, result) in
+        blobContainer.listBlobsSegmented(with: nil, prefix: nil, useFlatBlobListing: true, blobListingDetails: AZSBlobListingDetails.metadata, maxResults: -1, completionHandler: { (error, result) in
             
             if error != nil {
                 print("Error in getting blob list", error!)
             }
             else {
-                
+                var blobNames = [String]()
                 for blob in result!.blobs!
                 {
                     let cblob = blob as! AZSCloudBlob
                     let blockBlob = blobContainer.blockBlobReference(fromName: cblob.blobName)
+                    blobNames.append(cblob.blobName)
+                    
                     blockBlob.downloadToFile(withPath: "", append: false) { (error) in
                         if error != nil {
                             print("Error while downloading blob", error!)
                         }
                     }
                 }
+                closure(blobNames)
             }
             
         })
