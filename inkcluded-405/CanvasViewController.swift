@@ -137,6 +137,7 @@ extension CanvasViewController: SelectImageDelegate {
         image.frame.origin = CGPoint(x: (canvas.frame.width - image.frame.width) / 2, y: (canvas.frame.height - image.frame.height) / 2)
         self.drawView!.addSubview(image)
         self.model!.appendElement(elem: image)
+        self.menu?.refreshView()
     }
 }
 
@@ -145,6 +146,7 @@ extension CanvasViewController: DrawStrokesDelegate {
         model!.appendElement(elem: stroke)
         self.menu?.refreshView()
     }
+    
     
     func clearStrokes() {
         model!.clearCanvasElements()
