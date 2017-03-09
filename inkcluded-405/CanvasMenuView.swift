@@ -56,10 +56,9 @@ public class CanvasMenuView: UIView {
         
         self.delegate = delegate
         
-        self.itemList = [CanvasMenuButton(type: CanvasMenuItem.INSERT_IMAGE),
-                         CanvasMenuButton(type: CanvasMenuItem.INSERT_TEXT),
-                         CanvasMenuButton(type: CanvasMenuItem.UNDO),
-                         CanvasMenuButton(type: CanvasMenuItem.DELETE)]
+        self.itemList = [CanvasMenuButton(type: CanvasMenuItem.INSERT_IMAGE, image: UIImage(named: "image")!),
+                         CanvasMenuButton(type: CanvasMenuItem.INSERT_TEXT, image: UIImage(named: "text")!),
+                         CanvasMenuButton(type: CanvasMenuItem.UNDO, image: UIImage(named: "undo")!)]
         addMenuButtonToView(items: self.itemList!)
         
         self.layer.cornerRadius = 2.5
@@ -68,8 +67,8 @@ public class CanvasMenuView: UIView {
     }
     
     func addMenuButtonToView(items: [CanvasMenuButton]) {
-        let padding: CGFloat = 10.0
-        var yPos = self.frame.height / 2 - (CanvasMenuButton.BUTTON_WIDTH + padding)
+        let padding: CGFloat = 30.0
+        var yPos = ((self.frame.height - (CanvasMenuButton.BUTTON_WIDTH + padding) * CGFloat(items.count)) / 2) + padding
         
         for item in items {
             item.button.frame.origin.y = yPos
