@@ -111,7 +111,6 @@ extension CanvasViewController: CanvasMenuDelegate {
             self.drawView!.addSubview(myField)
             self.view.becomeFirstResponder()
             self.model?.appendElement(elem: myField)
-            // TODO: figure out how to serialize
             break
         case .UNDO:
             let _ = self.model?.popMostRecentElement()
@@ -119,6 +118,8 @@ extension CanvasViewController: CanvasMenuDelegate {
             break
         case .DELETE:
             print("it matched here")
+            // change to delete mode
+            // any clicks while in delete mode will delete
             break
         }
         
