@@ -20,17 +20,21 @@ struct CanvasMenuButton {
 
     private(set) var button: UIButton
     private(set) var type: CanvasMenuItem
+    private(set) var image: UIImage
     
-    init(type: CanvasMenuItem) {
+    init(type: CanvasMenuItem, image: UIImage) {
         self.type = type
+        self.image = image
         self.button = UIButton(
             frame: (CGRect(
                     origin: CGPoint(x:10, y:0),
-                    size: CGSize(width: CanvasMenuView.MENU_WIDTH, height: CanvasMenuButton.BUTTON_WIDTH
+                    size: CGSize(width: CanvasMenuButton.BUTTON_WIDTH, height: CanvasMenuButton.BUTTON_WIDTH
             ))))
         
-
-        button.setTitle(type.rawValue, for: UIControlState.normal)
+        self.button.setTitle(type.rawValue, for: .normal)
+        self.button.titleLabel?.removeFromSuperview()
+        self.button.setImage(image, for: .normal)
+        self.button.contentMode = .center
     }
 }
 
@@ -58,10 +62,9 @@ public class CanvasMenuView: UIView {
                          CanvasMenuButton(type: CanvasMenuItem.DELETE)]
         addMenuButtonToView(items: self.itemList!)
         
-        self.layer.borderWidth = borderWidth
-        self.layer.borderColor = UIColor.black.cgColor
-        self.layer.cornerRadius = 5.0
-        self.backgroundColor = UIColor.lightGray
+        self.layer.cornerRadius = 2.5
+        let greyColor: Float = 200.0 / 255
+        self.backgroundColor = UIColor(colorLiteralRed: greyColor, green: greyColor, blue: greyColor, alpha: 1.0)
     }
     
     func addMenuButtonToView(items: [CanvasMenuButton]) {
