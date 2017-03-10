@@ -42,7 +42,7 @@ class APIWrapper : APIProtocol {
                 print(items)
                 for item in items {
                     let (groupName, admin) = self._getGroupInfo(client: client, groupId: item["groupid"] as! String)
-                    groups.append(Group(id: item["groupid"] as! String, members: self._getGroupMembersAPI(client: client, groupId: item["groupid"] as! String), groupName: groupName, admin: admin))
+                    groups.append(Group(id: item["groupid"] as! String, members: self._getGroupMembersAPI(client: client, groupId: item["groupid"] as! String), groupName: groupName, admin: admin, messages: [Message]()))
                 }
             }
         }
@@ -128,7 +128,7 @@ class APIWrapper : APIProtocol {
         return User(id: "1345", firstName: "dr", lastName: "janzen")
     }
     
-    func createGroup(members: [User], name: String, closure: @escaping ([Group]) -> Void){
+    func createGroup(members: [User], name: String, closure: @escaping (Group) -> Void){
         //let appDelegate = UIApplication.shared.delegate as! AppDelegate
         //let client = appDelegate.client
         //let groupTable = client?.table(withName: "Group")
@@ -161,7 +161,7 @@ class APIWrapper : APIProtocol {
         return self.groupList;
     }
     
-    func findUserByEmail(email: String, closure: @escaping ([User]) -> Void)
+    func findUserByEmail(email: String, closure: @escaping (User) -> Void)
     {
         
     }
@@ -174,7 +174,7 @@ class APIWrapper : APIProtocol {
     
     func getAllMessagesInGroup(groupId: String) -> [Message] {
         return self.messageList.filter({ (message) -> Bool in
-            message.groupId == groupId;
+            message.groupid == groupId;
         });
     }
     

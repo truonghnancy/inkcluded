@@ -55,7 +55,7 @@ class GroupHistoryViewController: UIViewController, UITableViewDelegate,
         let message = self.curMessages?[indexPath.row];
         // LLVM complains that this line is too complex a line if I try to do it
         //  all at once; get the sender first.
-        let sender = apiWrapper.getFriendById(userId: (message?.sentFrom)!)
+        let sender = apiWrapper.getFriendById(userId: (message?.senderid)!)
         // TODO: This is placeholder-ish data until our DB feeds us WILL files.
         cell.textLabel?.text = "Sent by " + sender.firstName + " on "
                                + (message?.timestamp.description)!

@@ -14,7 +14,6 @@
 		158ECEF71E5D07AD00D45DB3 /* CanvasModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158ECEF61E5D07AD00D45DB3 /* CanvasModel.swift */; };
 		15A978991E28D89E007E4B21 /* GroupsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A978981E28D89E007E4B21 /* GroupsViewController.swift */; };
 		15A9789B1E28D922007E4B21 /* CanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A9789A1E28D922007E4B21 /* CanvasViewController.swift */; };
-		15DA464C1E38074900DE515A /* APIWrapperTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DA464B1E38074900DE515A /* APIWrapperTest.swift */; };
 		15DA464F1E380AC100DE515A /* APIProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157CCE2F1E355D7000096337 /* APIProtocol.swift */; };
 		15EBA3E81E50F0D1006821C9 /* CanvasMenuDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EBA3E71E50F0D1006821C9 /* CanvasMenuDelegate.swift */; };
 		15EBA3EC1E5116AE006821C9 /* SelectImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EBA3EB1E5116AE006821C9 /* SelectImageViewController.swift */; };
@@ -71,7 +70,6 @@
 		158ECEF61E5D07AD00D45DB3 /* CanvasModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasModel.swift; sourceTree = "<group>"; };
 		15A978981E28D89E007E4B21 /* GroupsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsViewController.swift; sourceTree = "<group>"; };
 		15A9789A1E28D922007E4B21 /* CanvasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasViewController.swift; sourceTree = "<group>"; };
-		15DA464B1E38074900DE515A /* APIWrapperTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIWrapperTest.swift; sourceTree = "<group>"; };
 		15EBA3E41E50ED39006821C9 /* CanvasMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasMenuView.swift; sourceTree = "<group>"; };
 		15EBA3E71E50F0D1006821C9 /* CanvasMenuDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasMenuDelegate.swift; sourceTree = "<group>"; };
 		15EBA3EB1E5116AE006821C9 /* SelectImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectImageViewController.swift; sourceTree = "<group>"; };
@@ -259,7 +257,6 @@
 		15EBA7151E27079F00B38D0E /* inkcluded-405Tests */ = {
 			isa = PBXGroup;
 			children = (
-				15DA464B1E38074900DE515A /* APIWrapperTest.swift */,
 				15EBA7161E27079F00B38D0E /* inkcluded_405Tests.swift */,
 				15EBA7181E27079F00B38D0E /* Info.plist */,
 			);
@@ -620,7 +617,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				15DA464F1E380AC100DE515A /* APIProtocol.swift in Sources */,
-				15DA464C1E38074900DE515A /* APIWrapperTest.swift in Sources */,
 				15EBA7171E27079F00B38D0E /* inkcluded_405Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -8,7 +8,6 @@
 
 import UIKit
 import CoreData
-import RxSwift
 
 class LoginViewController: UIViewController {
     
@@ -62,9 +61,15 @@ class LoginViewController: UIViewController {
                 else {
                     appDelegate.apiWrapper?.client.currentUser = user
                     print("User logged in: \(user?.userId)")
-                    appDelegate.apiWrapper?.addUserToDatabase(closure:
+                    appDelegate.apiWrapper?.login(closure:
                         {(userEntry) -> Void in
-                            self.dismiss(animated: true, completion: nil)
+                            if (userEntry == nil) {
+                                
+                            }
+                            else {
+                                self.dismiss(animated: true, completion: nil)
+                            }
+                            
                         })
                 }
         })

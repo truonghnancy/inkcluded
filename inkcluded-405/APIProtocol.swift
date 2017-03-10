@@ -14,8 +14,8 @@ protocol APIProtocol {
     
 //    func getCurrentUser() -> User;
     
-    func createGroup(members: [User], name: String, closure: @escaping ([Group]) -> Void);
-    func findUserByEmail(email: String, closure: @escaping ([User]) -> Void);
+    func createGroup(members: [User], name: String, closure: @escaping (Group) -> Void);
+    func findUserByEmail(email: String, closure: @escaping (User) -> Void);
 //    func getAllGroups() -> [Group];
 //    func getGroupById(groupId: Int) -> Group;
     

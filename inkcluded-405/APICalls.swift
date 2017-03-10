@@ -7,9 +7,9 @@
 //
 
 import Foundation
-import RxSwift
+import AZSClient
 
-struct User {
+struct User: Hashable {
     private(set) var id: String;
     private(set) var firstName: String;
     private(set) var lastName: String;
@@ -19,6 +19,15 @@ struct User {
         self.firstName = firstName;
         self.lastName = lastName;
     }
+    
+    var hashValue: Int {
+        // DJB hash function
+        return Int(id.substring(from: id.index(id.startIndex, offsetBy: 4)))!
+    }
+    
+    static func ==(left: User, right: User) -> Bool {
+        return left.id == right.id
+    }
 }
 
 struct Group {
@@ -26,113 +35,174 @@ struct Group {
     private(set) var members: [User];
     private(set) var groupName: String;
     private(set) var admin: String;
+    private(set) var messages: [Message];
     
-    init(id: String, members: [User], groupName: String, admin: String) {
+    init(id: String, members: [User], groupName: String, admin: String, messages: [Message]) {
         self.id = id;
         self.members = members;
         self.groupName = groupName;
         self.admin = admin;
+        self.messages = messages;
     }
 }
 
 struct Message {
-    private(set) var id: Int;
-    private(set) var url: NSURL;
-    private(set) var groupId: String;
-    private(set) var sentFrom: String;
-    private(set) var timestamp: NSDate;
+    private(set) var filepath: String;
+    private(set) var groupid: String;
+    private(set) var timestamp: String;
+    private(set) var senderid: String;
+    private(set) var senderfirstname: String;
     
-    init(id: Int, url: NSURL, groupId: String, sentFrom userId: String, timestamp: NSDate) {
-        self.id = id;
-        self.url = url;
-        self.groupId = groupId;
-        self.sentFrom = userId;
+    init(filepath: String, groupid: String, timestamp: String, senderid: String, senderfirstname: String) {
+        self.filepath = filepath;
+        self.groupid = groupid;
         self.timestamp = timestamp;
+        self.senderid = senderid;
+        self.senderfirstname = senderfirstname;
     }
 }
 
-class APICalls : APIProtocol {
-    var friendsList: [User]
+class APICalls {
+    var friendsList: Set<User>
     var groupList: [Group]
-    var messageList: [Message]
     let client: MSClient
-    var userEntry : [AnyHashable : Any]?
+    var currentUser : User?
+    var azsBlobClient : AZSCloudBlobClient
 
     init() {
         client = MSClient(
             applicationURLString:"https://penmessageapp.azurewebsites.net"
         )
         
-        self.friendsList = []
-        self.groupList = []
-        self.messageList = []
+        var azsAccount : AZSCloudStorageAccount?
         
-        findUserByEmail(email: "rohroh94@gmail.com") { (user) in
-            
+        do {
+            try azsAccount = AZSCloudStorageAccount(fromConnectionString: "DefaultEndpointsProtocol=https;AccountName=penmessagestorage;AccountKey=BV5WR1Km404XR6K8F/KxOKuAyTw0utckHVZvOqW/LO5+cUTNVdZ9hShhBS/oOR7VAjKaSlt9+nBVVLXdvRpCgQ==")
         }
+        catch {
+            print("unable to create azure storage account")
+        }
+        
+        azsBlobClient = (azsAccount?.getBlobClient())!
+        
+        self.friendsList = Set<User>()
+        self.groupList = []
     }
     
     /**
      Sets the userEntry and updates the groups
      Josh Choi
      */
-    func setUserEntry(result : [AnyHashable : Any]) {
-        userEntry = result
-        self._getGroupsAPI(sid: String(describing: userEntry![AnyHashable("id")]!))
-    }
-    
+//    func login(result : User) {
+//        currentUser = result
+//        self._getGroupsAPI(sid: String(describing: currentUser!.id)) { (groups) in
+//            self.groupList = groups
+//        }
+//        sendMessage(groupId: "bobatestcontainer", file: NSURL(string: NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]) as! URL)
+//    }
+//    
     /**
      Adds the User to the database if they're not already existing
      Josh Choi
     */
-    func addUserToDatabase(closure: @escaping ([AnyHashable : Any]) -> Void) {
+    func login(closure: @escaping (User?) -> Void) {
         let sid = client.currentUser?.userId
         let userTable = client.table(withName: "User")
-        let query = userTable.query(with: NSPredicate(format: "id = %@", sid!))
+        //let query = userTable.query(with: NSPredicate(format: "id = %@", sid!))
         
-        query.read { (result, error) in
-            if let err = error {
-                print("ERROR ", err)
-            } else if result?.items?.count == 0 {
+//        query.read { (result, error) in
+//            if let err = error {
+//                print("ERROR ", err)
+//                closure(nil)
+//                return
+//            }
+//            else if result?.items?.count == 0 {
+//                userTable.insert(["id" : sid!]) { (result, error) in
+//                    if error != nil {
+//                        print(error!)
+//                        closure(nil)
+//                        return
+//                    }
+//                    else  {
+//                        let tempUser = User(id: result![AnyHashable("id")] as! String, firstName: result![AnyHashable("firstName")] as! String, lastName: result![AnyHashable("lastName")] as! String)
+//                        self.currentUser = tempUser
+//                        closure(self.currentUser!)
+//                        return
+//                    }
+//                }
+//            }
+//            else if (result?.items) != nil {
+//                let tempUser = User(id: (result?.items?[0])![AnyHashable("id")] as! String, firstName: (result?.items?[0])![AnyHashable("firstName")] as! String, lastName: (result?.items?[0])![AnyHashable("lastName")] as! String)
+//                self.currentUser = tempUser
+//                closure(self.currentUser!)
+//                return
+//            }
+//            closure(nil)
+//            return
+//        }
+        _getUserAPI(userId: sid!, closure: { (user) in
+            if (user == nil) {
                 userTable.insert(["id" : sid!]) { (result, error) in
                     if error != nil {
                         print(error!)
-                    } else  {
-                        self.setUserEntry(result: result!)
+                        closure(nil)
+                        return
+                    }
+                    else  {
+                        let tempUser = User(id: result![AnyHashable("id")] as! String, firstName: result![AnyHashable("firstName")] as! String, lastName: result![AnyHashable("lastName")] as! String)
+                        self.currentUser = tempUser
+                        closure(self.currentUser!)
+                        return
                     }
                 }
-            } else if (result?.items) != nil {
-                self.setUserEntry(result: (result?.items?[0])!)
             }
-            closure(self.userEntry!)
-        }
+            else {
+                self.currentUser = user!
+                closure(self.currentUser!)
+                return
+            }
+        })
     }
     
     /*
      Gets the groups the user is a part of.
      Eric Roh
      */
-    func _getGroupsAPI(sid: String) {
+    func _getGroupsAPI(sid: String, closure: @escaping ([Group]?) -> Void){
         let groupTable = client.table(withName: "GroupXUser")
-        let query = groupTable.query(with: NSPredicate(format: "userid = %@", sid))
+        let query = groupTable.query(with: NSPredicate(format: "userId = %@", sid))
         var groups: [Group] = []
+        let myDispatchGroup = DispatchGroup()
         
         query.read { (result, error) in
             if let err = error {
                 print("ERROR ", err)
+                closure(nil)
+                return
             } else if let items = result?.items {
                 print(items)
                 for item in items {
+                    myDispatchGroup.enter()
                     self._getGroupInfo(groupId: item[AnyHashable("groupId")] as! String, closure:
-                        {(groupName, adminName) -> Void in
+                        {(group) -> Void in
                             self._getGroupMembersAPI(groupId: item[AnyHashable("groupId")] as! String, closure:
                                 {(members) -> Void in
-                                    groups.append(Group(id: item[AnyHashable("groupId")] as! String, members: members, groupName: groupName, admin: adminName))
+                                    groups.append(Group(id: item[AnyHashable("groupId")] as! String, members: members!, groupName: (group?.0)!, admin: (group?.1)!, messages: [Message]()))
+                                    for member in members! {
+                                        if (member != self.currentUser!) {
+                                            self.friendsList.insert(member)
+                                        }
+                                    }
+                                    myDispatchGroup.leave()
                             })
                     })
                 }
+                
             }
-            self.groupList = groups
+            myDispatchGroup.notify(queue: .main, execute: {
+                closure(groups)
+                return
+            })
         }
     }
     
@@ -141,7 +211,7 @@ class APICalls : APIProtocol {
      returns a tuple (name, admin)
      Eric Roh
      */
-    func _getGroupInfo (groupId: String, closure: @escaping ((String, String)) -> Void) {
+    func _getGroupInfo (groupId: String, closure: @escaping ((String, String)?) -> Void) {
         let groupTable = client.table(withName: "Group")
         let query = groupTable.query(with: NSPredicate(format: "id = %@", groupId))
         var groupInfo: (String, String)?
@@ -149,10 +219,13 @@ class APICalls : APIProtocol {
         query.read { (result, error) in
             if let err = error {
                 print("Selecting group info failed: ", err)
+                closure(nil)
+                return
             } else if let item = result?.items?[0] {
                 groupInfo = (item[AnyHashable("name")] as! String, item[AnyHashable("adminId")] as! String)
+                closure(groupInfo)
+                return
             }
-            closure(groupInfo!)
         }
     }
     
@@ -160,24 +233,32 @@ class APICalls : APIProtocol {
      Gets the member(s) of the group.
      Eric Roh
      */
-    func _getGroupMembersAPI(groupId: String, closure: @escaping ([User]) -> Void) {
+    func _getGroupMembersAPI(groupId: String, closure: @escaping ([User]?) -> Void) {
         let gxuTable = client.table(withName: "GroupXUser")
-        let QS_GXU = gxuTable.query(with: NSPredicate(format: "groupid = %@", groupId))
+        let QS_GXU = gxuTable.query(with: NSPredicate(format: "groupId = %@", groupId))
         var members: [User] = []
+        let myDispatchGroup = DispatchGroup()
         
         QS_GXU.read { (result, error) in
             if let err = error {
                 print("ERROR", err)
+                closure(nil)
+                return
             } else if let items = result?.items {
                 print("group members", items)
                 for item in items {
+                    myDispatchGroup.enter()
                     self._getUserAPI(userId: item[AnyHashable("userId")] as! String, closure:
                         {(user) -> Void in
-                            members.append(user)
+                            members.append(user!)
+                            myDispatchGroup.leave()
                     })
                 }
             }
-            closure(members)
+            myDispatchGroup.notify(queue: .main, execute: {
+                closure(members)
+                return
+            })
         }
 
     }
@@ -187,7 +268,7 @@ class APICalls : APIProtocol {
      returns : User
      Eric Roh
      */
-    func _getUserAPI(userId: String, closure: @escaping (User) -> Void) {
+    func _getUserAPI(userId: String, closure: @escaping (User?) -> Void) {
         let cTable = client.table(withName: "User")
         let QS_USER = cTable.query(with: NSPredicate(format: "id = %@", userId))
         var retUser: User?
@@ -195,33 +276,46 @@ class APICalls : APIProtocol {
         QS_USER.read { (result, error) in
             if let err = error {
                 print("ERROR", err)
-            } else if let items = result?.items {
+                closure(nil)
+                return
+            }
+            else if let items = result?.items {
                 print("USER IS ", items[0])
                 let user = items[0]
                 retUser = User(id: user[AnyHashable("id")] as! String, firstName: user[AnyHashable("firstName")] as! String, lastName: user[AnyHashable("lastName")] as! String)
+                closure(retUser)
+                return
             }
-            closure(retUser!)
-            print(retUser!)
+            else {
+                closure(nil)
+                return
+            }
         }
     }
     /**
     Finds user with a email in the database tables.
      Eric Roh
      */
-    func findUserByEmail(email: String, closure: @escaping ([User]) -> Void) {
+    func findUserByEmail(email: String, closure: @escaping ([User]?) -> Void) {
         let userTable = client.table(withName: "User")
         let userEmail = userTable.query(with: NSPredicate(format: "email = %@", email))
-        var retUser: User?
+        var retUsers = [User]()
 
         print(userTable)
         userEmail.read { (result, error) in
             if let err = error {
                 print("Error in Finding User by Email: ", err)
+                closure(nil)
+                return
             } else if let items = result?.items {
-                let user = items[0]
-                retUser = User(id: user[AnyHashable("id")] as! String, firstName: user[AnyHashable("firstName")] as! String, lastName: user[AnyHashable("lastName")] as! String)
+                for item in items{
+                    print("going through result")
+                    let tempUser = User(id: item[AnyHashable("id")] as! String, firstName: item[AnyHashable("firstName")] as! String, lastName: item[AnyHashable("lastName")] as! String)
+                    retUsers.append(tempUser)
+                }
+                closure(retUsers)
+                return
             }
-            closure(self.friendsList)
         }
     }
     
@@ -229,29 +323,133 @@ class APICalls : APIProtocol {
      Adds a new group to the database with given members and current user.
      Eric Roh
     */
-    func createGroup(members: [User], name: String, closure: @escaping ([Group]) -> Void) {
+    func createGroup(members: [User], name: String, closure: @escaping (Group?) -> Void) {
         let groupTable = client.table(withName: "Group")
         let gxuTable = client.table(withName: "GroupXUser")
         var newGroup: Group?
         var groupId: String?
-        var myMembers = members
-        myMembers.append(User(id: userEntry?[AnyHashable("id")] as! String, firstName: userEntry?[AnyHashable("firstName")] as! String, lastName: userEntry?[AnyHashable("lastName")] as! String))
+        let myMembers = Set(members.map { $0 })
         
-        groupTable.insert(["name" : name, "adminId" : self.userEntry?[AnyHashable("id")] as! String]) { (result, error) in
+        groupTable.insert(["name" : name, "adminId" : self.currentUser!.id]) { (result, error) in
             if error != nil {
                 print(error!)
+                closure(nil)
+                return
             } else {
                 groupId = result?[AnyHashable("id")]! as! String?
             }
             
             for member in myMembers {
-                gxuTable.insert(["groupId" : groupId!, "userId" : member.id])
+                self.friendsList.insert(member)
+                gxuTable.insert(["groupId" : groupId!, "userId" : member.id]) { (result, error) in
+                    if error != nil {
+                        print("Error while inserting member to GroupXUser", error!)
+                        closure(nil)
+                        return
+                    }
+                }
             }
             
-            newGroup = Group(id: groupId!, members: members, groupName: name, admin: self.userEntry?[AnyHashable("id")] as! String)
+            gxuTable.insert(["groupId" : groupId!, "userId" : self.currentUser!.id]) { (result, error) in
+                if error != nil {
+                    print("Error while inserting member to GroupXUser", error!)
+                    closure(nil)
+                    return
+                }
+            }
+            
+            newGroup = Group(id: groupId!, members: members, groupName: name, admin: self.currentUser!.id, messages: [Message]())
             
             self.groupList.append(newGroup!)
-            closure(self.groupList)
+            closure(newGroup!)
         }
     }
+    
+    /**
+     Sends a file to the group's container
+     Josh Choi
+     */
+    func sendMessage(message: Message, closure: @escaping (Bool) -> Void) {
+        let blobContainer = azsBlobClient.containerReference(fromName: message.groupid)
+        blobContainer.createContainerIfNotExists(with: AZSContainerPublicAccessType.container, requestOptions: nil, operationContext: nil, completionHandler: { (error, exists) in
+            if (error != nil) {
+                print("Error while creating blob container", error!, exists)
+                closure(false)
+                return
+            }
+            else {
+                let timestamp = String(format: "%f", NSDate().timeIntervalSince1970 * 1000);
+                let blockBlob = blobContainer.blockBlobReference(fromName: self.currentUser!.id + timestamp)
+                
+                blockBlob.metadata["timestamp"] = timestamp
+                blockBlob.metadata["sender"] = self.currentUser!.id
+                blockBlob.metadata["username"] = self.currentUser!.firstName
+                
+                //blockBlob.uploadMetadata(completionHandler: {(err) in
+                //    if err != nil {
+                //        print("Error in uploading metadata", err!)
+                //    }
+                //})
+                
+                blockBlob.uploadFromFile(with: NSURL(string: message.filepath) as! URL, completionHandler: { (err) in
+                    if err != nil {
+                        print("Error in uploading blob", err!)
+                        closure(false)
+                        return
+                    }
+                    else {
+                        closure(true)
+                        return
+                    }
+                })
+            }
+        })
+    }
+    
+    /*
+     Gets all messages of a groupid and requires a closure that takes in the name of all the blobs that were retrieved
+     Josh Choi
+     */
+    func getAllMessage(groupId: String, closure: @escaping ([Message]) -> Void) {
+        let blobContainer = azsBlobClient.containerReference(fromName: groupId)
+        
+        blobContainer.listBlobsSegmented(with: nil, prefix: nil, useFlatBlobListing: true, blobListingDetails: AZSBlobListingDetails.metadata, maxResults: -1, completionHandler: { (error, result) in
+            
+            if error != nil {
+                print("Error in getting blob list", error!)
+            }
+            else {
+                var blobNames = [Message]()
+                let documentsDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+                
+                for blob in result!.blobs!
+                {
+                    let cblob = blob as! AZSCloudBlob
+                    let blockBlob = blobContainer.blockBlobReference(fromName: cblob.blobName)
+                    
+                    let tempMessage = Message(filepath: documentsDirectory, groupid: groupId, timestamp: blockBlob.metadata.object(forKey: "id") as! String, senderid: blockBlob.metadata.object(forKey: "sender") as! String, senderfirstname: blockBlob.metadata.object(forKey: "username") as! String)
+                    
+                    blobNames.append(tempMessage)
+                    
+                    blockBlob.downloadToFile(withPath: documentsDirectory, append: false) { (error) in
+                        if error != nil {
+                            print("Error while downloading blob", error!)
+                        }
+                    }
+                }
+                blobNames.sorted(by: { $0.timestamp < $1.timestamp })
+                closure(blobNames)
+            }
+            
+        })
+    }
 }
+
+
+
+
+
+
+
+
+
