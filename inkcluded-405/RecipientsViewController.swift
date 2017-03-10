@@ -14,8 +14,8 @@ import UIKit
 class RecipientsViewController: UIViewController, UITableViewDelegate,
                                 UITableViewDataSource {
     @IBOutlet var friendsTableView: UITableView!
+    @IBOutlet var selectButton: UIBarButtonItem!
     
-    var apiWrapper: APIWrapper? // The database interface
     var selectedRecipients = [User]()         // A list of selected recipients
     var friends : [User]?                     // A list of friends to select
     
@@ -24,42 +24,37 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
      */
     override func viewDidLoad() {
         super.viewDidLoad()
-        //let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        // Get the list of friends from the database.
-        //apiWrapper = appDelegate.apiWrapper
-        self.friends = [User]()
+        self.friends = Array(APICalls.sharedInstance.friendsList)
+        selectButton.isEnabled = false
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        // Do any additional setup after loading the view, typically from a nib.
+        self.friends = Array(APICalls.sharedInstance.friendsList)
+        self.friendsTableView.reloadData()
     }
     
     /**
      * Returns the number of cells required in the table.
      */
-    func tableView(_ tableView: UITableView,
-                   numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return friends!.count;
     }
     
-    func tableView(_ tableView: UITableView,
-                   heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 44
     }
     
     /**
      * Sets the content of one cell in the table.
      */
-    func tableView(_ tableView: UITableView,
-                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // Get the cell from the table.
-        let cell = self.friendsTableView.dequeueReusableCell(
-                    withIdentifier: "friendCell") as! FriendTableViewCell
-        // Get the corresponding friend from the list.
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = self.friendsTableView.dequeueReusableCell(withIdentifier: "friendCell") as! FriendTableViewCell
         let friend = self.friends?[indexPath.row];
-        // Set the cell's text to be the friend's name.
         cell.textLabel?.text = friend!.firstName + " " + friend!.lastName
+        
+        let userIndex = self.selectedRecipients.index(of: friend!)
+        cell.isSelected = userIndex != nil && userIndex! >= 0
         
         return cell
     }
@@ -67,47 +62,62 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
     /**
      * Responds to a cell's being selected.
      */
-    func tableView(_ tableView: UITableView,
-                   didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // Add the friend corresponding to the cell to the recipients list.
         let tempRecipient: User = (self.friends?[indexPath.row])!
         self.selectedRecipients.append(tempRecipient);
+        
+        self.selectButton.isEnabled = self.selectedRecipients.count > 0
     }
     
     /**
      * Responds to a cell's being deselected.
      */
-    func tableView(_ tableView: UITableView,
-                   didDeselectRowAt indexPath: IndexPath) {
-        // Remove the friend corresponding to the cell from the recipients list.
-        let tempRecipient: User = (self.friends?[indexPath.row])!
-        //let tempIdx = 0//self.selectedRecipients.index(of: tempRecipient.id)
-        self.selectedRecipients.remove(at: 0)
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        let tempRecipient = self.friends?[indexPath.row]
+        self.selectedRecipients = self.selectedRecipients.filter { (selectedUser) -> Bool in
+            return selectedUser.id != tempRecipient!.id
+        }
+        
+        self.selectButton.isEnabled = self.selectedRecipients.count > 0
     }
     
     /**
      * Responds to the 'Select' button's being pressed.
      */
     @IBAction func selectPressed(_ sender: UIBarButtonItem) {
-        // If no recipients have been selected, do nothing.
-        //if selectedRecipients.isEmpty {
-        //    print("No recipients selected.")
-        //}
-        // Otherwise, create a new group using the selected recipients.
-        //else {
-        var members = [User]()
+        if (self.selectedRecipients.count > 0) {
+            let alertController = UIAlertController(title: "Group Name", message: "", preferredStyle: .alert)
+            
+            let confirmAction = UIAlertAction(title: "Confirm", style: .default) { (_) in
+                let newGroupName = alertController.textFields![0].text
+                
+                APICalls.sharedInstance.createGroup(members: self.selectedRecipients, name: newGroupName != nil ? newGroupName! : "New Group") { (newGroup) in
+                    if (newGroup == nil) {
+                        let alert = UIAlertController(title: "Error", message: "Failed to Create New Group", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
+                        
+                        return
+                    }
+                    
+                    self.selectedRecipients = []
+                    self.selectButton.isEnabled = false
+                    self.performSegue(withIdentifier: "newCanvasSegue", sender: self)
+                }
+            }
+            
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
+            
+            alertController.addTextField { (textField) in
+                textField.placeholder = "New Group Name"
+            }
+            
+            alertController.addAction(confirmAction)
+            alertController.addAction(cancelAction)
         
-        print("Recipients:")
-        for recipientIdx : User in selectedRecipients {
-            let recipient = apiWrapper?.getFriendById(userId: recipientIdx.id)
-            print("   \(recipient?.firstName) \(recipient?.lastName)")
+            self.present(alertController, animated: true, completion: nil)
         }
-        // TODO: Pass this new group to the canvas view.
-        apiWrapper?.createGroup(members: selectedRecipients, name: "New Group", closure: {(Group) -> Void in})
-        
-        // Segue to the canvas view.
-        self.performSegue(withIdentifier: "newCanvasSegue", sender: self)
-        //}
     }
 }
 

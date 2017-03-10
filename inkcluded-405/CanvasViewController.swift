@@ -14,12 +14,10 @@ class CanvasViewController: UIViewController {
     var drawView: DrawView?
 
     @IBOutlet weak var canvas: UIView!
-    @IBOutlet weak var sendButton: UIButton!
-    @IBOutlet weak var loadButton: UIButton!
     
     var menu: CanvasMenuView?
     var selectImageVC: SelectImageViewController?
-    private var orderedSubViews: [UIView] = [] // 0: drawView 1:sendButton 2:loadButton 3:menu
+    private var orderedSubViews: [UIView] = [] // 0: drawView 1:menu
     
     var model: CanvasModel?
     
@@ -41,8 +39,6 @@ class CanvasViewController: UIViewController {
         
         // Add subviews
         self.orderedSubViews.append(drawView!)
-        self.orderedSubViews.append(sendButton)
-        self.orderedSubViews.append(loadButton)
         self.orderedSubViews.append(menu!)
         
         canvas.addSubview(drawView!)
@@ -57,14 +53,21 @@ class CanvasViewController: UIViewController {
      *
      **/
     @IBAction func sendButtonPressed(_ sender: Any) {
-        model!.saveCanvasElements(drawViewSize: (drawView?.bounds.size)!)
+        // Set the document path
+        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+        let willDocPath = documentsPath.appending("willFile")
+        model!.saveCanvasElements(drawViewSize: (drawView?.bounds.size)!, toFile: willDocPath)
     }
     
     // Loads a completely new canvas and discards the old canvas. Placeholder button just for canvas bugtesting.
-    @IBAction func loadButtonPressed(_ sender: Any) {
+    func loadButtonPressed(_ sender: Any) {
+        // Set the document path
+        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+        let willDocPath = documentsPath.appending("willFile")
+    
         // Clear and restore context
         model?.clearCanvasElements()
-        let renderElements = model?.restoreStateFromWILLFile(textViewDelegate: self)
+        let renderElements = model?.restoreStateFromWILLFile(textViewDelegate: self, fromFile: willDocPath)
         resetDrawView(withElements: renderElements!)
     }
     
@@ -141,6 +144,7 @@ extension CanvasViewController: SelectImageDelegate {
         image.frame.origin = CGPoint(x: (canvas.frame.width - image.frame.width) / 2, y: (canvas.frame.height - image.frame.height) / 2)
         self.drawView!.addSubview(image)
         self.model!.appendElement(elem: image)
+        self.menu?.refreshView()
     }
 }
 
@@ -149,6 +153,7 @@ extension CanvasViewController: DrawStrokesDelegate {
         model!.appendElement(elem: stroke)
         self.menu?.refreshView()
     }
+    
     
     func clearStrokes() {
         model!.clearCanvasElements()
