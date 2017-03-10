@@ -42,7 +42,7 @@ class APIWrapper : APIProtocol {
                 print(items)
                 for item in items {
                     let (groupName, admin) = self._getGroupInfo(client: client, groupId: item["groupid"] as! String)
-                    groups.append(Group(id: item["groupid"] as! String, members: self._getGroupMembersAPI(client: client, groupId: item["groupid"] as! String), groupName: groupName, admin: admin))
+                    groups.append(Group(id: item["groupid"] as! String, members: self._getGroupMembersAPI(client: client, groupId: item["groupid"] as! String), groupName: groupName, admin: admin, messages: [Message]()))
                 }
             }
         }
@@ -174,7 +174,7 @@ class APIWrapper : APIProtocol {
     
     func getAllMessagesInGroup(groupId: String) -> [Message] {
         return self.messageList.filter({ (message) -> Bool in
-            message.groupId == groupId;
+            message.groupid == groupId;
         });
     }
     
