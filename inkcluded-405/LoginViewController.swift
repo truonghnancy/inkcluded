@@ -49,19 +49,17 @@ class LoginViewController: UIViewController {
     func loginAndGetData(oauthType: String) {
         
         print("\t\tIn loginAndGetData")
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        print("appDelegate data " + String(describing: appDelegate))
-        print("client data " + String(describing: appDelegate.apiWrapper?.client))
+        let apiCalls = APICalls.sharedInstance
         
-        appDelegate.apiWrapper?.client.login(withProvider: oauthType, urlScheme: "inkcluded-405", controller: self, animated: true, completion:
+        apiCalls.client.login(withProvider: oauthType, urlScheme: "inkcluded-405", controller: self, animated: true, completion:
             {(user, error) -> Void in
                 if (error != nil) {
                     print("Error message: \(error?.localizedDescription)")
                 }
                 else {
-                    appDelegate.apiWrapper?.client.currentUser = user
+                    apiCalls.client.currentUser = user
                     print("User logged in: \(user?.userId)")
-                    appDelegate.apiWrapper?.login(closure:
+                    apiCalls.login(closure:
                         {(userEntry) -> Void in
                             if (userEntry == nil) {
                                 

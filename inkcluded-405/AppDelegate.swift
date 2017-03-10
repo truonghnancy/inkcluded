@@ -12,16 +12,12 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    //var client : MSClient?
-    //var userEntry : [AnyHashable : Any]?
-    //var apiWrapper: APIWrapper?
-    var apiWrapper : APICalls?
     
     func application(_ application: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-        print("first one called")
+        let apiCalls = APICalls.sharedInstance
         
         if url.scheme?.lowercased() == "inkcluded-405" {
-            return (self.apiWrapper?.client.resume(with: url as URL))!
+            return (apiCalls.client.resume(with: url as URL))
         }
         else {
             return false
@@ -31,9 +27,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         print("second one called")
         
-        apiWrapper = APICalls()
+        let apiCalls = APICalls.sharedInstance
         
-        print("client " + String(describing: self.apiWrapper?.client))
+        print("client " + String(describing: apiCalls.client))
         
         return true
     }

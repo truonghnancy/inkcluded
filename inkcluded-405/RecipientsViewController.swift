@@ -15,7 +15,6 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
                                 UITableViewDataSource {
     @IBOutlet var friendsTableView: UITableView!
     
-    var apiWrapper: APIWrapper? // The database interface
     var selectedRecipients = [User]()         // A list of selected recipients
     var friends : [User]?                     // A list of friends to select
     
@@ -24,15 +23,13 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
      */
     override func viewDidLoad() {
         super.viewDidLoad()
-        //let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        // Get the list of friends from the database.
-        //apiWrapper = appDelegate.apiWrapper
-        self.friends = [User]()
+        self.friends = Array(APICalls.sharedInstance.friendsList)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        // Do any additional setup after loading the view, typically from a nib.
+        self.friends = Array(APICalls.sharedInstance.friendsList)
+        self.friendsTableView.reloadData()
     }
     
     /**
@@ -53,9 +50,7 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
      */
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // Get the cell from the table.
-        let cell = self.friendsTableView.dequeueReusableCell(
-                    withIdentifier: "friendCell") as! FriendTableViewCell
+        let cell = self.friendsTableView.dequeueReusableCell(withIdentifier: "friendCell") as! FriendTableViewCell
         // Get the corresponding friend from the list.
         let friend = self.friends?[indexPath.row];
         // Set the cell's text to be the friend's name.
@@ -89,25 +84,10 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
      * Responds to the 'Select' button's being pressed.
      */
     @IBAction func selectPressed(_ sender: UIBarButtonItem) {
-        // If no recipients have been selected, do nothing.
-        //if selectedRecipients.isEmpty {
-        //    print("No recipients selected.")
-        //}
-        // Otherwise, create a new group using the selected recipients.
-        //else {
-        var members = [User]()
-        
-        print("Recipients:")
-        for recipientIdx : User in selectedRecipients {
-            let recipient = apiWrapper?.getFriendById(userId: recipientIdx.id)
-            print("   \(recipient?.firstName) \(recipient?.lastName)")
-        }
         // TODO: Pass this new group to the canvas view.
-        apiWrapper?.createGroup(members: selectedRecipients, name: "New Group", closure: {(Group) -> Void in})
+        APICalls.sharedInstance.createGroup(members: selectedRecipients, name: "New Group", closure: {(Group) -> Void in})
         
-        // Segue to the canvas view.
         self.performSegue(withIdentifier: "newCanvasSegue", sender: self)
-        //}
     }
 }
 

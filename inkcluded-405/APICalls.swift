@@ -22,7 +22,7 @@ struct User: Hashable {
     
     var hashValue: Int {
         // DJB hash function
-        return Int(id.substring(from: id.index(id.startIndex, offsetBy: 4)))!
+        return id.hash
     }
     
     static func ==(left: User, right: User) -> Bool {
@@ -68,8 +68,10 @@ class APICalls {
     let client: MSClient
     var currentUser : User?
     var azsBlobClient : AZSCloudBlobClient
-
-    init() {
+    
+    static let sharedInstance = APICalls()
+    
+    private init() {
         client = MSClient(
             applicationURLString:"https://penmessageapp.azurewebsites.net"
         )
@@ -168,7 +170,7 @@ class APICalls {
      Gets the groups the user is a part of.
      Eric Roh
      */
-    func _getGroupsAPI(sid: String, closure: @escaping ([Group]?) -> Void){
+    func getGroupsAPI(sid: String, closure: @escaping ([Group]?) -> Void){
         let groupTable = client.table(withName: "GroupXUser")
         let query = groupTable.query(with: NSPredicate(format: "userId = %@", sid))
         var groups: [Group] = []
@@ -211,7 +213,7 @@ class APICalls {
      returns a tuple (name, admin)
      Eric Roh
      */
-    func _getGroupInfo (groupId: String, closure: @escaping ((String, String)?) -> Void) {
+    private func _getGroupInfo (groupId: String, closure: @escaping ((String, String)?) -> Void) {
         let groupTable = client.table(withName: "Group")
         let query = groupTable.query(with: NSPredicate(format: "id = %@", groupId))
         var groupInfo: (String, String)?
@@ -233,7 +235,7 @@ class APICalls {
      Gets the member(s) of the group.
      Eric Roh
      */
-    func _getGroupMembersAPI(groupId: String, closure: @escaping ([User]?) -> Void) {
+    private func _getGroupMembersAPI(groupId: String, closure: @escaping ([User]?) -> Void) {
         let gxuTable = client.table(withName: "GroupXUser")
         let QS_GXU = gxuTable.query(with: NSPredicate(format: "groupId = %@", groupId))
         var members: [User] = []
@@ -268,7 +270,7 @@ class APICalls {
      returns : User
      Eric Roh
      */
-    func _getUserAPI(userId: String, closure: @escaping (User?) -> Void) {
+    private func _getUserAPI(userId: String, closure: @escaping (User?) -> Void) {
         let cTable = client.table(withName: "User")
         let QS_USER = cTable.query(with: NSPredicate(format: "id = %@", userId))
         var retUser: User?

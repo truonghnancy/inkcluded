@@ -32,7 +32,7 @@ class CanvasModel {
         return canvasElements.popLast()
     }
     
-    func saveCanvasElements(drawViewSize: CGSize) {
+    func saveCanvasElements(drawViewSize: CGSize, toFile path: String) {
         let inkEncoder = WCMInkEncoder()
         let doc = WCMDocument()
         let section = WCMDocumentSection()
@@ -88,20 +88,14 @@ class CanvasModel {
         // Add section to document
         doc.sections.add(section)
         
-        // Set the document path
-        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-        let willDocPath = documentsPath.appending(WILL_DOCUMENT_NAME)
-        
         // Create and write to the file
-        doc.createDocument(atPath: willDocPath)
+        doc.createDocument(atPath: path)
     }
     
-    func restoreStateFromWILLFile(textViewDelegate: UITextViewDelegate) -> [AnyObject] {
-        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-        let willDocPath = documentsPath.appending(WILL_DOCUMENT_NAME)
+    func restoreStateFromWILLFile(textViewDelegate: UITextViewDelegate, fromFile path: String) -> [AnyObject] {
         let doc = WCMDocument()
         
-        doc.load(atPath: willDocPath)
+        doc.load(atPath: path)
         
         let section = doc.sections![0] as! WCMDocumentSection
         
