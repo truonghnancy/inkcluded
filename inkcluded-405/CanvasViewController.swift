@@ -116,7 +116,6 @@ extension CanvasViewController: CanvasMenuDelegate {
         case .UNDO:
             let _ = self.model?.popMostRecentElement()
             resetDrawView(withElements: (self.model?.getCanvasElements())!)
-            
             break
         }
         
@@ -138,6 +137,7 @@ extension CanvasViewController: SelectImageDelegate {
         image.frame.origin = CGPoint(x: (canvas.frame.width - image.frame.width) / 2, y: (canvas.frame.height - image.frame.height) / 2)
         self.drawView!.addSubview(image)
         self.model!.appendElement(elem: image)
+        self.menu?.refreshView()
     }
 }
 
@@ -146,6 +146,7 @@ extension CanvasViewController: DrawStrokesDelegate {
         model!.appendElement(elem: stroke)
         self.menu?.refreshView()
     }
+    
     
     func clearStrokes() {
         model!.clearCanvasElements()
@@ -160,10 +161,6 @@ extension CanvasViewController: DrawStrokesDelegate {
 }
 
 extension CanvasViewController: UITextViewDelegate {
-//    func textFieldShouldReturn(_ textField: UITextView) -> Bool {
-//        self.drawView!.endEditing(true)
-//        return true
-//    }
     
     func textViewDidChangeSelection(_ textView: UITextView) {
         var textFrame = textView.frame
@@ -175,5 +172,6 @@ extension CanvasViewController: UITextViewDelegate {
         let draggableTextView = textView as? DraggableTextView
         draggableTextView?.configureDraggableGestureRecognizers()
         self.drawView!.endEditing(true)
+        textView.isSelectable = false
     }
 }

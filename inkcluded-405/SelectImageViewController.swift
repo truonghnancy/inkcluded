@@ -12,6 +12,15 @@ class SelectImageViewController: UIViewController {
 
     private var _selectImageDelegate: SelectImageDelegate?
     
+    let images: [UIImage] = [
+        UIImage(named: "chicken")!,
+        UIImage(named: "crab")!,
+        UIImage(named: "frog")!,
+        UIImage(named: "horse")!,
+        UIImage(named: "jellyfish")!,
+        UIImage(named: "squirrel")!
+    ]
+    
     var selectImageDelegate: SelectImageDelegate {
         get {
             return _selectImageDelegate!
@@ -51,15 +60,14 @@ class SelectImageViewController: UIViewController {
 
 extension SelectImageViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return images.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
         
         let defaultImage = UIImageView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: cell.contentView.frame.size))
-        defaultImage.image = UIImage(named: "francis")
-        
+        defaultImage.image = images[indexPath.row]
         cell.contentView.addSubview(defaultImage)
         
         return cell
@@ -76,7 +84,7 @@ extension SelectImageViewController: UICollectionViewDelegate {
             let size = CGSize(width: 80, height: 80)
             let origin = CGPoint(x: 0, y: 0)
             let defaultImage = DraggableImageView(frame: CGRect(origin: origin, size: size))
-            defaultImage.image = UIImage(named: "francis")
+            defaultImage.image = self.images[indexPath.row]
             self.selectImageDelegate.didSelectImage(image: defaultImage)
         }
     }
