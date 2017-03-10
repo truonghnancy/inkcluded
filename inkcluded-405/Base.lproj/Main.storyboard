@@ -305,6 +305,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="friendsTableView" destination="Nzv-e3-Wa1" id="bjs-Gx-TrK"/>
+                        <outlet property="selectButton" destination="q8o-Go-KWB" id="Jgi-Pt-zcK"/>
                         <segue destination="WEB-ve-wAz" kind="show" identifier="newCanvasSegue" id="Rtv-oo-sCb"/>
                     </connections>
                 </viewController>
@@ -346,7 +347,6 @@
                     </navigationItem>
                     <connections>
                         <outlet property="canvas" destination="j5A-Ex-b1J" id="M4o-oW-19X"/>
-                        <outlet property="sendButton" destination="99O-EI-FBa" id="GTH-V8-wZr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yVV-XB-7oL" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -426,6 +426,6 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="bc1-hO-ziX"/>
-        <segue reference="Ven-a6-yGl"/>
+        <segue reference="Rtv-oo-sCb"/>
     </inferredMetricsTieBreakers>
 </document>
