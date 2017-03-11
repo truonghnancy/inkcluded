@@ -73,6 +73,7 @@ class GroupHistoryViewController: UIViewController {
             drawView.isUserInteractionEnabled = false
             drawView.layer.borderWidth = 1.0
             drawView.layer.borderColor = UIColor.black.cgColor
+            drawView.clipsToBounds = true
             
             if let drawViewContent = elements {
                 drawView.refreshViewWithElements(elements: drawViewContent)

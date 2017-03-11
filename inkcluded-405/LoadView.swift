@@ -13,7 +13,7 @@ class LoadView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        let loaderImage = UIImage.animatedImageNamed("loader_", duration: 1.0)
+        let loaderImage = UIImage.animatedImageNamed("loader_", duration: 1.3)
         let imageView = UIImageView(image: loaderImage)
         imageView.center = self.center
         
