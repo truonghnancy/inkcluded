@@ -13,6 +13,7 @@ import UIKit
 
 class RecipientsViewController: UIViewController, UITableViewDelegate,
                                 UITableViewDataSource, UISearchBarDelegate {
+    @IBOutlet var friendsSearchController: UISearchDisplayController!
     @IBOutlet var friendsTableView: UITableView!
     @IBOutlet var selectButton: UIBarButtonItem!
     
@@ -230,9 +231,9 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
         apiCalls?.findUserByEmail(
          email: searchBar.text!,
          closure: { (tempFriends) in
-            self.searchResults = tempFriends!
+            self.searchResults = tempFriends!.count > 0 ? tempFriends! : [User]()
             self.doShowSearchResults = true
-            self.friendsTableView.reloadData()
+            self.friendsSearchController.searchResultsTableView.reloadData()
          })
     }
 }
