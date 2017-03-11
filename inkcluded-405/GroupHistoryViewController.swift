@@ -27,9 +27,12 @@ class GroupHistoryViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        let loadView = LoadView(frame: self.view.frame)
+        self.view.addSubview(loadView)
         APICalls.sharedInstance.getAllMessage(groupId: (curGroup?.id)!) { (messages) in
             self.curMessages = messages;
             self.loadAllMessages()
+            loadView.removeFromSuperview()
         }
     }
     

@@ -24,12 +24,17 @@ struct CanvasMenuButton {
     init(type: CanvasMenuItem, image: UIImage) {
         self.type = type
         self.image = image
-        self.button = UIButton(
-            frame: (CGRect(
-                    origin: CGPoint(x:10, y:0),
-                    size: CGSize(width: CanvasMenuButton.BUTTON_WIDTH, height: CanvasMenuButton.BUTTON_WIDTH
-            ))))
-        
+//        self.button = UIButton(
+//            frame: (CGRect(
+//                    origin: CGPoint(x:10, y:0),
+//                    size: CGSize(width: CanvasMenuButton.BUTTON_WIDTH, height: CanvasMenuButton.BUTTON_WIDTH
+//            ))))
+        self.button = UIButton(type: .custom)
+        self.button.frame = CGRect(
+            origin: CGPoint(x:10, y:0),
+            size: CGSize(width: CanvasMenuButton.BUTTON_WIDTH, height: CanvasMenuButton.BUTTON_WIDTH)
+        )
+        self.button.backgroundColor = UIColor.clear
         self.button.setTitle(type.rawValue, for: .normal)
         self.button.titleLabel?.removeFromSuperview()
         self.button.setImage(image, for: .normal)

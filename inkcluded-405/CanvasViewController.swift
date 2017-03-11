@@ -73,11 +73,16 @@ class CanvasViewController: UIViewController {
             senderfirstname: (curUser?.firstName)!
         )
         
+        let loadView = LoadView(frame: self.view.frame)
+        self.view.addSubview(loadView)
         APICalls.sharedInstance.sendMessage(message: sendMessage) { (isSent) in
             if isSent {
+                loadView.removeFromSuperview()
                 self.navigationController?.popViewController(animated: false)
             }
             else {
+                loadView.removeFromSuperview()
+            
                 let alert = UIAlertController(title: "Error", message: "Failed to Send Message", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
                 self.present(alert, animated: true, completion: nil)

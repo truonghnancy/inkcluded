@@ -60,9 +60,12 @@ class GroupsViewController: UIViewController {
         
         let apiCalls = APICalls.sharedInstance
         if (apiCalls.currentUser != nil) {
+            let loadView = LoadView(frame: self.view.frame)
+            self.view.addSubview(loadView)
             apiCalls.getGroupsAPI(sid: apiCalls.currentUser!.id, closure: { (groupList) in
                 self.groups = groupList
                 self.groupsTableView.reloadData()
+                loadView.removeFromSuperview()
             })
         }
     }
