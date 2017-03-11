@@ -42,7 +42,8 @@ class GroupHistoryViewController: UIViewController {
         let leftX: CGFloat = 5.0
         let rightX = parentSize.width - drawViewSize.width - leftX
         let padding: CGFloat = 10.0
-        let contentViewHeight = CGFloat(self.curMessages!.count) * (padding + drawViewSize.height)
+        let nameFieldHeight: CGFloat = 15.0
+        let contentViewHeight = CGFloat(self.curMessages!.count) * (padding + drawViewSize.height + nameFieldHeight)
         
         if contentView != nil {
             contentView?.removeFromSuperview()
@@ -51,12 +52,20 @@ class GroupHistoryViewController: UIViewController {
         self.historyView.contentSize = contentView!.frame.size
         self.historyView.addSubview(contentView!)
         
-        var yPos: CGFloat = 0.0
+        var yPos: CGFloat = nameFieldHeight
         
         for message in self.curMessages! {
             var origin = CGPoint(x: leftX, y: yPos)
             if message.senderid == APICalls.sharedInstance.currentUser?.id {
                 origin.x = rightX
+            }
+        
+            let nameFieldOrigin = CGPoint(x: origin.x, y: origin.y - nameFieldHeight)
+            let nameField = UILabel(frame: CGRect(origin: nameFieldOrigin, size: CGSize(width: drawViewSize.width, height: nameFieldHeight)))
+            nameField.text = message.senderfirstname
+            nameField.font = UIFont(name: "AvenirNext-Medium", size: nameFieldHeight)
+            if message.senderid == APICalls.sharedInstance.currentUser?.id {
+                nameField.textAlignment = .right
             }
         
             let drawView = DrawView(frame: CGRect(origin: origin, size: drawViewSize))
@@ -72,9 +81,10 @@ class GroupHistoryViewController: UIViewController {
                 drawView.backgroundColor = UIColor.black
             }
             
+            contentView?.addSubview(nameField)
             contentView?.addSubview(drawView)
             
-            yPos += CGFloat(drawViewSize.height) + padding
+            yPos += CGFloat(drawViewSize.height) + padding + nameFieldHeight
         }
     }
     
