@@ -33,6 +33,7 @@
 		9D9CEB9C1E51629300C6B11C /* CanvasMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EBA3E41E50ED39006821C9 /* CanvasMenuView.swift */; };
 		9DB896761E5BC42B00E1B592 /* GroupHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB896751E5BC42B00E1B592 /* GroupHistoryViewController.swift */; };
 		9DB896781E5BD5D800E1B592 /* MessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB896771E5BD5D800E1B592 /* MessageTableViewCell.swift */; };
+		B910C8591E74A6EB00D160EF /* APICallTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B910C8581E74A6EB00D160EF /* APICallTests.swift */; };
 		B9DE53CB1E6CE7E400831710 /* DraggableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9DE53CA1E6CE7E400831710 /* DraggableTextView.swift */; };
 		CC1FDB521E3D9B3800B38C11 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1FDB511E3D9B3800B38C11 /* WebKit.framework */; };
 		CC7358AB1E429EC600496F35 /* MicrosoftAzureMobile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC7358AA1E429EC600496F35 /* MicrosoftAzureMobile.framework */; };
@@ -96,6 +97,7 @@
 		9DB896751E5BC42B00E1B592 /* GroupHistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupHistoryViewController.swift; sourceTree = "<group>"; };
 		9DB896771E5BD5D800E1B592 /* MessageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageTableViewCell.swift; sourceTree = "<group>"; };
 		A91286597B4880684D0F00B8 /* Pods_inkcluded_405UITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_inkcluded_405UITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B910C8581E74A6EB00D160EF /* APICallTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APICallTests.swift; sourceTree = "<group>"; };
 		B9DE53CA1E6CE7E400831710 /* DraggableTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DraggableTextView.swift; sourceTree = "<group>"; };
 		C37A30159C98E7994E8EBEDB /* Pods-inkcluded-405UITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-inkcluded-405UITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-inkcluded-405UITests/Pods-inkcluded-405UITests.debug.xcconfig"; sourceTree = "<group>"; };
 		CC1FDB511E3D9B3800B38C11 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
@@ -255,6 +257,7 @@
 			children = (
 				15EBA7161E27079F00B38D0E /* inkcluded_405Tests.swift */,
 				15EBA7181E27079F00B38D0E /* Info.plist */,
+				B910C8581E74A6EB00D160EF /* APICallTests.swift */,
 			);
 			path = "inkcluded-405Tests";
 			sourceTree = "<group>";
@@ -611,6 +614,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B910C8591E74A6EB00D160EF /* APICallTests.swift in Sources */,
 				15EBA7171E27079F00B38D0E /* inkcluded_405Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
