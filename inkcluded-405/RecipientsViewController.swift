@@ -21,6 +21,7 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
     var friends : [User]?                  // A list of friends to select
     var searchResults = [User]()           // A list of search results
     var doShowSearchResults : Bool = false // If the search table is visible
+    var createdGroup: Group?               // A group created from recipients
     
     /**
      * Performs setup once the view loads.
@@ -28,11 +29,10 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Initialize the reference to our Azure API.
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        apiCalls = appDelegate.apiWrapper
         // Query the API to populate the inital friends list.
-        friends = apiCalls?.friendsList
+        self.apiCalls = APICalls.sharedInstance
+        self.friends = Array(APICalls.sharedInstance.friendsList)
+        selectButton.isEnabled = false
     }
     
     /**
@@ -40,6 +40,9 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
      */
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        self.friends = Array(APICalls.sharedInstance.friendsList)
+        
+        self.friendsTableView.reloadData()
     }
     
     /**
@@ -86,8 +89,10 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
         cell.textLabel?.text =
          "\(tempFriend!.firstName) \(tempFriend!.lastName)"
         
-        let userIndex = self.selectedRecipients.index(of: friend!)
-        cell.isSelected = userIndex != nil && userIndex! >= 0
+        if !doShowSearchResults {
+            let userIndex = self.selectedRecipients.index(of: tempFriend!)
+            cell.isSelected = userIndex != nil && userIndex! >= 0
+        }
         
         return cell
     }
@@ -122,7 +127,10 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
             // Add the friend corresponding to the cell to the recipients list.
             let tempRecipient: User = (friends?[indexPath.row])!
             selectedRecipients.append(tempRecipient)
+            
+            self.selectButton.isEnabled = self.selectedRecipients.count > 0
         }
+        
     }
     
     /**
@@ -133,11 +141,25 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
         if !doShowSearchResults {
             // Remove the friend from the recipients list.
             let toRemove : User = (friends?[indexPath.row])!
-            let removeIdx : Int = getIndexOfUser(selectedRecipients,
-                                                 keyUser: toRemove)
-            if removeIdx >= 0 {
-                selectedRecipients.remove(at: removeIdx)
+            
+            self.selectedRecipients = self.selectedRecipients.filter { (selectedUser) -> Bool in
+                return selectedUser.id != toRemove.id
             }
+            
+//            let removeIdx : Int = getIndexOfUser(selectedRecipients,
+//                                                 keyUser: toRemove)
+//            if removeIdx >= 0 {
+//                selectedRecipients.remove(at: removeIdx)
+//            }
+            
+            self.selectButton.isEnabled = self.selectedRecipients.count > 0
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "newCanvasSegue" {
+            let destination = segue.destination as? GroupHistoryViewController
+            destination?.curGroup = createdGroup
         }
     }
     
@@ -145,26 +167,39 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
      * Responds to the 'Select' button's being pressed.
      */
     @IBAction func selectPressed(_ sender: UIBarButtonItem) {
-        // If no recipients have been selected, do nothing.
-        if selectedRecipients.isEmpty {
-            print("No recipients selected.")
-        }
-        // Otherwise, create a new group using the selected recipients.
-        else {
-            print("Recipients:")
-            for recipient : User in selectedRecipients {
-                print("   \(recipient.firstName) \(recipient.lastName)")
+        if (self.selectedRecipients.count > 0) {
+            let alertController = UIAlertController(title: "Group Name", message: "", preferredStyle: .alert)
+            
+            let confirmAction = UIAlertAction(title: "Confirm", style: .default) { (_) in
+                let newGroupName = alertController.textFields![0].text
+                
+                APICalls.sharedInstance.createGroup(members: self.selectedRecipients, name: newGroupName != nil ? newGroupName! : "New Group") { (newGroup) in
+                    if (newGroup == nil) {
+                        let alert = UIAlertController(title: "Error", message: "Failed to Create New Group", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
+                        
+                        return
+                    }
+                    
+                    self.createdGroup = newGroup
+                    
+                    self.selectedRecipients = []
+                    self.selectButton.isEnabled = false
+                    self.performSegue(withIdentifier: "newCanvasSegue", sender: self)
+                }
             }
             
-            // TODO: Uncomment this when we're ready to pass new groups to the
-            //       DB for real. (Commented out because Christopher may have
-            //       once broken stuff by passing a user with a dummy UID...
-            //apiCalls?.createGroup(members: selectedRecipients, 
-            //                      name: "New Group",
-            //                      closure: {(Group) -> Void in})
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
+            
+            alertController.addTextField { (textField) in
+                textField.placeholder = "New Group Name"
+            }
+            
+            alertController.addAction(confirmAction)
+            alertController.addAction(cancelAction)
         
-            // Segue to the canvas view.
-            self.performSegue(withIdentifier: "newCanvasSegue", sender: self)
+            self.present(alertController, animated: true, completion: nil)
         }
     }
     
@@ -188,18 +223,17 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
      * Responds to the search button's being tapped.
      */
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBarTextDidEndEditing(searchBar)
+        //searchBarTextDidEndEditing(searchBar)
     }
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         // Query the API to get the search results.
         apiCalls?.findUserByEmail(
          email: searchBar.text!,
          closure: { (tempFriends) in
-             self.searchResults = tempFriends
+            self.searchResults = tempFriends!
+            self.doShowSearchResults = true
+            self.friendsTableView.reloadData()
          })
-        
-        // Reload the search results table.
-        friendsTableView.reloadData()
     }
 }
 

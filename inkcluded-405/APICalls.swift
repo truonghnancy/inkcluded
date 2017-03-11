@@ -80,9 +80,17 @@ class APICalls {
         
         var azsAccount : AZSCloudStorageAccount?
         
-        //findUserByEmail(email: "rohroh94@gmail.com") { (user) in
-            
-        //}
+        do {
+            try azsAccount = AZSCloudStorageAccount(fromConnectionString: "DefaultEndpointsProtocol=https;AccountName=penmessagestorage;AccountKey=BV5WR1Km404XR6K8F/KxOKuAyTw0utckHVZvOqW/LO5+cUTNVdZ9hShhBS/oOR7VAjKaSlt9+nBVVLXdvRpCgQ==")
+        }
+        catch {
+            print("unable to create azure storage account")
+        }
+        
+        azsBlobClient = (azsAccount?.getBlobClient())!
+        
+        self.friendsList = Set<User>()
+        self.groupList = []
     }
     
     func login(closure: @escaping (User?) -> Void) {
