@@ -9,66 +9,83 @@
 import Foundation
 import UIKit
 
-class GroupHistoryViewController: UIViewController, UITableViewDelegate,
-                                  UITableViewDataSource {
-    @IBOutlet weak var groupTitle: UINavigationItem!
-    @IBOutlet var messageTableView: UITableView!
+class GroupHistoryViewController: UIViewController {
     
-    let apiWrapper: APIWrapper = APIWrapper() // The database interface
-    var curGroup: Group?                      // The displayed group
-    var curMessages: [Message]?               // The displayed messages
+    var curGroup: Group?
+    var curMessages: [Message]?
+    var contentView: UIView?
+    
+    @IBOutlet var historyView: UIScrollView!
+    @IBOutlet var navBar: UINavigationItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Get the group title and messages from the database.
-        groupTitle.title = curGroup?.groupName
-        curMessages = apiWrapper.getAllMessagesInGroup(groupId: (curGroup?.id)!)
-        //curMessages?.reverse()
+        
+        self.navBar.title = curGroup?.groupName
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        let loadView = LoadView(frame: self.view.frame)
+        self.view.addSubview(loadView)
+        APICalls.sharedInstance.getAllMessage(groupId: (curGroup?.id)!) { (messages) in
+            self.curMessages = messages;
+            self.loadAllMessages()
+            loadView.removeFromSuperview()
+        }
+    }
+    
+    func loadAllMessages() {
+        let parentSize = self.view.frame.size
+        let drawViewSize = CGSize(width: parentSize.width / 2, height: parentSize.height / 2)
+        let leftX: CGFloat = 5.0
+        let rightX = parentSize.width - drawViewSize.width - leftX
+        let padding: CGFloat = 10.0
+        let contentViewHeight = CGFloat(self.curMessages!.count) * (padding + drawViewSize.height)
+        
+        if contentView != nil {
+            contentView?.removeFromSuperview()
+        }
+        contentView = UIView(frame: CGRect(x: 0, y: 0, width: parentSize.width, height: contentViewHeight))
+        self.historyView.contentSize = contentView!.frame.size
+        self.historyView.addSubview(contentView!)
+        
+        var yPos: CGFloat = 0.0
+        
+        for message in self.curMessages! {
+            var origin = CGPoint(x: leftX, y: yPos)
+            if message.senderid == APICalls.sharedInstance.currentUser?.id {
+                origin.x = rightX
+            }
+        
+            let drawView = DrawView(frame: CGRect(origin: origin, size: drawViewSize))
+            let elements = CanvasModel.decodeObjectsFromWillFile(textViewDelegate: nil, atPath: message.filepath)
+            drawView.isUserInteractionEnabled = false
+            drawView.layer.borderWidth = 1.0
+            drawView.layer.borderColor = UIColor.black.cgColor
+            
+            if let drawViewContent = elements {
+                drawView.refreshViewWithElements(elements: drawViewContent)
+            }
+            else {
+                drawView.backgroundColor = UIColor.black
+            }
+            
+            contentView?.addSubview(drawView)
+            
+            yPos += CGFloat(drawViewSize.height) + padding
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "newMessageSegue" {
+            let destination = segue.destination as? CanvasViewController
+            destination?.msgGroup = curGroup
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
-    
-    /**
-     * Returns the number of cells required in the table.
-     */
-    func tableView(_ tableView: UITableView,
-                   numberOfRowsInSection section: Int) -> Int {
-        return curMessages!.count;
-    }
-    
-    func tableView(_ tableView: UITableView,
-                   heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 44
-    }
-    
-    /**
-     * Sets the content of one cell in the table.
-     */
-    func tableView(_ tableView: UITableView,
-                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // Get the cell from the table.
-        let cell = self.messageTableView.dequeueReusableCell(
-            withIdentifier: "messageCell") as! MessageTableViewCell
-        // Get the corresponding message from the list.
-        let message = self.curMessages?[indexPath.row];
-        // LLVM complains that this line is too complex a line if I try to do it
-        //  all at once; get the sender first.
-        let sender = apiWrapper.getFriendById(userId: (message?.sentFrom)!)
-        // TODO: This is placeholder-ish data until our DB feeds us WILL files.
-        cell.textLabel?.text = "Sent by " + sender.firstName + " on "
-                               + (message?.timestamp.description)!
-        
-        return cell
-    }
-    
-    /**
-     * Responds to a cell's being selected.
-     */
-    func tableView(_ tableView: UITableView,
-                   didSelectRowAt indexPath: IndexPath) {
-        // TODO: This should launch a closer view of the message.
-    }
-
 }

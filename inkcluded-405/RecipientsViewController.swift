@@ -14,6 +14,7 @@ import UIKit
 class RecipientsViewController: UIViewController, UITableViewDelegate,
                                 UITableViewDataSource, UISearchBarDelegate {
     @IBOutlet var friendsTableView: UITableView!
+    @IBOutlet var selectButton: UIBarButtonItem!
     
     var apiCalls: APICalls?                // The database interface
     var selectedRecipients = [User]()      // A list of selected recipients
@@ -84,6 +85,9 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
         // Set the cell's text to be the friend's name.
         cell.textLabel?.text =
          "\(tempFriend!.firstName) \(tempFriend!.lastName)"
+        
+        let userIndex = self.selectedRecipients.index(of: friend!)
+        cell.isSelected = userIndex != nil && userIndex! >= 0
         
         return cell
     }

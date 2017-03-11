@@ -9,12 +9,12 @@
 /* Begin PBXBuildFile section */
 		07A00B6F1E2EC51F00DD68F7 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A00B6E1E2EC51F00DD68F7 /* LoginViewController.swift */; };
 		150CAD101E3ECF73003255DB /* GroupsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150CAD0F1E3ECF73003255DB /* GroupsTableViewCell.swift */; };
+		15206C601E73D89900A08781 /* LoadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15206C5F1E73D89900A08781 /* LoadView.swift */; };
 		157CCE301E355D7000096337 /* APIProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157CCE2F1E355D7000096337 /* APIProtocol.swift */; };
 		158ECEF51E5CF0E300D45DB3 /* DrawStrokesDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158ECEF41E5CF0E300D45DB3 /* DrawStrokesDelegate.swift */; };
 		158ECEF71E5D07AD00D45DB3 /* CanvasModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158ECEF61E5D07AD00D45DB3 /* CanvasModel.swift */; };
 		15A978991E28D89E007E4B21 /* GroupsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A978981E28D89E007E4B21 /* GroupsViewController.swift */; };
 		15A9789B1E28D922007E4B21 /* CanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A9789A1E28D922007E4B21 /* CanvasViewController.swift */; };
-		15DA464C1E38074900DE515A /* APIWrapperTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DA464B1E38074900DE515A /* APIWrapperTest.swift */; };
 		15DA464F1E380AC100DE515A /* APIProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157CCE2F1E355D7000096337 /* APIProtocol.swift */; };
 		15EBA3E81E50F0D1006821C9 /* CanvasMenuDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EBA3E71E50F0D1006821C9 /* CanvasMenuDelegate.swift */; };
 		15EBA3EC1E5116AE006821C9 /* SelectImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EBA3EB1E5116AE006821C9 /* SelectImageViewController.swift */; };
@@ -35,6 +35,7 @@
 		9D9CEB9C1E51629300C6B11C /* CanvasMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EBA3E41E50ED39006821C9 /* CanvasMenuView.swift */; };
 		9DB896761E5BC42B00E1B592 /* GroupHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB896751E5BC42B00E1B592 /* GroupHistoryViewController.swift */; };
 		9DB896781E5BD5D800E1B592 /* MessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB896771E5BD5D800E1B592 /* MessageTableViewCell.swift */; };
+		B9DE53CB1E6CE7E400831710 /* DraggableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9DE53CA1E6CE7E400831710 /* DraggableTextView.swift */; };
 		CC1FDB521E3D9B3800B38C11 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1FDB511E3D9B3800B38C11 /* WebKit.framework */; };
 		CC7358AB1E429EC600496F35 /* MicrosoftAzureMobile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC7358AA1E429EC600496F35 /* MicrosoftAzureMobile.framework */; };
 		CCB4C7B61E5AB0850050D3DD /* APICalls.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCB4C7B51E5AB0850050D3DD /* APICalls.swift */; };
@@ -65,12 +66,12 @@
 		07A00B6E1E2EC51F00DD68F7 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		07A00B701E2EC71B00DD68F7 /* inkcluded-405.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "inkcluded-405.entitlements"; sourceTree = "<group>"; };
 		150CAD0F1E3ECF73003255DB /* GroupsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsTableViewCell.swift; sourceTree = "<group>"; };
+		15206C5F1E73D89900A08781 /* LoadView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadView.swift; sourceTree = "<group>"; };
 		157CCE2F1E355D7000096337 /* APIProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIProtocol.swift; sourceTree = "<group>"; };
 		158ECEF41E5CF0E300D45DB3 /* DrawStrokesDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawStrokesDelegate.swift; sourceTree = "<group>"; };
 		158ECEF61E5D07AD00D45DB3 /* CanvasModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasModel.swift; sourceTree = "<group>"; };
 		15A978981E28D89E007E4B21 /* GroupsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsViewController.swift; sourceTree = "<group>"; };
 		15A9789A1E28D922007E4B21 /* CanvasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasViewController.swift; sourceTree = "<group>"; };
-		15DA464B1E38074900DE515A /* APIWrapperTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIWrapperTest.swift; sourceTree = "<group>"; };
 		15EBA3E41E50ED39006821C9 /* CanvasMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasMenuView.swift; sourceTree = "<group>"; };
 		15EBA3E71E50F0D1006821C9 /* CanvasMenuDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasMenuDelegate.swift; sourceTree = "<group>"; };
 		15EBA3EB1E5116AE006821C9 /* SelectImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectImageViewController.swift; sourceTree = "<group>"; };
@@ -99,6 +100,7 @@
 		9DB896751E5BC42B00E1B592 /* GroupHistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupHistoryViewController.swift; sourceTree = "<group>"; };
 		9DB896771E5BD5D800E1B592 /* MessageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageTableViewCell.swift; sourceTree = "<group>"; };
 		A91286597B4880684D0F00B8 /* Pods_inkcluded_405UITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_inkcluded_405UITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B9DE53CA1E6CE7E400831710 /* DraggableTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DraggableTextView.swift; sourceTree = "<group>"; };
 		C37A30159C98E7994E8EBEDB /* Pods-inkcluded-405UITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-inkcluded-405UITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-inkcluded-405UITests/Pods-inkcluded-405UITests.debug.xcconfig"; sourceTree = "<group>"; };
 		CC1FDB511E3D9B3800B38C11 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		CC7358AA1E429EC600496F35 /* MicrosoftAzureMobile.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MicrosoftAzureMobile.framework; path = "inkcluded-405/MicrosoftAzureMobile.framework"; sourceTree = "<group>"; };
@@ -184,6 +186,8 @@
 				15EBA3E41E50ED39006821C9 /* CanvasMenuView.swift */,
 				15FE85311E5EB981008206F9 /* DrawView.swift */,
 				15F528BD1E64B35600A27C66 /* DraggableImageView.swift */,
+				B9DE53CA1E6CE7E400831710 /* DraggableTextView.swift */,
+				15206C5F1E73D89900A08781 /* LoadView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -256,7 +260,6 @@
 		15EBA7151E27079F00B38D0E /* inkcluded-405Tests */ = {
 			isa = PBXGroup;
 			children = (
-				15DA464B1E38074900DE515A /* APIWrapperTest.swift */,
 				15EBA7161E27079F00B38D0E /* inkcluded_405Tests.swift */,
 				15EBA7181E27079F00B38D0E /* Info.plist */,
 			);
@@ -592,6 +595,7 @@
 				CCB4C7B61E5AB0850050D3DD /* APICalls.swift in Sources */,
 				9DB896761E5BC42B00E1B592 /* GroupHistoryViewController.swift in Sources */,
 				9DB896781E5BD5D800E1B592 /* MessageTableViewCell.swift in Sources */,
+				15206C601E73D89900A08781 /* LoadView.swift in Sources */,
 				07A00B6F1E2EC51F00DD68F7 /* LoginViewController.swift in Sources */,
 				15A978991E28D89E007E4B21 /* GroupsViewController.swift in Sources */,
 				158ECEF71E5D07AD00D45DB3 /* CanvasModel.swift in Sources */,
@@ -602,6 +606,7 @@
 				9D7FC8841E413D0900293C83 /* FriendTableViewCell.swift in Sources */,
 				150CAD101E3ECF73003255DB /* GroupsTableViewCell.swift in Sources */,
 				158ECEF51E5CF0E300D45DB3 /* DrawStrokesDelegate.swift in Sources */,
+				B9DE53CB1E6CE7E400831710 /* DraggableTextView.swift in Sources */,
 				9D9CEB9C1E51629300C6B11C /* CanvasMenuView.swift in Sources */,
 				15EBA3EC1E5116AE006821C9 /* SelectImageViewController.swift in Sources */,
 				15EBA7021E27079F00B38D0E /* AppDelegate.swift in Sources */,
@@ -616,7 +621,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				15DA464F1E380AC100DE515A /* APIProtocol.swift in Sources */,
-				15DA464C1E38074900DE515A /* APIWrapperTest.swift in Sources */,
 				15EBA7171E27079F00B38D0E /* inkcluded_405Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

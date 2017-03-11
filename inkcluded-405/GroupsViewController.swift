@@ -13,7 +13,6 @@ class GroupsViewController: UIViewController {
     
     @IBOutlet var groupsTableView: UITableView!
     
-    let apiWrapper: APIWrapper = APIWrapper()
     var groups : [Group]?
     var selectedGroup: Group?
     var menuView: UIView?
@@ -24,7 +23,7 @@ class GroupsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.groups = apiWrapper.getAllGroups()
+        self.groups = []
         
         // making the menu view
         menuView = UITableView.init(frame: CGRect(x: -(self.view.frame.width*menuSize),
@@ -47,19 +46,28 @@ class GroupsViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let apiCalls = APICalls.sharedInstance
         
-        
-        if (appDelegate.apiWrapper?.client.currentUser == nil) {
+        if (apiCalls.currentUser == nil) {
             super.viewDidAppear(animated)
             self.performSegue(withIdentifier: "showLogin" , sender: self)
-            self.groups = appDelegate.apiWrapper?.groupList
+            self.groups = apiCalls.groupList
         }
-        else {
-            self.groups = appDelegate.apiWrapper?.groupList
-            
-        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
+        let apiCalls = APICalls.sharedInstance
+        if (apiCalls.currentUser != nil) {
+            let loadView = LoadView(frame: self.view.frame)
+            self.view.addSubview(loadView)
+            apiCalls.getGroupsAPI(sid: apiCalls.currentUser!.id, closure: { (groupList) in
+                self.groups = groupList
+                self.groupsTableView.reloadData()
+                loadView.removeFromSuperview()
+            })
+        }
     }
     
     // BUTTON ACTION
@@ -118,31 +126,15 @@ extension GroupsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let appdelegate = UIApplication.shared.delegate as! AppDelegate
         let cell = self.groupsTableView.dequeueReusableCell(withIdentifier: "groupsCell") as! GroupsTableViewCell
         let group = self.groups?[indexPath.row];
-        let names: [String] = (group?.members.map({ (memberId) -> String in
-            return apiWrapper.getFriendById(userId: memberId.id).firstName;
-        }))!
-        let finalNames = names.filter { (name) -> Bool in
-            return name != self.apiWrapper.getCurrentUser().firstName;
-        }
-            
-        print("ffff")
-//        if (appdelegate.apiWrapper?.client.currentUser != nil) {
-//            
-//            let userEntry = appdelegate.apiWrapper?.userEntry as! [AnyHashable : String]
-//            let group = self.groups?[indexPath.row];
-//            let names: [String] = (group?.members.map({ (member) -> String in
-//                return member.firstName}))!
-//            
-//            let finalNames = names.filter { (name) -> Bool in
-//                return name != userEntry[AnyHashable("firstname")];
-//            }
-//        }
-//        
+        
+        let members = group?.members.map({ (member) -> String in
+            return member.firstName
+        })
+        
         cell.groupName.text = group?.groupName
-        cell.groupDetails.text = finalNames.joined(separator: ", ")
+        cell.groupDetails.text = members?.joined(separator: ", ")
         
         return cell
     }

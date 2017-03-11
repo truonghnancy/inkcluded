@@ -32,7 +32,7 @@ class CanvasModel {
         return canvasElements.popLast()
     }
     
-    func saveCanvasElements(drawViewSize: CGSize) {
+    func saveCanvasElements(drawViewSize: CGSize, toFile path: String) {
         let inkEncoder = WCMInkEncoder()
         let doc = WCMDocument()
         let section = WCMDocumentSection()
@@ -70,7 +70,7 @@ class CanvasModel {
                 // add it to the section
                 section.add(willImage)
             }
-            else if let textElement = elem as? UITextField {
+            else if let textElement = elem as? DraggableTextView {
                 let textData = textElement.text?.data(using: .utf8)?.base64EncodedData()
                 let willImageWrapper = WCMDocumentSectionImage()
                 let mimeType = WCMDocumentContentType.getByMimeType("image/jpeg")
@@ -88,20 +88,35 @@ class CanvasModel {
         // Add section to document
         doc.sections.add(section)
         
-        // Set the document path
-        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-        let willDocPath = documentsPath.appending(WILL_DOCUMENT_NAME)
-        
         // Create and write to the file
-        doc.createDocument(atPath: willDocPath)
+        doc.createDocument(atPath: path)
     }
     
-    func restoreStateFromWILLFile() -> [AnyObject] {
-        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-        let willDocPath = documentsPath.appending(WILL_DOCUMENT_NAME)
-        let doc = WCMDocument()
+    func restoreStateFromWILLFile(textViewDelegate: UITextViewDelegate, fromFile path: String) -> [AnyObject] {
+        let elements = CanvasModel.decodeObjectsFromWillFile(textViewDelegate: textViewDelegate, atPath: path)
         
-        doc.load(atPath: willDocPath)
+        if let canvasElements = elements {
+            self.canvasElements.append(contentsOf: canvasElements)
+        }
+        else{
+            print("Failed to load from WILL file")
+            self.canvasElements = []
+        }
+    
+        return canvasElements
+    }
+    
+    static func decodeObjectsFromWillFile(textViewDelegate: UITextViewDelegate!, atPath path: String) -> [AnyObject]! {
+        let doc = WCMDocument()
+        var elements: [AnyObject] = []
+        
+        if !doc.load(atPath: path) {
+            return nil
+        }
+        
+        if doc.sections == nil {
+            return nil
+        }
         
         let section = doc.sections![0] as! WCMDocumentSection
         
@@ -123,7 +138,7 @@ class CanvasModel {
                     andStride: &strokeStride,
                     andWidth: &strokeWidth,
                     andColor: &strokeColor,
-                    andTs: &strokeStartValue, 
+                    andTs: &strokeStartValue,
                     andTf: &strokeFinishValue,
                     andBlendMode: &blendMode))!
                 {
@@ -137,7 +152,7 @@ class CanvasModel {
                         andBlendMode: blendMode
                     )
                     
-                    appendElement(elem: stroke!)
+                    elements.append(stroke!)
                 }
             }
             else if let imageElement = element as? WCMDocumentSectionImage {
@@ -147,15 +162,16 @@ class CanvasModel {
                     let imageView = DraggableImageView(image: image)
                     imageView.frame = imageElement.rect
                     
-                    appendElement(elem: imageView)
+                    elements.append(imageView)
                 }
                 else {
                     if let decodedData = Data(base64Encoded: imageElement.content.loadData()),
                         let decodedString = String(data: decodedData, encoding: .utf8) {
-                        let textField = UITextField(frame: imageElement.rect)
+                        let textField = DraggableTextView(frame: imageElement.rect)
+                        textField.delegate = textViewDelegate
                         textField.text = decodedString
                         
-                        appendElement(elem: textField)
+                        elements.append(textField)
                     }
                 }
             }
@@ -163,7 +179,7 @@ class CanvasModel {
                 print("Not expecting this type")
             }
         }
-    
-        return canvasElements
+        
+        return elements
     }
 }

@@ -14,12 +14,12 @@ class CanvasViewController: UIViewController {
     var drawView: DrawView?
 
     @IBOutlet weak var canvas: UIView!
-    @IBOutlet weak var sendButton: UIButton!
-    @IBOutlet weak var loadButton: UIButton!
     
     var menu: CanvasMenuView?
     var selectImageVC: SelectImageViewController?
-    private var orderedSubViews: [UIView] = [] // 0: drawView 1:sendButton 2:loadButton 3:menu
+    private var orderedSubViews: [UIView] = [] // 0: drawView 1:menu
+    
+    var msgGroup: Group?
     
     var model: CanvasModel?
     
@@ -41,8 +41,6 @@ class CanvasViewController: UIViewController {
         
         // Add subviews
         self.orderedSubViews.append(drawView!)
-        self.orderedSubViews.append(sendButton)
-        self.orderedSubViews.append(loadButton)
         self.orderedSubViews.append(menu!)
         
         canvas.addSubview(drawView!)
@@ -57,14 +55,50 @@ class CanvasViewController: UIViewController {
      *
      **/
     @IBAction func sendButtonPressed(_ sender: Any) {
-        model!.saveCanvasElements(drawViewSize: (drawView?.bounds.size)!)
+        // Set the document path
+        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+        let timestamp = String(format: "%f", NSDate().timeIntervalSince1970 * 1000);
+        let curUser = APICalls.sharedInstance.currentUser
+        let docName = (curUser?.id)! + timestamp
+        let willDocPath = documentsPath.appending(docName)
+        
+        model!.saveCanvasElements(drawViewSize: (drawView?.bounds.size)!, toFile: willDocPath)
+        
+        let sendMessage = Message(
+            filepath: willDocPath,
+            filename: docName,
+            groupid: (msgGroup?.id)!,
+            timestamp: timestamp,
+            senderid: (curUser?.id)!,
+            senderfirstname: (curUser?.firstName)!
+        )
+        
+        let loadView = LoadView(frame: self.view.frame)
+        self.view.addSubview(loadView)
+        APICalls.sharedInstance.sendMessage(message: sendMessage) { (isSent) in
+            if isSent {
+                loadView.removeFromSuperview()
+                self.navigationController?.popViewController(animated: false)
+            }
+            else {
+                loadView.removeFromSuperview()
+            
+                let alert = UIAlertController(title: "Error", message: "Failed to Send Message", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
     }
     
     // Loads a completely new canvas and discards the old canvas. Placeholder button just for canvas bugtesting.
-    @IBAction func loadButtonPressed(_ sender: Any) {
+    func loadButtonPressed(_ sender: Any) {
+        // Set the document path
+        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+        let willDocPath = documentsPath.appending("willFile")
+    
         // Clear and restore context
         model?.clearCanvasElements()
-        let renderElements = model?.restoreStateFromWILLFile()
+        let renderElements = model?.restoreStateFromWILLFile(textViewDelegate: self, fromFile: willDocPath)
         resetDrawView(withElements: renderElements!)
     }
     
@@ -106,17 +140,16 @@ extension CanvasViewController: CanvasMenuDelegate {
             break
         case .INSERT_TEXT:
             // TODO: replace these magic numbers
-            let myField: UITextField = UITextField (frame:CGRect.init(x: 50, y: 50, width: 100, height: 50));
-            myField.borderStyle = UITextBorderStyle.bezel
+            let myField: DraggableTextView = DraggableTextView(frame: CGRect.init(x: 50, y: 50, width: 150, height: 50));
             myField.delegate = self
             self.drawView!.addSubview(myField)
             self.view.becomeFirstResponder()
+            self.model?.appendElement(elem: myField)
             // TODO: figure out how to serialize
             break
         case .UNDO:
             let _ = self.model?.popMostRecentElement()
             resetDrawView(withElements: (self.model?.getCanvasElements())!)
-            
             break
         }
         
@@ -138,6 +171,7 @@ extension CanvasViewController: SelectImageDelegate {
         image.frame.origin = CGPoint(x: (canvas.frame.width - image.frame.width) / 2, y: (canvas.frame.height - image.frame.height) / 2)
         self.drawView!.addSubview(image)
         self.model!.appendElement(elem: image)
+        self.menu?.refreshView()
     }
 }
 
@@ -146,6 +180,7 @@ extension CanvasViewController: DrawStrokesDelegate {
         model!.appendElement(elem: stroke)
         self.menu?.refreshView()
     }
+    
     
     func clearStrokes() {
         model!.clearCanvasElements()
@@ -159,13 +194,18 @@ extension CanvasViewController: DrawStrokesDelegate {
     }
 }
 
-extension CanvasViewController: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        self.drawView!.endEditing(true)
-        return true
+extension CanvasViewController: UITextViewDelegate {
+    
+    func textViewDidChangeSelection(_ textView: UITextView) {
+        var textFrame = textView.frame
+        textFrame.size.height = textView.contentSize.height
+        textView.frame = textFrame
     }
     
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        self.model?.appendElement(elem: textField)
+    func textViewDidEndEditing(_ textView: UITextView) {
+        let draggableTextView = textView as? DraggableTextView
+        draggableTextView?.configureDraggableGestureRecognizers()
+        self.drawView!.endEditing(true)
+        textView.isSelectable = false
     }
 }
