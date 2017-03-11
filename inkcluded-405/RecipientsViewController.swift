@@ -209,6 +209,7 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
      */
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         doShowSearchResults = true
+        searchResults = [User]()
         friendsTableView.reloadData()
     }
     
