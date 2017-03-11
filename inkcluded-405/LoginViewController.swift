@@ -51,10 +51,13 @@ class LoginViewController: UIViewController {
         print("\t\tIn loginAndGetData")
         let apiCalls = APICalls.sharedInstance
         
+        let loaderView = LoadView(frame: self.view.frame)
+        self.view.addSubview(loaderView)
         apiCalls.client.login(withProvider: oauthType, urlScheme: "inkcluded-405", controller: self, animated: true, completion:
             {(user, error) -> Void in
                 if (error != nil) {
                     print("Error message: \(error?.localizedDescription)")
+                    loaderView.removeFromSuperview()
                 }
                 else {
                     apiCalls.client.currentUser = user
@@ -62,12 +65,12 @@ class LoginViewController: UIViewController {
                     apiCalls.login(closure:
                         {(userEntry) -> Void in
                             if (userEntry == nil) {
-                                
+                                loaderView.removeFromSuperview()
                             }
                             else {
+                                loaderView.removeFromSuperview()
                                 self.dismiss(animated: true, completion: nil)
                             }
-                            
                         })
                 }
         })

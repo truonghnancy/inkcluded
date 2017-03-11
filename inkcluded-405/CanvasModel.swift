@@ -98,9 +98,30 @@ class CanvasModel {
     }
     
     func restoreStateFromWILLFile(textViewDelegate: UITextViewDelegate, fromFile path: String) -> [AnyObject] {
-        let doc = WCMDocument()
+        let elements = CanvasModel.decodeObjectsFromWillFile(textViewDelegate: textViewDelegate, atPath: path)
         
-        doc.load(atPath: path)
+        if let canvasElements = elements {
+            self.canvasElements.append(contentsOf: canvasElements)
+        }
+        else{
+            print("Failed to load from WILL file")
+            self.canvasElements = []
+        }
+    
+        return canvasElements
+    }
+    
+    static func decodeObjectsFromWillFile(textViewDelegate: UITextViewDelegate!, atPath path: String) -> [AnyObject]! {
+        let doc = WCMDocument()
+        var elements: [AnyObject] = []
+        
+        if !doc.load(atPath: path) {
+            return nil
+        }
+        
+        if doc.sections == nil {
+            return nil
+        }
         
         let section = doc.sections![0] as! WCMDocumentSection
         
@@ -122,7 +143,7 @@ class CanvasModel {
                     andStride: &strokeStride,
                     andWidth: &strokeWidth,
                     andColor: &strokeColor,
-                    andTs: &strokeStartValue, 
+                    andTs: &strokeStartValue,
                     andTf: &strokeFinishValue,
                     andBlendMode: &blendMode))!
                 {
@@ -136,7 +157,7 @@ class CanvasModel {
                         andBlendMode: blendMode
                     )
                     
-                    appendElement(elem: stroke!)
+                    elements.append(stroke!)
                 }
             }
             else if let imageElement = element as? WCMDocumentSectionImage {
@@ -146,7 +167,7 @@ class CanvasModel {
                     let imageView = DraggableImageView(image: image)
                     imageView.frame = imageElement.rect
                     
-                    appendElement(elem: imageView)
+                    elements.append(imageView)
                 }
                 else {
                     if let decodedData = Data(base64Encoded: imageElement.content.loadData()),
@@ -155,7 +176,7 @@ class CanvasModel {
                         textField.delegate = textViewDelegate
                         textField.text = decodedString
                         
-                        appendElement(elem: textField)
+                        elements.append(textField)
                     }
                 }
             }
@@ -163,7 +184,7 @@ class CanvasModel {
                 print("Not expecting this type")
             }
         }
-    
-        return canvasElements
+        
+        return elements
     }
 }
