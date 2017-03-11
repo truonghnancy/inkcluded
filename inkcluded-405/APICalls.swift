@@ -48,13 +48,15 @@ struct Group {
 
 struct Message {
     private(set) var filepath: String;
+    private(set) var filename: String;
     private(set) var groupid: String;
     private(set) var timestamp: String;
     private(set) var senderid: String;
     private(set) var senderfirstname: String;
     
-    init(filepath: String, groupid: String, timestamp: String, senderid: String, senderfirstname: String) {
+    init(filepath: String, filename: String, groupid: String, timestamp: String, senderid: String, senderfirstname: String) {
         self.filepath = filepath;
+        self.filename = filename;
         self.groupid = groupid;
         self.timestamp = timestamp;
         self.senderid = senderid;
@@ -91,57 +93,10 @@ class APICalls {
         self.groupList = []
     }
     
-    /**
-     Sets the userEntry and updates the groups
-     Josh Choi
-     */
-//    func login(result : User) {
-//        currentUser = result
-//        self._getGroupsAPI(sid: String(describing: currentUser!.id)) { (groups) in
-//            self.groupList = groups
-//        }
-//        sendMessage(groupId: "bobatestcontainer", file: NSURL(string: NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]) as! URL)
-//    }
-//    
-    /**
-     Adds the User to the database if they're not already existing
-     Josh Choi
-    */
     func login(closure: @escaping (User?) -> Void) {
         let sid = client.currentUser?.userId
         let userTable = client.table(withName: "User")
-        //let query = userTable.query(with: NSPredicate(format: "id = %@", sid!))
         
-//        query.read { (result, error) in
-//            if let err = error {
-//                print("ERROR ", err)
-//                closure(nil)
-//                return
-//            }
-//            else if result?.items?.count == 0 {
-//                userTable.insert(["id" : sid!]) { (result, error) in
-//                    if error != nil {
-//                        print(error!)
-//                        closure(nil)
-//                        return
-//                    }
-//                    else  {
-//                        let tempUser = User(id: result![AnyHashable("id")] as! String, firstName: result![AnyHashable("firstName")] as! String, lastName: result![AnyHashable("lastName")] as! String)
-//                        self.currentUser = tempUser
-//                        closure(self.currentUser!)
-//                        return
-//                    }
-//                }
-//            }
-//            else if (result?.items) != nil {
-//                let tempUser = User(id: (result?.items?[0])![AnyHashable("id")] as! String, firstName: (result?.items?[0])![AnyHashable("firstName")] as! String, lastName: (result?.items?[0])![AnyHashable("lastName")] as! String)
-//                self.currentUser = tempUser
-//                closure(self.currentUser!)
-//                return
-//            }
-//            closure(nil)
-//            return
-//        }
         _getUserAPI(userId: sid!, closure: { (user) in
             if (user == nil) {
                 userTable.insert(["id" : sid!]) { (result, error) in
@@ -182,7 +137,6 @@ class APICalls {
                 closure(nil)
                 return
             } else if let items = result?.items {
-                print(items)
                 for item in items {
                     myDispatchGroup.enter()
                     self._getGroupInfo(groupId: item[AnyHashable("groupId")] as! String, closure:
@@ -247,7 +201,6 @@ class APICalls {
                 closure(nil)
                 return
             } else if let items = result?.items {
-                print("group members", items)
                 for item in items {
                     myDispatchGroup.enter()
                     self._getUserAPI(userId: item[AnyHashable("userId")] as! String, closure:
@@ -282,7 +235,6 @@ class APICalls {
                 return
             }
             else if let items = result?.items {
-                print("USER IS ", items[0])
                 let user = items[0]
                 retUser = User(id: user[AnyHashable("id")] as! String, firstName: user[AnyHashable("firstName")] as! String, lastName: user[AnyHashable("lastName")] as! String)
                 closure(retUser)
@@ -302,8 +254,7 @@ class APICalls {
         let userTable = client.table(withName: "User")
         let userEmail = userTable.query(with: NSPredicate(format: "email = %@", email))
         var retUsers = [User]()
-
-        print(userTable)
+        
         userEmail.read { (result, error) in
             if let err = error {
                 print("Error in Finding User by Email: ", err)
@@ -311,7 +262,6 @@ class APICalls {
                 return
             } else if let items = result?.items {
                 for item in items{
-                    print("going through result")
                     let tempUser = User(id: item[AnyHashable("id")] as! String, firstName: item[AnyHashable("firstName")] as! String, lastName: item[AnyHashable("lastName")] as! String)
                     retUsers.append(tempUser)
                 }
@@ -380,15 +330,11 @@ class APICalls {
                 return
             }
             else {
-                let blockBlob = blobContainer.blockBlobReference(fromName: message.senderid + message.timestamp)
+                let blockBlob = blobContainer.blockBlobReference(fromName: self.currentUser!.id + message.timestamp)
                 
                 blockBlob.metadata["timestamp"] = message.timestamp
-                blockBlob.metadata["sender"] = self.currentUser!.id
-                blockBlob.metadata["username"] = self.currentUser!.firstName
-                
-                blockBlob.uploadMetadata(completionHandler: { (<#Error?#>) in
-                    <#code#>
-                })
+                blockBlob.metadata["sender"] = message.senderid
+                blockBlob.metadata["username"] = message.senderfirstname
                 
                 blockBlob.uploadFromFile(withPath: message.filepath, completionHandler: { (err) in
                     if err != nil {
@@ -409,13 +355,16 @@ class APICalls {
      Gets all messages of a groupid and requires a closure that takes in the name of all the blobs that were retrieved
      Josh Choi
      */
-    func getAllMessage(groupId: String, closure: @escaping ([Message]) -> Void) {
+    func getAllMessage(groupId: String, closure: @escaping ([Message]?) -> Void) {
         let blobContainer = azsBlobClient.containerReference(fromName: groupId)
+        let myDispatchGroup = DispatchGroup()
         
         blobContainer.listBlobsSegmented(with: nil, prefix: nil, useFlatBlobListing: true, blobListingDetails: AZSBlobListingDetails.metadata, maxResults: -1, completionHandler: { (error, result) in
             
             if error != nil {
                 print("Error in getting blob list", error!)
+                closure(nil)
+                return
             }
             else {
                 var blobNames = [Message]()
@@ -425,29 +374,49 @@ class APICalls {
                 
                 for blob in result!.blobs!
                 {
+                    myDispatchGroup.enter()
+                    
                     let cblob = blob as! AZSCloudBlob
                     let blockBlob = blobContainer.blockBlobReference(fromName: cblob.blobName)
                     
-                    let tempMessage = Message(
-                        filepath: willDocName,
-                        groupid: groupId,
-                        timestamp: blockBlob.metadata.object(forKey: "timestamp") as! String,
-                        senderid: blockBlob.metadata.object(forKey: "sender") as! String,
-                        senderfirstname: blockBlob.metadata.object(forKey: "username") as! String
-                    )
-                    
-                    blobNames.append(tempMessage)
-                    
-                    blockBlob.downloadToFile(withPath: documentsDirectory, append: false) { (error) in
-                        if error != nil {
-                            print("Error while downloading blob", error!)
+                    blockBlob.downloadAttributes(completionHandler: { (error) in
+                        if (error != nil) {
+                            let tempMessage = Message(filepath: "", filename: "cblob.blobName", groupid: groupId, timestamp: "", senderid: "", senderfirstname: "")
+                            
+                            blobNames.append(tempMessage)
+                            
+                            myDispatchGroup.leave()
                         }
-                    }
+                        else {
+                            let filepath = (documentsDirectory + "/" + cblob.blobName)
+                            
+                            blockBlob.downloadToFile(withPath: filepath, append: false) {
+                                (error) in
+                                if error != nil {
+                                    
+                                    let tempMessage = Message(filepath: "", filename: "cblob.blobName", groupid: groupId, timestamp: blockBlob.metadata.object(forKey: "timestamp") as! String, senderid: blockBlob.metadata.object(forKey: "sender") as! String, senderfirstname: blockBlob.metadata.object(forKey: "username") as! String)
+                                    
+                                    blobNames.append(tempMessage)
+                                    
+                                    myDispatchGroup.leave()
+                                }
+                                else {
+                                    
+                                    let tempMessage = Message(filepath: filepath, filename: "cblob.blobName", groupid: groupId, timestamp: blockBlob.metadata.object(forKey: "timestamp") as! String, senderid: blockBlob.metadata.object(forKey: "sender") as! String, senderfirstname: blockBlob.metadata.object(forKey: "username") as! String)
+                                    
+                                    blobNames.append(tempMessage)
+                                    
+                                    myDispatchGroup.leave()
+                                }
+                            }
+                        }
+                    })
                 }
-                blobNames.sorted(by: { $0.timestamp < $1.timestamp })
-                closure(blobNames)
+                myDispatchGroup.notify(queue: .main, execute: {
+                    closure(blobNames.sorted(by: { $0.timestamp < $1.timestamp }))
+                    return
+                })
             }
-            
         })
     }
 }
