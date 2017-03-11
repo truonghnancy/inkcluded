@@ -24,6 +24,7 @@ class GroupHistoryViewController: UIViewController {
         
         self.navBar.title = curGroup?.groupName
         self.messageElements = []
+        self.curMessages = []
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -32,7 +33,13 @@ class GroupHistoryViewController: UIViewController {
         let loadView = LoadView(frame: self.view.frame)
         self.view.addSubview(loadView)
         APICalls.sharedInstance.getAllMessage(groupId: (curGroup?.id)!) { (messages) in
-            self.curMessages = messages;
+            if messages == nil {
+                self.curMessages = []
+            }
+            else {
+                self.curMessages = messages
+            }
+            
             self.loadAllMessages()
             loadView.removeFromSuperview()
         }
@@ -113,7 +120,9 @@ class GroupHistoryViewController: UIViewController {
         if segue.identifier == "newMessageSegue" {
             let destination = segue.destination as? CanvasViewController
             destination?.msgGroup = curGroup
-            destination?.restoreState(fromElements: (sender as? [AnyObject])!)
+            if let elements = sender as? [AnyObject] {
+                destination?.restoreState(fromElements: elements)
+            }
         }
     }
     
