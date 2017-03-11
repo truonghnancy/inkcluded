@@ -379,7 +379,7 @@ class APICalls {
                     
                     blockBlob.downloadAttributes(completionHandler: { (error) in
                         if (error != nil) {
-                            let tempMessage = Message(filepath: "", filename: "cblob.blobName", groupid: groupId, timestamp: "", senderid: "", senderfirstname: "")
+                            let tempMessage = Message(filepath: "", filename: cblob.blobName, groupid: groupId, timestamp: "", senderid: "", senderfirstname: "")
                             
                             blobNames.append(tempMessage)
                             
