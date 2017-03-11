@@ -85,8 +85,8 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "newCanvasSegue" {
-            let destination = segue.destination as? CanvasViewController
-            destination?.msgGroup = createdGroup
+            let destination = segue.destination as? GroupHistoryViewController
+            destination?.curGroup = createdGroup
         }
     }
     

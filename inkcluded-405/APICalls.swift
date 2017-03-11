@@ -215,7 +215,7 @@ class APICalls {
                 return
             })
         }
-
+        
     }
     
     /**
@@ -247,7 +247,7 @@ class APICalls {
         }
     }
     /**
-    Finds user with a email in the database tables.
+     Finds user with a email in the database tables.
      Eric Roh
      */
     func findUserByEmail(email: String, closure: @escaping ([User]?) -> Void) {
@@ -274,7 +274,7 @@ class APICalls {
     /**
      Adds a new group to the database with given members and current user.
      Eric Roh
-    */
+     */
     func createGroup(members: [User], name: String, closure: @escaping (Group?) -> Void) {
         let groupTable = client.table(withName: "Group")
         let gxuTable = client.table(withName: "GroupXUser")
@@ -369,8 +369,6 @@ class APICalls {
             else {
                 var blobNames = [Message]()
                 let documentsDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-                let timestamp = String(format: "%f", NSDate().timeIntervalSince1970 * 1000);
-                let willDocName = documentsDirectory.appending((self.currentUser?.id)! + timestamp)
                 
                 for blob in result!.blobs!
                 {
@@ -394,7 +392,14 @@ class APICalls {
                                 (error) in
                                 if error != nil {
                                     
-                                    let tempMessage = Message(filepath: "", filename: "cblob.blobName", groupid: groupId, timestamp: blockBlob.metadata.object(forKey: "timestamp") as! String, senderid: blockBlob.metadata.object(forKey: "sender") as! String, senderfirstname: blockBlob.metadata.object(forKey: "username") as! String)
+                                    let tempMessage = Message(
+                                        filepath: "",
+                                        filename: cblob.blobName,
+                                        groupid: groupId,
+                                        timestamp: blockBlob.metadata.object(forKey: "timestamp") as! String,
+                                        senderid: blockBlob.metadata.object(forKey: "sender") as! String,
+                                        senderfirstname: blockBlob.metadata.object(forKey: "username") as! String
+                                    )
                                     
                                     blobNames.append(tempMessage)
                                     
@@ -402,7 +407,14 @@ class APICalls {
                                 }
                                 else {
                                     
-                                    let tempMessage = Message(filepath: filepath, filename: "cblob.blobName", groupid: groupId, timestamp: blockBlob.metadata.object(forKey: "timestamp") as! String, senderid: blockBlob.metadata.object(forKey: "sender") as! String, senderfirstname: blockBlob.metadata.object(forKey: "username") as! String)
+                                    let tempMessage = Message(
+                                        filepath: filepath,
+                                        filename: cblob.blobName,
+                                        groupid: groupId,
+                                        timestamp: blockBlob.metadata.object(forKey: "timestamp") as! String,
+                                        senderid: blockBlob.metadata.object(forKey: "sender") as! String,
+                                        senderfirstname: blockBlob.metadata.object(forKey: "username") as! String
+                                    )
                                     
                                     blobNames.append(tempMessage)
                                     
@@ -420,12 +432,3 @@ class APICalls {
         })
     }
 }
-
-
-
-
-
-
-
-
-

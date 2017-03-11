@@ -64,7 +64,14 @@ class CanvasViewController: UIViewController {
         
         model!.saveCanvasElements(drawViewSize: (drawView?.bounds.size)!, toFile: willDocPath)
         
-        let sendMessage = Message(filepath: willDocPath, groupid: (msgGroup?.id)!, timestamp: timestamp, senderid: (curUser?.id)!, senderfirstname: (curUser?.firstName)!)
+        let sendMessage = Message(
+            filepath: willDocPath,
+            filename: docName,
+            groupid: (msgGroup?.id)!,
+            timestamp: timestamp,
+            senderid: (curUser?.id)!,
+            senderfirstname: (curUser?.firstName)!
+        )
         
         APICalls.sharedInstance.sendMessage(message: sendMessage) { (isSent) in
             if isSent {

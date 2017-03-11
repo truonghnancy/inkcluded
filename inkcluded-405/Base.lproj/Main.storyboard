@@ -204,15 +204,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SZY-FO-tPb">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="SZY-FO-tPb" firstAttribute="top" secondItem="4M8-KY-hwl" secondAttribute="bottom" id="6Vy-jx-WMY"/>
-                            <constraint firstItem="SZY-FO-tPb" firstAttribute="width" secondItem="GeA-hj-FyI" secondAttribute="width" id="PTV-rg-MIa"/>
-                            <constraint firstItem="SZY-FO-tPb" firstAttribute="centerX" secondItem="GeA-hj-FyI" secondAttribute="centerX" id="h5U-dL-6Z4"/>
-                            <constraint firstItem="SZY-FO-tPb" firstAttribute="bottom" secondItem="P6p-3S-tSQ" secondAttribute="top" id="oGb-ax-QKD"/>
+                            <constraint firstItem="SZY-FO-tPb" firstAttribute="centerX" secondItem="GeA-hj-FyI" secondAttribute="centerX" id="LFz-Kw-B8b"/>
+                            <constraint firstItem="SZY-FO-tPb" firstAttribute="height" secondItem="GeA-hj-FyI" secondAttribute="height" id="Q6W-k6-okW"/>
+                            <constraint firstItem="SZY-FO-tPb" firstAttribute="centerY" secondItem="GeA-hj-FyI" secondAttribute="centerY" id="Z4p-X6-esZ"/>
+                            <constraint firstItem="SZY-FO-tPb" firstAttribute="width" secondItem="GeA-hj-FyI" secondAttribute="width" id="oll-f9-Z7k"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Title" id="Q6f-CT-LsL">
@@ -282,7 +282,7 @@
                     <connections>
                         <outlet property="friendsTableView" destination="Nzv-e3-Wa1" id="bjs-Gx-TrK"/>
                         <outlet property="selectButton" destination="q8o-Go-KWB" id="Jgi-Pt-zcK"/>
-                        <segue destination="WEB-ve-wAz" kind="show" identifier="newCanvasSegue" id="Rtv-oo-sCb"/>
+                        <segue destination="dDT-sy-6Lq" kind="show" identifier="newCanvasSegue" id="9cx-8N-Uuu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IKq-2j-GBn" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -401,6 +401,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Rtv-oo-sCb"/>
+        <segue reference="9cx-8N-Uuu"/>
     </inferredMetricsTieBreakers>
 </document>

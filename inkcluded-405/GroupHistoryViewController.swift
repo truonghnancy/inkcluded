@@ -58,6 +58,9 @@ class GroupHistoryViewController: UIViewController {
         
             let drawView = DrawView(frame: CGRect(origin: origin, size: drawViewSize))
             let elements = CanvasModel.decodeObjectsFromWillFile(textViewDelegate: nil, atPath: message.filepath)
+            drawView.isUserInteractionEnabled = false
+            drawView.layer.borderWidth = 1.0
+            drawView.layer.borderColor = UIColor.black.cgColor
             
             if let drawViewContent = elements {
                 drawView.refreshViewWithElements(elements: drawViewContent)
