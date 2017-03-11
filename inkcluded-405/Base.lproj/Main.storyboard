@@ -218,8 +218,7 @@
                     <navigationItem key="navigationItem" title="Title" id="Q6f-CT-LsL">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="joO-vS-DEc">
                             <connections>
-                                <action selector="newMessage:" destination="dDT-sy-6Lq" id="80T-Sg-DKE"/>
-                                <segue destination="WEB-ve-wAz" kind="show" id="Fn8-DQ-fSr"/>
+                                <segue destination="WEB-ve-wAz" kind="show" identifier="newMessageSegue" id="Fn8-DQ-fSr"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -402,6 +401,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Fn8-DQ-fSr"/>
+        <segue reference="Rtv-oo-sCb"/>
     </inferredMetricsTieBreakers>
 </document>

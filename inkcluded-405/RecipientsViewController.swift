@@ -18,6 +18,7 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
     
     var selectedRecipients = [User]()         // A list of selected recipients
     var friends : [User]?                     // A list of friends to select
+    var createdGroup: Group?                  // group created from selected recipients
     
     /**
      * Performs setup once the view loads.
@@ -82,6 +83,13 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
         self.selectButton.isEnabled = self.selectedRecipients.count > 0
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "newCanvasSegue" {
+            let destination = segue.destination as? CanvasViewController
+            destination?.msgGroup = createdGroup
+        }
+    }
+    
     /**
      * Responds to the 'Select' button's being pressed.
      */
@@ -100,6 +108,8 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
                         
                         return
                     }
+                    
+                    self.createdGroup = newGroup
                     
                     self.selectedRecipients = []
                     self.selectButton.isEnabled = false

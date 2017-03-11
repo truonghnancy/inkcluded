@@ -19,6 +19,8 @@ class CanvasViewController: UIViewController {
     var selectImageVC: SelectImageViewController?
     private var orderedSubViews: [UIView] = [] // 0: drawView 1:menu
     
+    var msgGroup: Group?
+    
     var model: CanvasModel?
     
     override func viewDidLoad() {
@@ -55,8 +57,25 @@ class CanvasViewController: UIViewController {
     @IBAction func sendButtonPressed(_ sender: Any) {
         // Set the document path
         let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-        let willDocPath = documentsPath.appending("willFile")
+        let timestamp = String(format: "%f", NSDate().timeIntervalSince1970 * 1000);
+        let curUser = APICalls.sharedInstance.currentUser
+        let docName = (curUser?.id)! + timestamp
+        let willDocPath = documentsPath.appending(docName)
+        
         model!.saveCanvasElements(drawViewSize: (drawView?.bounds.size)!, toFile: willDocPath)
+        
+        let sendMessage = Message(filepath: willDocPath, groupid: (msgGroup?.id)!, timestamp: timestamp, senderid: (curUser?.id)!, senderfirstname: (curUser?.firstName)!)
+        
+        APICalls.sharedInstance.sendMessage(message: sendMessage) { (isSent) in
+            if isSent {
+                self.navigationController?.popViewController(animated: false)
+            }
+            else {
+                let alert = UIAlertController(title: "Error", message: "Failed to Send Message", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
     }
     
     // Loads a completely new canvas and discards the old canvas. Placeholder button just for canvas bugtesting.

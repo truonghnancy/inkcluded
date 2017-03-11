@@ -380,20 +380,17 @@ class APICalls {
                 return
             }
             else {
-                let timestamp = String(format: "%f", NSDate().timeIntervalSince1970 * 1000);
-                let blockBlob = blobContainer.blockBlobReference(fromName: self.currentUser!.id + timestamp)
+                let blockBlob = blobContainer.blockBlobReference(fromName: message.senderid + message.timestamp)
                 
-                blockBlob.metadata["timestamp"] = timestamp
+                blockBlob.metadata["timestamp"] = message.timestamp
                 blockBlob.metadata["sender"] = self.currentUser!.id
                 blockBlob.metadata["username"] = self.currentUser!.firstName
                 
-                //blockBlob.uploadMetadata(completionHandler: {(err) in
-                //    if err != nil {
-                //        print("Error in uploading metadata", err!)
-                //    }
-                //})
+                blockBlob.uploadMetadata(completionHandler: { (<#Error?#>) in
+                    <#code#>
+                })
                 
-                blockBlob.uploadFromFile(with: NSURL(string: message.filepath) as! URL, completionHandler: { (err) in
+                blockBlob.uploadFromFile(withPath: message.filepath, completionHandler: { (err) in
                     if err != nil {
                         print("Error in uploading blob", err!)
                         closure(false)
@@ -423,13 +420,21 @@ class APICalls {
             else {
                 var blobNames = [Message]()
                 let documentsDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+                let timestamp = String(format: "%f", NSDate().timeIntervalSince1970 * 1000);
+                let willDocName = documentsDirectory.appending((self.currentUser?.id)! + timestamp)
                 
                 for blob in result!.blobs!
                 {
                     let cblob = blob as! AZSCloudBlob
                     let blockBlob = blobContainer.blockBlobReference(fromName: cblob.blobName)
                     
-                    let tempMessage = Message(filepath: documentsDirectory, groupid: groupId, timestamp: blockBlob.metadata.object(forKey: "id") as! String, senderid: blockBlob.metadata.object(forKey: "sender") as! String, senderfirstname: blockBlob.metadata.object(forKey: "username") as! String)
+                    let tempMessage = Message(
+                        filepath: willDocName,
+                        groupid: groupId,
+                        timestamp: blockBlob.metadata.object(forKey: "timestamp") as! String,
+                        senderid: blockBlob.metadata.object(forKey: "sender") as! String,
+                        senderfirstname: blockBlob.metadata.object(forKey: "username") as! String
+                    )
                     
                     blobNames.append(tempMessage)
                     
