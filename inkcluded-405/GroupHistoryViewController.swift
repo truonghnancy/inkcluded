@@ -14,6 +14,7 @@ class GroupHistoryViewController: UIViewController {
     var curGroup: Group?
     var curMessages: [Message]?
     var contentView: UIView?
+    var messageElements: [[AnyObject]]?
     
     @IBOutlet var historyView: UIScrollView!
     @IBOutlet var navBar: UINavigationItem!
@@ -22,6 +23,7 @@ class GroupHistoryViewController: UIViewController {
         super.viewDidLoad()
         
         self.navBar.title = curGroup?.groupName
+        self.messageElements = []
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -70,16 +72,27 @@ class GroupHistoryViewController: UIViewController {
         
             let drawView = DrawView(frame: CGRect(origin: origin, size: drawViewSize))
             let elements = CanvasModel.decodeObjectsFromWillFile(textViewDelegate: nil, atPath: message.filepath)
-            drawView.isUserInteractionEnabled = false
+            
+            // Set the message index
+            drawView.groupMessageIndex = (messageElements?.count)!
+            
+            // Format the view
+            drawView.shouldDraw = false
             drawView.layer.borderWidth = 1.0
             drawView.layer.borderColor = UIColor.black.cgColor
             drawView.clipsToBounds = true
             
+            // add a gesture recognizer
+            let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.respondToMessageTap(recognizer:)))
+            drawView.addGestureRecognizer(tapRecognizer)
+            
             if let drawViewContent = elements {
                 drawView.refreshViewWithElements(elements: drawViewContent)
+                messageElements?.append(drawViewContent)
             }
             else {
                 drawView.backgroundColor = UIColor.black
+                messageElements?.append([])
             }
             
             contentView?.addSubview(nameField)
@@ -89,10 +102,18 @@ class GroupHistoryViewController: UIViewController {
         }
     }
     
+    func respondToMessageTap(recognizer: UITapGestureRecognizer) {
+        let drawView = recognizer.view as? DrawView
+        let elements = messageElements?[(drawView?.groupMessageIndex)!]
+        
+        self.performSegue(withIdentifier: "newMessageSegue", sender: elements)
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "newMessageSegue" {
             let destination = segue.destination as? CanvasViewController
             destination?.msgGroup = curGroup
+            destination?.restoreState(fromElements: (sender as? [AnyObject])!)
         }
     }
     

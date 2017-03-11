@@ -36,9 +36,16 @@ class DrawView: UIView {
     
     private var pathStride: Int32!
     
+    // Whether to allow strokes to be drawn
+    var shouldDraw: Bool
+    
+    // if this belongs in a group, it should have a group index
+    var groupMessageIndex: Int?
+    
     override init(frame: CGRect) {
+        shouldDraw = true
         super.init(frame: frame)
-        
+
         self.initWillContext()
         self.backgroundColor = UIColor.white
         willContext.setTarget(strokesLayer)
@@ -138,7 +145,7 @@ class DrawView: UIView {
     func processTouches(touches: Set<UITouch>, withEvent event: UIEvent) {
         let touch = touches[touches.index(touches.startIndex, offsetBy: 0)]
         
-        if (touch.phase != UITouchPhase.stationary) {
+        if (shouldDraw && touch.phase != UITouchPhase.stationary) {
             let location = touch.location(in: self)
             var wcmInputPhase: WCMInputPhase? = nil
             

@@ -28,7 +28,9 @@ class CanvasViewController: UIViewController {
         
         // Initialization
         drawView = getNewDrawView()
-        model = CanvasModel()
+        if (model == nil) {
+            model = CanvasModel()
+        }
         menu = CanvasMenuView(size: self.view.frame.size, delegate: self)
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         selectImageVC = storyboard.instantiateViewController(withIdentifier: "selectImageVC") as? SelectImageViewController
@@ -102,6 +104,15 @@ class CanvasViewController: UIViewController {
         resetDrawView(withElements: renderElements!)
     }
     
+    func restoreState(fromElements elements: [AnyObject]) {
+        if model == nil {
+            model = CanvasModel()
+        }
+        model?.clearCanvasElements()
+        model?.restoreState(fromElements: elements)
+        resetDrawView(withElements: elements)
+    }
+    
     func resetDrawView(withElements elements: [AnyObject]) {
         drawView?.removeFromSuperview();
         
@@ -119,7 +130,7 @@ class CanvasViewController: UIViewController {
      * Helper Functions
      */
     func getNewDrawView() -> DrawView {
-        let newDrawView = DrawView(frame: canvas.bounds)
+        let newDrawView = DrawView(frame: self.view.bounds)
         newDrawView.setNewDelegate(newDelegate: self)
         
         return newDrawView

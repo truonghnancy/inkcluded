@@ -106,6 +106,10 @@ class CanvasModel {
         return canvasElements
     }
     
+    func restoreState(fromElements elements: [AnyObject]) {
+        self.canvasElements.append(contentsOf: elements)
+    }
+    
     static func decodeObjectsFromWillFile(textViewDelegate: UITextViewDelegate!, atPath path: String) -> [AnyObject]! {
         let doc = WCMDocument()
         var elements: [AnyObject] = []
