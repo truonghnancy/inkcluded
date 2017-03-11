@@ -7,12 +7,17 @@
 //
 
 import XCTest
+@testable import inkcluded_405
 
 class APICallTests: XCTestCase {
+    
+    var apiCalls : APICalls!
     
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
+        //APICalls.sharedInstance
+        apiCalls = APICalls.sharedInstance
     }
     
     override func tearDown() {
