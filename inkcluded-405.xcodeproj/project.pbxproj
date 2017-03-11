@@ -40,7 +40,6 @@
 		CCFD64A41E3EEF600097BE78 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCFD64A31E3EEF600097BE78 /* SafariServices.framework */; };
 		EE5A8EFE1E404A2200BC44AF /* WILLCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE5A8EFD1E404A2200BC44AF /* WILLCore.framework */; };
 		EE5A8F041E404B4000BC44AF /* Stroke.m in Sources */ = {isa = PBXBuildFile; fileRef = EE5A8F031E404B4000BC44AF /* Stroke.m */; };
-		EEFB912D1E5C1CE30054BEE6 /* APIWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFB912C1E5C1CE30054BEE6 /* APIWrapper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -111,7 +110,6 @@
 		EE5A8EFF1E404B2800BC44AF /* inkcluded-405-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "inkcluded-405-Bridging-Header.h"; sourceTree = "<group>"; };
 		EE5A8F031E404B4000BC44AF /* Stroke.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Stroke.m; sourceTree = "<group>"; };
 		EE5A8F051E404B4A00BC44AF /* Stroke.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Stroke.h; sourceTree = "<group>"; };
-		EEFB912C1E5C1CE30054BEE6 /* APIWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIWrapper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,7 +164,6 @@
 		15A9789E1E29943E007E4B21 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				EEFB912C1E5C1CE30054BEE6 /* APIWrapper.swift */,
 				EE5A8F031E404B4000BC44AF /* Stroke.m */,
 				EE5A8F051E404B4A00BC44AF /* Stroke.h */,
 				CCB4C7B51E5AB0850050D3DD /* APICalls.swift */,
@@ -595,7 +592,6 @@
 				15A978991E28D89E007E4B21 /* GroupsViewController.swift in Sources */,
 				158ECEF71E5D07AD00D45DB3 /* CanvasModel.swift in Sources */,
 				EE5A8F041E404B4000BC44AF /* Stroke.m in Sources */,
-				EEFB912D1E5C1CE30054BEE6 /* APIWrapper.swift in Sources */,
 				15F528BE1E64B35600A27C66 /* DraggableImageView.swift in Sources */,
 				15A9789B1E28D922007E4B21 /* CanvasViewController.swift in Sources */,
 				9D7FC8841E413D0900293C83 /* FriendTableViewCell.swift in Sources */,
