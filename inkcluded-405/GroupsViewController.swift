@@ -72,7 +72,12 @@ class GroupsViewController: UIViewController {
     
     // BUTTON ACTION
     @IBAction func menuTapped(_ sender: UIBarButtonItem) {
-        openMenu()
+        if (menuOpen) {
+            closeMenu()
+        }
+        else {
+            openMenu()
+        }
     }
 }
 
