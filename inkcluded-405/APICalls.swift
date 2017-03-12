@@ -93,6 +93,18 @@ class APICalls {
         self.groupList = []
     }
     
+    /**
+      * This is only for testing & dependcy injection purposes
+     **/
+    init(mClient: MSClient, mAzsAccount: AZSCloudStorageAccount) {
+        client = mClient
+        let azsAccount = mAzsAccount
+        azsBlobClient = (azsAccount.getBlobClient())!
+        
+        self.friendsList = Set<User>()
+        self.groupList = []
+    }
+    
     func login(closure: @escaping (User?) -> Void) {
         let sid = client.currentUser?.userId
         let userTable = client.table(withName: "User")

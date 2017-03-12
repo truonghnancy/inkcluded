@@ -8,6 +8,7 @@
 
 import XCTest
 @testable import inkcluded_405
+import AZSClient
 
 class APICallTests: XCTestCase {
     
@@ -26,8 +27,25 @@ class APICallTests: XCTestCase {
     }
     
     func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        // mock MSClient
+        class mockMSClient: MSClient {
+            init(user: MSUser) {
+                super.init()
+                self.currentUser = user
+            }
+        }
+        // mock MSUser
+        class mockMSUser: MSUser {
+            
+        }
+        // mock azure storage account
+        class mockAZSAccount: AZSCloudStorageAccount {
+            
+        }
+        
+        var mockClient = mockMSClient(user: mockMSUser())
+        var mockAzsAccount = mockAZSAccount()
+        var apiCalls = APICalls(mClient: mockClient, mAzsAccount: mockAzsAccount)
     }
     
     func testPerformanceExample() {
