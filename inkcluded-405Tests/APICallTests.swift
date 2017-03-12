@@ -38,13 +38,34 @@ class APICallTests: XCTestCase {
         class mockMSUser: MSUser {
             
         }
+        // mock AzureStorageCredentials
+        class mockAZSStorageCredentials: AZSStorageCredentials {
+            
+        }
         // mock azure storage account
         class mockAZSAccount: AZSCloudStorageAccount {
+            var blobStorage: AZSCloudBlobClient?
+            
+            init(mBlobStorage: AZSCloudBlobClient) {
+                do {
+                    try super.init(credentials: mockAZSStorageCredentials(), useHttps: false, endpointSuffix: nil)
+                    self.blobStorage = mBlobStorage
+                } catch {
+                    print("mockAZSAccount didn't init")
+                }
+            }
+            
+            override func getBlobClient() -> AZSCloudBlobClient! {
+                return blobStorage!
+            }
+        }
+        // mock azure blob storage
+        class mockBlobStorage: AZSCloudBlobClient {
             
         }
         
-        var mockClient = mockMSClient(user: mockMSUser())
-        var mockAzsAccount = mockAZSAccount()
+        let mockClient = mockMSClient(user: mockMSUser())
+        let mockAzsAccount = mockAZSAccount(mBlobStorage: mockBlobStorage())
         var apiCalls = APICalls(mClient: mockClient, mAzsAccount: mockAzsAccount)
     }
     
