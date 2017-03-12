@@ -16,8 +16,24 @@ class APICallTests: XCTestCase {
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
-        //APICalls.sharedInstance
         apiCalls = APICalls.sharedInstance
+        
+        apiCalls.client.login
+    }
+    
+//    func testLogin() {
+//        apiCalls.login(closure: {
+//        (user) in
+//            
+//        })
+//    }
+    
+    func testFindByEmail() {
+        apiCalls.findUserByEmail(email: "josh14231@gmail.com", closure: {
+            (users) in
+                print(users![0].firstName, "hello")
+                XCTAssertEqual(users![0].firstName, "Josh")
+        })
     }
     
     override func tearDown() {
