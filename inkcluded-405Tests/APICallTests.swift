@@ -49,6 +49,20 @@ class APICallTests: XCTestCase {
         }
         // mock MSTable
         class mockMSTable: MSTable {
+            var query: MSQuery
+            
+            init(name tableName: String, client: MSClient, query: MSQuery) {
+                super.init(name: tableName, client: client)
+                self.query = query
+            }
+            
+            override func query(with predicate: NSPredicate) -> MSQuery {
+                return query
+            }
+            
+        }
+        // mock query
+        class mockMSQuery: MSQuery {
             
         }
         // mock azure storage account
@@ -75,11 +89,12 @@ class APICallTests: XCTestCase {
         }
         
         let mockClient = mockMSClient(user: mockMSUser(userId: "enrique"))
-        let mockTable = mockMSTable(name: "User", client: mockClient)
+        let mockQuery = mockMSQuery()
+        let mockTable = mockMSTable(name: "User", client: mockClient, query: mockQuery)
         mockClient.setTable(mTable: mockTable)
         let mockBlob = mockBlobStorage()
         let mockAzsAccount = mockAZSAccount(mBlobStorage: mockBlob)
-        var apiCalls = APICalls(mClient: mockClient, mAzsAccount: mockAzsAccount)
+        let apiCalls = APICalls(mClient: mockClient, mAzsAccount: mockAzsAccount)
         
         
         // Testing if there are no users in the User table
@@ -87,6 +102,9 @@ class APICallTests: XCTestCase {
             {(userEntry) -> Void in
                 XCTAssertNotNil(userEntry)
         })
+        
+        // Testing if there's a valid user in the User table
+        //mockTable.ins
     }
     
     func testPerformanceExample() {
