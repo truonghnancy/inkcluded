@@ -343,12 +343,22 @@ class APICalls {
                         return
                     }
                     else {
+                        self.sendPushNotificationAPI(groupId: message.groupid)
                         closure(true)
                         return
                     }
                 })
             }
         })
+    }
+    
+    func sendPushNotificationAPI(groupId: String) {
+        client.invokeAPI("pushMessage", body: nil, httpMethod: "POST", parameters: [AnyHashable("groupId"): groupId], headers: nil) { (myobject, response, error) in
+            if error != nil {
+                print("Error sending push notification", error!)
+            }
+        }
+        
     }
     
     /*
