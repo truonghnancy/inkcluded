@@ -17,8 +17,6 @@ class APICallTests: XCTestCase {
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
-        //APICalls.sharedInstance
-        apiCalls = APICalls.sharedInstance
     }
     
     override func tearDown() {
@@ -29,13 +27,28 @@ class APICallTests: XCTestCase {
     func testLogin() {
         // mock MSClient
         class mockMSClient: MSClient {
+            var table: MSTable?
+            
             init(user: MSUser) {
                 super.init()
                 self.currentUser = user
             }
+            
+            func setTable(mTable: MSTable) {
+                self.table = mTable
+            }
+            
+            override func table(withName tableName: String) -> MSTable {
+                return self.table!
+            }
+            
         }
         // mock MSUser
         class mockMSUser: MSUser {
+            
+        }
+        // mock MSTable
+        class mockMSTable: MSTable {
             
         }
         // mock azure storage account
@@ -61,7 +74,9 @@ class APICallTests: XCTestCase {
             
         }
         
-        let mockClient = mockMSClient(user: mockMSUser())
+        let mockClient = mockMSClient(user: mockMSUser(userId: "enrique"))
+        let mockTable = mockMSTable(name: "User", client: mockClient)
+        mockClient.setTable(mTable: mockTable)
         let mockBlob = mockBlobStorage()
         let mockAzsAccount = mockAZSAccount(mBlobStorage: mockBlob)
         var apiCalls = APICalls(mClient: mockClient, mAzsAccount: mockAzsAccount)
