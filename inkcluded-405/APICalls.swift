@@ -78,16 +78,9 @@ class APICalls {
             applicationURLString:"https://penmessageapp.azurewebsites.net"
         )
         
-        var azsAccount : AZSCloudStorageAccount?
+        let azsAccount : CloudStorageAccountProtocol = CloudStorageAccount()
         
-        do {
-            try azsAccount = AZSCloudStorageAccount(fromConnectionString: "DefaultEndpointsProtocol=https;AccountName=penmessagestorage;AccountKey=BV5WR1Km404XR6K8F/KxOKuAyTw0utckHVZvOqW/LO5+cUTNVdZ9hShhBS/oOR7VAjKaSlt9+nBVVLXdvRpCgQ==")
-        }
-        catch {
-            print("unable to create azure storage account")
-        }
-        
-        azsBlobClient = (azsAccount?.getBlobClient())!
+        azsBlobClient = azsAccount.getBlobStorageClient()
         
         self.friendsList = Set<User>()
         self.groupList = []
@@ -96,10 +89,10 @@ class APICalls {
     /**
       * This is only for testing & dependcy injection purposes
      **/
-    init(mClient: MSClient, mAzsAccount: AZSCloudStorageAccount) {
+    init(mClient: MSClient, mAzsAccount: CloudStorageAccountProtocol) {
         client = mClient
         let azsAccount = mAzsAccount
-        azsBlobClient = (azsAccount.getBlobClient())!
+        azsBlobClient = azsAccount.getBlobStorageClient()
         
         self.friendsList = Set<User>()
         self.groupList = []
