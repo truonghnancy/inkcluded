@@ -69,7 +69,7 @@ class APICalls {
     var groupList: [Group]
     let client: MSClient
     var currentUser : User?
-    var azsBlobClient : AZSCloudBlobClient
+    var azsBlobClient : BlobClientProtocol
     
     static let sharedInstance = APICalls()
     

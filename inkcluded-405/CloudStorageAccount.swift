@@ -21,7 +21,7 @@ class CloudStorageAccount: CloudStorageAccountProtocol {
         }
     }
     
-    func getBlobStorageClient() -> AZSCloudBlobClient {
-        return (azsAccount?.getBlobClient())!
+    func getBlobStorageClient() -> BlobClientProtocol {
+        return BlobClient(client: (azsAccount?.getBlobClient())!)
     }
 }

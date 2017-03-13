@@ -43,29 +43,32 @@ class APICallTests: XCTestCase {
             
         }
         // mock azure storage account
-        class mockAZSAccount: AZSCloudStorageAccount {
-            var blobStorage: AZSCloudBlobClient?
+        class mockAZSAccount: CloudStorageAccountProtocol {
+            var blobStorage: BlobClientProtocol
             
-            init(mBlobStorage: AZSCloudBlobClient) {
-                do {
-                    try super.init(credentials: mockAZSStorageCredentials(), useHttps: false, endpointSuffix: nil)
-                    self.blobStorage = mBlobStorage
-                } catch {
-                    print("mockAZSAccount didn't init")
-                }
+            init(mBlobStorage: BlobClientProtocol) {
+                self.blobStorage = mBlobStorage
             }
             
-            override func getBlobClient() -> AZSCloudBlobClient! {
-                return blobStorage!
+            func getBlobStorageClient() -> BlobClientProtocol {
+                return self.blobStorage
             }
         }
         // mock azure blob storage
-        class mockBlobStorage: AZSCloudBlobClient {
+        class mockBlobStorage: BlobClientProtocol {
+            func containerReference(fromName: String) -> AZSCloudBlobContainer {
+                return mockBlobContainer()
+            }
+        }
+        // mock azure blob container
+        class mockBlobContainer: AZSCloudBlobContainer {
             
         }
         
         let mockClient = mockMSClient(user: mockMSUser())
-        let mockAzsAccount = mockAZSAccount(mBlobStorage: mockBlobStorage())
+        let mockBlob = mockBlobStorage()
+        print(mockBlob)
+        let mockAzsAccount = mockAZSAccount(mBlobStorage: mockBlob)
         var apiCalls = APICalls(mClient: mockClient, mAzsAccount: mockAzsAccount)
     }
     

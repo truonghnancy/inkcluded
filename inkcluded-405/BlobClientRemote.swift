@@ -1,5 +1,5 @@
 //
-//  CloudStorageAccountProtocol.swift
+//  BlobClient.swift
 //  inkcluded-405
 //
 //  Created by Nancy on 3/12/17.
@@ -9,6 +9,6 @@
 import Foundation
 import AZSClient
 
-protocol CloudStorageAccountProtocol {
-    func getBlobStorageClient() -> BlobClientProtocol
+protocol BlobClientProtocol {
+    func containerReference(fromName: String) -> AZSCloudBlobContainer
 }
