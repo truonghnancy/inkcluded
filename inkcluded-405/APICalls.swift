@@ -351,6 +351,15 @@ class APICalls {
         })
     }
     
+    func sendPushNotificationAPI(groupId: String, closure: @escaping () -> Void) {
+        client.invokeAPI("pushMessage", body: <#T##Any?#>, httpMethod: "POST", parameters: <#T##[AnyHashable : Any]?#>, headers: nil) { (myobject, response, error) in
+            if error != nil {
+                print("Error sending push notivication", error)
+            }
+        }
+        
+    }
+    
     /*
      Gets all messages of a groupid and requires a closure that takes in the name of all the blobs that were retrieved
      Josh Choi
