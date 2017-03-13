@@ -38,9 +38,9 @@ class GroupHistoryViewController: UIViewController {
             }
             else {
                 self.curMessages = messages
+                self.loadAllMessages()
             }
             
-            self.loadAllMessages()
             loadView.removeFromSuperview()
         }
     }

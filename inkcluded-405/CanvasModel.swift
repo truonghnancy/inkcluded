@@ -32,7 +32,7 @@ class CanvasModel {
         return canvasElements.popLast()
     }
     
-    func saveCanvasElements(drawViewSize: CGSize, toFile path: String) {
+    func saveCanvasElements(drawViewSize: CGSize, toFile path: String) -> Bool {
         let inkEncoder = WCMInkEncoder()
         let doc = WCMDocument()
         let section = WCMDocumentSection()
@@ -89,7 +89,7 @@ class CanvasModel {
         doc.sections.add(section)
         
         // Create and write to the file
-        doc.createDocument(atPath: path)
+        return doc.createDocument(atPath: path)
     }
     
     func restoreStateFromWILLFile(textViewDelegate: UITextViewDelegate, fromFile path: String) -> [AnyObject] {
@@ -114,7 +114,7 @@ class CanvasModel {
         let doc = WCMDocument()
         var elements: [AnyObject] = []
         
-        if !doc.load(atPath: path) {
+        if !(doc.load(atPath: path)) {
             return nil
         }
         

@@ -63,7 +63,11 @@ class CanvasViewController: UIViewController {
         let curUser = APICalls.sharedInstance.currentUser
         var docName = (curUser?.id)! + timestamp
         docName = docName.appending(".will")
+<<<<<<< HEAD
         let willDocPath = documentsPath.appending("/\(docName)")
+=======
+        let willDocPath = documentsPath.appending(docName)
+>>>>>>> aeef606cb6d8dd295869bc9b5c2f23296fa23f70
         
         if !(model!.saveCanvasElements(drawViewSize: (drawView?.bounds.size)!, toFile: willDocPath)) {
             self.failedToSendMessage()
