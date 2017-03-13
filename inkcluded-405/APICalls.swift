@@ -69,7 +69,7 @@ class APICalls {
     var groupList: [Group]
     let client: MSClient
     var currentUser : User?
-    var azsBlobClient : AZSCloudBlobClient
+    var azsBlobClient : BlobClientProtocol
     
     static let sharedInstance = APICalls()
     
@@ -78,16 +78,21 @@ class APICalls {
             applicationURLString:"https://penmessageapp.azurewebsites.net"
         )
         
-        var azsAccount : AZSCloudStorageAccount?
+        let azsAccount : CloudStorageAccountProtocol = CloudStorageAccount()
         
-        do {
-            try azsAccount = AZSCloudStorageAccount(fromConnectionString: "DefaultEndpointsProtocol=https;AccountName=penmessagestorage;AccountKey=BV5WR1Km404XR6K8F/KxOKuAyTw0utckHVZvOqW/LO5+cUTNVdZ9hShhBS/oOR7VAjKaSlt9+nBVVLXdvRpCgQ==")
-        }
-        catch {
-            print("unable to create azure storage account")
-        }
+        azsBlobClient = azsAccount.getBlobStorageClient()
         
-        azsBlobClient = (azsAccount?.getBlobClient())!
+        self.friendsList = Set<User>()
+        self.groupList = []
+    }
+    
+    /**
+      * This is only for testing & dependcy injection purposes
+     **/
+    init(mClient: MSClient, mAzsAccount: CloudStorageAccountProtocol) {
+        client = mClient
+        let azsAccount = mAzsAccount
+        azsBlobClient = azsAccount.getBlobStorageClient()
         
         self.friendsList = Set<User>()
         self.groupList = []
@@ -343,12 +348,22 @@ class APICalls {
                         return
                     }
                     else {
+                        self.sendPushNotificationAPI(groupId: message.groupid)
                         closure(true)
                         return
                     }
                 })
             }
         })
+    }
+    
+    func sendPushNotificationAPI(groupId: String) {
+        client.invokeAPI("pushMessage", body: nil, httpMethod: "POST", parameters: [AnyHashable("groupId"): groupId], headers: nil) { (myobject, response, error) in
+            if error != nil {
+                print("Error sending push notification", error!)
+            }
+        }
+        
     }
     
     /*

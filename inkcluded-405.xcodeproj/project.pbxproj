@@ -33,6 +33,11 @@
 		9D9CEB9C1E51629300C6B11C /* CanvasMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EBA3E41E50ED39006821C9 /* CanvasMenuView.swift */; };
 		9DB896761E5BC42B00E1B592 /* GroupHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB896751E5BC42B00E1B592 /* GroupHistoryViewController.swift */; };
 		9DB896781E5BD5D800E1B592 /* MessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB896771E5BD5D800E1B592 /* MessageTableViewCell.swift */; };
+		B910C8591E74A6EB00D160EF /* APICallTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B910C8581E74A6EB00D160EF /* APICallTests.swift */; };
+		B910C85B1E76115300D160EF /* CloudStorageAccountProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B910C85A1E76115300D160EF /* CloudStorageAccountProtocol.swift */; };
+		B910C85D1E761A8500D160EF /* CloudStorageAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = B910C85C1E761A8500D160EF /* CloudStorageAccount.swift */; };
+		B92A03521E76243C00B1246A /* BlobClientRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92A03511E76243C00B1246A /* BlobClientRemote.swift */; };
+		B92A03541E7627BA00B1246A /* BlobClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92A03531E7627BA00B1246A /* BlobClient.swift */; };
 		B9DE53CB1E6CE7E400831710 /* DraggableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9DE53CA1E6CE7E400831710 /* DraggableTextView.swift */; };
 		CC1FDB521E3D9B3800B38C11 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1FDB511E3D9B3800B38C11 /* WebKit.framework */; };
 		CC7358AB1E429EC600496F35 /* MicrosoftAzureMobile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC7358AA1E429EC600496F35 /* MicrosoftAzureMobile.framework */; };
@@ -96,6 +101,11 @@
 		9DB896751E5BC42B00E1B592 /* GroupHistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupHistoryViewController.swift; sourceTree = "<group>"; };
 		9DB896771E5BD5D800E1B592 /* MessageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageTableViewCell.swift; sourceTree = "<group>"; };
 		A91286597B4880684D0F00B8 /* Pods_inkcluded_405UITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_inkcluded_405UITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B910C8581E74A6EB00D160EF /* APICallTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APICallTests.swift; sourceTree = "<group>"; };
+		B910C85A1E76115300D160EF /* CloudStorageAccountProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudStorageAccountProtocol.swift; sourceTree = "<group>"; };
+		B910C85C1E761A8500D160EF /* CloudStorageAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudStorageAccount.swift; sourceTree = "<group>"; };
+		B92A03511E76243C00B1246A /* BlobClientRemote.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlobClientRemote.swift; sourceTree = "<group>"; };
+		B92A03531E7627BA00B1246A /* BlobClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlobClient.swift; sourceTree = "<group>"; };
 		B9DE53CA1E6CE7E400831710 /* DraggableTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DraggableTextView.swift; sourceTree = "<group>"; };
 		C37A30159C98E7994E8EBEDB /* Pods-inkcluded-405UITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-inkcluded-405UITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-inkcluded-405UITests/Pods-inkcluded-405UITests.debug.xcconfig"; sourceTree = "<group>"; };
 		CC1FDB511E3D9B3800B38C11 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
@@ -157,6 +167,8 @@
 		157CCE2E1E355D5D00096337 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				B910C85A1E76115300D160EF /* CloudStorageAccountProtocol.swift */,
+				B92A03511E76243C00B1246A /* BlobClientRemote.swift */,
 			);
 			name = Protocols;
 			sourceTree = "<group>";
@@ -168,6 +180,8 @@
 				EE5A8F051E404B4A00BC44AF /* Stroke.h */,
 				CCB4C7B51E5AB0850050D3DD /* APICalls.swift */,
 				158ECEF61E5D07AD00D45DB3 /* CanvasModel.swift */,
+				B910C85C1E761A8500D160EF /* CloudStorageAccount.swift */,
+				B92A03531E7627BA00B1246A /* BlobClient.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -255,6 +269,7 @@
 			children = (
 				15EBA7161E27079F00B38D0E /* inkcluded_405Tests.swift */,
 				15EBA7181E27079F00B38D0E /* Info.plist */,
+				B910C8581E74A6EB00D160EF /* APICallTests.swift */,
 			);
 			path = "inkcluded-405Tests";
 			sourceTree = "<group>";
@@ -591,6 +606,7 @@
 				15206C601E73D89900A08781 /* LoadView.swift in Sources */,
 				07A00B6F1E2EC51F00DD68F7 /* LoginViewController.swift in Sources */,
 				15A978991E28D89E007E4B21 /* GroupsViewController.swift in Sources */,
+				B910C85D1E761A8500D160EF /* CloudStorageAccount.swift in Sources */,
 				158ECEF71E5D07AD00D45DB3 /* CanvasModel.swift in Sources */,
 				EE5A8F041E404B4000BC44AF /* Stroke.m in Sources */,
 				15F528BE1E64B35600A27C66 /* DraggableImageView.swift in Sources */,
@@ -600,11 +616,14 @@
 				158ECEF51E5CF0E300D45DB3 /* DrawStrokesDelegate.swift in Sources */,
 				B9DE53CB1E6CE7E400831710 /* DraggableTextView.swift in Sources */,
 				9D9CEB9C1E51629300C6B11C /* CanvasMenuView.swift in Sources */,
+				B92A03521E76243C00B1246A /* BlobClientRemote.swift in Sources */,
 				15EBA3EC1E5116AE006821C9 /* SelectImageViewController.swift in Sources */,
+				B910C85B1E76115300D160EF /* CloudStorageAccountProtocol.swift in Sources */,
 				15EBA7021E27079F00B38D0E /* AppDelegate.swift in Sources */,
 				15FE85321E5EB981008206F9 /* DrawView.swift in Sources */,
 				9D6636361E4073E100958C8F /* RecipientsViewController.swift in Sources */,
 				15EBA3EE1E511E13006821C9 /* SelectImageDelegate.swift in Sources */,
+				B92A03541E7627BA00B1246A /* BlobClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -612,6 +631,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B910C8591E74A6EB00D160EF /* APICallTests.swift in Sources */,
 				15EBA7171E27079F00B38D0E /* inkcluded_405Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
