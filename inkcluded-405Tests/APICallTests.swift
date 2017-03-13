@@ -82,7 +82,7 @@ class APICallTests: XCTestCase {
         var apiCalls = APICalls(mClient: mockClient, mAzsAccount: mockAzsAccount)
         
         
-        // Actual test lol
+        // Testing if there are no users in the User table
         apiCalls.login(closure:
             {(userEntry) -> Void in
                 XCTAssertNotNil(userEntry)
