@@ -373,6 +373,7 @@
 				TargetAttributes = {
 					15EBA6FD1E27079E00B38D0E = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = R55N4N32K4;
 						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
@@ -758,7 +759,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "inkcluded-405/inkcluded-405.entitlements";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = R55N4N32K4;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/inkcluded-405",
@@ -798,7 +799,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "inkcluded-405/inkcluded-405.entitlements";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = R55N4N32K4;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/inkcluded-405",

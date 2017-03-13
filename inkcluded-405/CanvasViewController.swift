@@ -59,12 +59,16 @@ class CanvasViewController: UIViewController {
     @IBAction func sendButtonPressed(_ sender: Any) {
         // Set the document path
         let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-        let timestamp = String(format: "%llu.will", UInt64(floor(NSDate().timeIntervalSince1970 * 1000)));
+        let timestamp = String(format: "%llu", UInt64(floor(NSDate().timeIntervalSince1970)));
         let curUser = APICalls.sharedInstance.currentUser
-        let docName = (curUser?.id)! + timestamp
-        let willDocPath = documentsPath.appending(docName)
+        var docName = (curUser?.id)! + timestamp
+        docName = docName.appending(".will")
+        let willDocPath = documentsPath.appending("/\(docName)")
         
-        model!.saveCanvasElements(drawViewSize: (drawView?.bounds.size)!, toFile: willDocPath)
+        if !(model!.saveCanvasElements(drawViewSize: (drawView?.bounds.size)!, toFile: willDocPath)) {
+            self.failedToSendMessage()
+            return
+        }
         
         let sendMessage = Message(
             filepath: willDocPath,
@@ -85,11 +89,15 @@ class CanvasViewController: UIViewController {
             else {
                 loadView.removeFromSuperview()
             
-                let alert = UIAlertController(title: "Error", message: "Failed to Send Message", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
+                self.failedToSendMessage()
             }
         }
+    }
+    
+    func failedToSendMessage() {
+        let alert = UIAlertController(title: "Error", message: "Failed to Send Message", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
     
     // Loads a completely new canvas and discards the old canvas. Placeholder button just for canvas bugtesting.
