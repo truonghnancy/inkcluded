@@ -26,7 +26,7 @@ class APICallTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
+    func testLogin() {
         // mock MSClient
         class mockMSClient: MSClient {
             init(user: MSUser) {
@@ -36,10 +36,6 @@ class APICallTests: XCTestCase {
         }
         // mock MSUser
         class mockMSUser: MSUser {
-            
-        }
-        // mock AzureStorageCredentials
-        class mockAZSStorageCredentials: AZSStorageCredentials {
             
         }
         // mock azure storage account
@@ -67,9 +63,15 @@ class APICallTests: XCTestCase {
         
         let mockClient = mockMSClient(user: mockMSUser())
         let mockBlob = mockBlobStorage()
-        print(mockBlob)
         let mockAzsAccount = mockAZSAccount(mBlobStorage: mockBlob)
         var apiCalls = APICalls(mClient: mockClient, mAzsAccount: mockAzsAccount)
+        
+        
+        // Actual test lol
+        apiCalls.login(closure:
+            {(userEntry) -> Void in
+                XCTAssertNotNil(userEntry)
+        })
     }
     
     func testPerformanceExample() {
