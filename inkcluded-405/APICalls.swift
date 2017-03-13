@@ -343,6 +343,7 @@ class APICalls {
                         return
                     }
                     else {
+                        self.sendPushNotificationAPI(groupId: message.groupid)
                         closure(true)
                         return
                     }
@@ -351,10 +352,10 @@ class APICalls {
         })
     }
     
-    func sendPushNotificationAPI(groupId: String, closure: @escaping () -> Void) {
-        client.invokeAPI("pushMessage", body: <#T##Any?#>, httpMethod: "POST", parameters: <#T##[AnyHashable : Any]?#>, headers: nil) { (myobject, response, error) in
+    func sendPushNotificationAPI(groupId: String) {
+        client.invokeAPI("pushMessage", body: nil, httpMethod: "POST", parameters: [AnyHashable("groupId"): groupId], headers: nil) { (myobject, response, error) in
             if error != nil {
-                print("Error sending push notivication", error)
+                print("Error sending push notification", error!)
             }
         }
         
