@@ -60,11 +60,9 @@ class CanvasViewController: UIViewController {
         // Set the document path
         let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
         let timestamp = String(format: "%llu", UInt64(floor(NSDate().timeIntervalSince1970)));
-        print("TIMESTAMP: " + timestamp)
         let curUser = APICalls.sharedInstance.currentUser
         var docName = (curUser?.id)! + timestamp
         docName = docName.appending(".will")
-        print("docName: " + docName)
         let willDocPath = documentsPath.appending(docName)
         
         model!.saveCanvasElements(drawViewSize: (drawView?.bounds.size)!, toFile: willDocPath)
