@@ -49,15 +49,15 @@ class APICallTests: XCTestCase {
         }
         // mock MSTable
         class mockMSTable: MSTable {
-            var query: MSQuery
+            var myQuery: MSQuery
             
             init(name tableName: String, client: MSClient, query: MSQuery) {
+                self.myQuery = query
                 super.init(name: tableName, client: client)
-                self.query = query
             }
             
             override func query(with predicate: NSPredicate) -> MSQuery {
-                return query
+                return myQuery
             }
             
         }
