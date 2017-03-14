@@ -59,7 +59,7 @@ class CanvasViewController: UIViewController {
     @IBAction func sendButtonPressed(_ sender: Any) {
         // Set the document path
         let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-        let timestamp = String(format: "%f", NSDate().timeIntervalSince1970 * 1000);
+        let timestamp = String(format: "%llu.will", UInt64(floor(NSDate().timeIntervalSince1970 * 1000)));
         let curUser = APICalls.sharedInstance.currentUser
         let docName = (curUser?.id)! + timestamp
         let willDocPath = documentsPath.appending(docName)
@@ -80,7 +80,7 @@ class CanvasViewController: UIViewController {
         APICalls.sharedInstance.sendMessage(message: sendMessage) { (isSent) in
             if isSent {
                 loadView.removeFromSuperview()
-                self.navigationController?.popViewController(animated: false)
+                let _ = self.navigationController?.popViewController(animated: false)
             }
             else {
                 loadView.removeFromSuperview()
