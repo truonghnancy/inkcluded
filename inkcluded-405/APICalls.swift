@@ -144,7 +144,7 @@ class APICalls {
             } else if let items = result?.items {
                 for item in items {
                     myDispatchGroup.enter()
-                    self._getGroupInfo(groupId: item[AnyHashable("groupId")] as! String, closure:
+                    self.getGroupInfo(groupId: item[AnyHashable("groupId")] as! String, closure:
                         {(group) -> Void in
                             self._getGroupMembersAPI(groupId: item[AnyHashable("groupId")] as! String, closure:
                                 {(members) -> Void in
@@ -172,7 +172,7 @@ class APICalls {
      returns a tuple (name, admin)
      Eric Roh
      */
-    private func _getGroupInfo (groupId: String, closure: @escaping ((String, String)?) -> Void) {
+    func getGroupInfo (groupId: String, closure: @escaping ((String, String)?) -> Void) {
         let groupTable = client.table(withName: "Group")
         let query = groupTable.query(with: NSPredicate(format: "id = %@", groupId))
         var groupInfo: (String, String)?

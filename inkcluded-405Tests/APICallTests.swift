@@ -89,6 +89,248 @@ class APICallTests: XCTestCase {
         })
     }
     
+    // Eric Roh
+    func testGetGroupsAPI() {
+        // mock MSClient
+        class mockMSClient: MSClient {
+            var table: MSTable?
+            
+            init(user: MSUser) {
+                super.init()
+                self.currentUser = user
+            }
+            
+            func setTable(mTable: MSTable) {
+                self.table = mTable
+            }
+            
+            override func table(withName tableName: String) -> MSTable {
+                return self.table!
+            }
+            
+        }
+        
+        // mock MSUser
+        class mockMSUser: MSUser {
+            
+        }
+        
+        // mock error
+        enum mockError: Error {
+            case mockError
+        }
+        
+        // mock MSQuery
+        class mockMSQuery: MSQuery {
+            
+            var pred: String
+            
+            init(predicate: String) {
+                self.pred = predicate
+                super.init()
+            }
+            
+            override func read(completion: MSReadQueryBlock?) {
+                if (pred == "userId == \"sid:12345\"") {
+                    let groups = [[AnyHashable("groupId") : "33333"], [AnyHashable("groupId") : "44444"]]
+                    completion!(MSQueryResult(items: groups, totalCount: 2, nextLink: nil), nil)
+                }
+                else if (pred == "id == \"33333\"") {
+                    let info = [[AnyHashable("name") : "group1", AnyHashable("adminId") : "sid:admin1"]]
+                    completion!(MSQueryResult(items: info, totalCount: 1, nextLink: nil), nil)
+                }
+                else if (pred == "id == \"44444\"") {
+                    let info = [[AnyHashable("name") : "group2", AnyHashable("adminId") : "sid:admin2"]]
+                    completion!(MSQueryResult(items: info, totalCount: 1, nextLink: nil), nil)
+                }
+                else if (pred == "groupId == \"33333\"") {
+                    let info = [[AnyHashable("userId") : "sid:group1user1"], [AnyHashable("userId") : "sid:group1user2"]]
+                    completion!(MSQueryResult(items: info, totalCount: 2, nextLink: nil), nil)
+                }
+                else if (pred == "groupId == \"44444\"") {
+                    let info = [[AnyHashable("userId") : "sid:group2user1"], [AnyHashable("userId") : "sid:group2user2"], [AnyHashable("userId") : "sid:group2user3"]]
+                    completion!(MSQueryResult(items: info, totalCount: 3, nextLink: nil), nil)
+                }
+                else if (pred == "id == \"sid:group1user1\"") {
+                    let info = [[AnyHashable("id") : "sid:group2user1", AnyHashable("firstName") : "eric", AnyHashable("lastName") : "roh"]]
+                    completion!(MSQueryResult(items: info, totalCount: 1, nextLink: nil), nil)
+                }
+                else if (pred == "id == \"sid:group1user2\"") {
+                    let info = [[AnyHashable("id") : "sid:group2user1", AnyHashable("firstName") : "chris", AnyHashable("siu") : "roh"]]
+                    completion!(MSQueryResult(items: info, totalCount: 1, nextLink: nil), nil)
+                }
+                else if (pred == "id == \"sid:group2user1\"") {
+                    let info = [[AnyHashable("id") : "sid:group2user1", AnyHashable("firstName") : "fancis", AnyHashable("lastName") : "yuen"]]
+                    completion!(MSQueryResult(items: info, totalCount: 1, nextLink: nil), nil)
+                }
+                else if (pred == "id ==\"sid:group2user2\"") {
+                    let info = [[AnyHashable("id") : "sid:group2user1", AnyHashable("firstName") : "nancy", AnyHashable("lastName") : "truong"]]
+                    completion!(MSQueryResult(items: info, totalCount: 1, nextLink: nil), nil)
+                }
+                else if (pred == "id == \"sid:group2user3\"") {
+                    let info = [[AnyHashable("id") : "sid:group2user1", AnyHashable("firstName") : "josh", AnyHashable("lastName") : "choi"]]
+                    completion!(MSQueryResult(items: info, totalCount: 1, nextLink: nil), nil)
+                }
+                else {
+                    completion!(nil, mockError.mockError)
+                }
+            }
+        }
+        
+        // mock MSTable
+        class mockMSTable: MSTable {
+            
+            override func query(with predicate: NSPredicate) -> MSQuery {
+                return mockMSQuery(predicate: predicate.predicateFormat)
+            }
+            
+        }
+        
+        // mock azure storage account
+        class mockAZSAccount: CloudStorageAccountProtocol {
+            var blobStorage: BlobClientProtocol
+            
+            init(mBlobStorage: BlobClientProtocol) {
+                self.blobStorage = mBlobStorage
+            }
+            
+            func getBlobStorageClient() -> BlobClientProtocol {
+                return self.blobStorage
+            }
+        }
+        // mock azure blob storage
+        class mockBlobStorage: BlobClientProtocol {
+            func containerReference(fromName: String) -> AZSCloudBlobContainer {
+                return mockBlobContainer()
+            }
+        }
+        // mock azure blob container
+        class mockBlobContainer: AZSCloudBlobContainer {
+            
+        }
+        
+        let mockClient = mockMSClient(user: mockMSUser(userId: "enrique"))
+        let mockTable = mockMSTable(name: "User", client: mockClient)
+        mockClient.setTable(mTable: mockTable)
+        
+        let mockBlob = mockBlobStorage()
+        let mockAzsAccount = mockAZSAccount(mBlobStorage: mockBlob)
+        
+        let apiCalls = APICalls(mClient: mockClient, mAzsAccount: mockAzsAccount)
+        
+        apiCalls.getGroupsAPI(sid: "not a group") { (groups) in
+            XCTAssertNil(groups)
+        }
+        
+//        apiCalls.getGroupsAPI(sid: "sid:12345") { (groups) in
+//            XCTAssertNotNil(groups)
+//        }
+    }
+    
+    // Eric Roh
+    func testGetGroupInfo() {
+        // mock MSClient
+        class mockMSClient: MSClient {
+            var table: MSTable?
+            
+            init(user: MSUser) {
+                super.init()
+                self.currentUser = user
+            }
+            
+            func setTable(mTable: MSTable) {
+                self.table = mTable
+            }
+            
+            override func table(withName tableName: String) -> MSTable {
+                return self.table!
+            }
+            
+        }
+        
+        // mock MSUser
+        class mockMSUser: MSUser {
+            
+        }
+        
+        // mock error
+        enum mockError: Error {
+            case mockError
+        }
+        
+        // mock MSQuery
+        class mockMSQuery: MSQuery {
+            
+            var pred: String
+            
+            init(predicate: String) {
+                self.pred = predicate
+                super.init()
+            }
+            
+            override func read(completion: MSReadQueryBlock?) {
+                if (pred == "id == \"33333\"") {
+                    let items = [[AnyHashable("name") : "Testing Group", AnyHashable("adminId") : "sid:12345"]]
+                    completion!(MSQueryResult(items: items, totalCount: 1, nextLink: nil), nil)
+                }
+                else {
+                    completion!(nil, mockError.mockError)
+                }
+            }
+        }
+        
+        // mock MSTable
+        class mockMSTable: MSTable {
+            
+            override func query(with predicate: NSPredicate) -> MSQuery {
+                return mockMSQuery(predicate: predicate.predicateFormat)
+            }
+            
+        }
+        
+        // mock azure storage account
+        class mockAZSAccount: CloudStorageAccountProtocol {
+            var blobStorage: BlobClientProtocol
+            
+            init(mBlobStorage: BlobClientProtocol) {
+                self.blobStorage = mBlobStorage
+            }
+            
+            func getBlobStorageClient() -> BlobClientProtocol {
+                return self.blobStorage
+            }
+        }
+        // mock azure blob storage
+        class mockBlobStorage: BlobClientProtocol {
+            func containerReference(fromName: String) -> AZSCloudBlobContainer {
+                return mockBlobContainer()
+            }
+        }
+        // mock azure blob container
+        class mockBlobContainer: AZSCloudBlobContainer {
+            
+        }
+        
+        let mockClient = mockMSClient(user: mockMSUser(userId: "enrique"))
+        let mockTable = mockMSTable(name: "Group", client: mockClient)
+        mockClient.setTable(mTable: mockTable)
+        
+        let mockBlob = mockBlobStorage()
+        let mockAzsAccount = mockAZSAccount(mBlobStorage: mockBlob)
+        
+        let apiCalls = APICalls(mClient: mockClient, mAzsAccount: mockAzsAccount)
+        
+        apiCalls.getGroupInfo(groupId: "this is not a group") { (info) in
+            XCTAssertNil(info)
+        }
+        
+        apiCalls.getGroupInfo(groupId: "33333") { (info) in
+            XCTAssertNotNil(info)
+            XCTAssertEqual(info!.0, "Testing Group")
+            XCTAssertEqual(info!.1, "sid:12345")
+        }
+    }
+    
     func testFindUserByEmail() {
         // mock MSClient
         class mockMSClient: MSClient {
@@ -196,6 +438,8 @@ class APICallTests: XCTestCase {
                 XCTAssertEqual(user![0].lastName, "Choi")
         })
     }
+    
+    
     
     func testCreateGroup() {
         // mock MSClient
