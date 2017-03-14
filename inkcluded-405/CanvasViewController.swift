@@ -59,7 +59,7 @@ class CanvasViewController: UIViewController {
     @IBAction func sendButtonPressed(_ sender: Any) {
         // Set the document path
         let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-        let timestamp = String(format: "%llu", UInt64(floor(NSDate().timeIntervalSince1970)));
+        let timestamp = String(format: "%llu", UInt64(floor(NSDate().timeIntervalSince1970 * 1000)));
         let curUser = APICalls.sharedInstance.currentUser
         var docName = (curUser?.id)! + timestamp
         docName = docName.appending(".will")
