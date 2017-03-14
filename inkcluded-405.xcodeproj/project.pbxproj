@@ -21,7 +21,6 @@
 		15EBA7071E27079F00B38D0E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15EBA7051E27079F00B38D0E /* Main.storyboard */; };
 		15EBA7091E27079F00B38D0E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 15EBA7081E27079F00B38D0E /* Assets.xcassets */; };
 		15EBA70C1E27079F00B38D0E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15EBA70A1E27079F00B38D0E /* LaunchScreen.storyboard */; };
-		15EBA7171E27079F00B38D0E /* inkcluded_405Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EBA7161E27079F00B38D0E /* inkcluded_405Tests.swift */; };
 		15EBA7221E27079F00B38D0E /* inkcluded_405UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EBA7211E27079F00B38D0E /* inkcluded_405UITests.swift */; };
 		15F528BE1E64B35600A27C66 /* DraggableImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F528BD1E64B35600A27C66 /* DraggableImageView.swift */; };
 		15FE85321E5EB981008206F9 /* DrawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FE85311E5EB981008206F9 /* DrawView.swift */; };
@@ -84,7 +83,6 @@
 		15EBA70B1E27079F00B38D0E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		15EBA70D1E27079F00B38D0E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		15EBA7121E27079F00B38D0E /* inkcluded-405Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "inkcluded-405Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		15EBA7161E27079F00B38D0E /* inkcluded_405Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = inkcluded_405Tests.swift; sourceTree = "<group>"; };
 		15EBA7181E27079F00B38D0E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		15EBA71D1E27079F00B38D0E /* inkcluded-405UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "inkcluded-405UITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		15EBA7211E27079F00B38D0E /* inkcluded_405UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = inkcluded_405UITests.swift; sourceTree = "<group>"; };
@@ -267,7 +265,6 @@
 		15EBA7151E27079F00B38D0E /* inkcluded-405Tests */ = {
 			isa = PBXGroup;
 			children = (
-				15EBA7161E27079F00B38D0E /* inkcluded_405Tests.swift */,
 				15EBA7181E27079F00B38D0E /* Info.plist */,
 				B910C8581E74A6EB00D160EF /* APICallTests.swift */,
 			);
@@ -631,7 +628,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B910C8591E74A6EB00D160EF /* APICallTests.swift in Sources */,
-				15EBA7171E27079F00B38D0E /* inkcluded_405Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
