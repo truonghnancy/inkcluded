@@ -156,19 +156,19 @@ class APICallTests: XCTestCase {
                     completion!(MSQueryResult(items: info, totalCount: 1, nextLink: nil), nil)
                 }
                 else if (pred == "id == \"sid:group1user2\"") {
-                    let info = [[AnyHashable("id") : "sid:group2user1", AnyHashable("firstName") : "chris", AnyHashable("siu") : "roh"]]
+                    let info = [[AnyHashable("id") : "sid:group1user2", AnyHashable("firstName") : "chris", AnyHashable("lastName") : "sui"]]
                     completion!(MSQueryResult(items: info, totalCount: 1, nextLink: nil), nil)
                 }
                 else if (pred == "id == \"sid:group2user1\"") {
                     let info = [[AnyHashable("id") : "sid:group2user1", AnyHashable("firstName") : "fancis", AnyHashable("lastName") : "yuen"]]
                     completion!(MSQueryResult(items: info, totalCount: 1, nextLink: nil), nil)
                 }
-                else if (pred == "id ==\"sid:group2user2\"") {
-                    let info = [[AnyHashable("id") : "sid:group2user1", AnyHashable("firstName") : "nancy", AnyHashable("lastName") : "truong"]]
+                else if (pred == "id == \"sid:group2user2\"") {
+                    let info = [[AnyHashable("id") : "sid:group2user2", AnyHashable("firstName") : "nancy", AnyHashable("lastName") : "truong"]]
                     completion!(MSQueryResult(items: info, totalCount: 1, nextLink: nil), nil)
                 }
                 else if (pred == "id == \"sid:group2user3\"") {
-                    let info = [[AnyHashable("id") : "sid:group2user1", AnyHashable("firstName") : "josh", AnyHashable("lastName") : "choi"]]
+                    let info = [[AnyHashable("id") : "sid:group2user3", AnyHashable("firstName") : "josh", AnyHashable("lastName") : "choi"]]
                     completion!(MSQueryResult(items: info, totalCount: 1, nextLink: nil), nil)
                 }
                 else {
@@ -222,10 +222,19 @@ class APICallTests: XCTestCase {
             XCTAssertNil(groups)
         }
         
-//        apiCalls.getGroupsAPI(sid: "sid:12345") { (groups) in
-//            XCTAssertNotNil(groups)
-//        }
+        apiCalls.getGroupsAPI(sid: "sid:12345") { (groups) in
+            XCTAssertNotNil(groups)
+            XCTAssertEqual(groups?[0].groupName, "group1")
+            XCTAssertEqual(groups?[1].groupName, "group2")
+            XCTAssertEqual(groups?[0].members[0].firstName, "eric")
+            XCTAssertEqual(groups?[0].members[1].firstName, "chris")
+            XCTAssertEqual(groups?[1].members[0].firstName, "francis")
+            XCTAssertEqual(groups?[1].members[1].firstName, "nancy")
+            XCTAssertEqual(groups?[1].members[2].firstName, "josh")
+        }
     }
+    
+    
     
     // Eric Roh
     func testGetGroupInfo() {
