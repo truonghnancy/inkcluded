@@ -24,7 +24,7 @@ class APICallTests: XCTestCase {
         super.tearDown()
     }
     
-    func testLogin() {
+    func testLoginValidUser() {
         // mock MSClient
         class mockMSClient: MSClient {
             var table: MSTable?
@@ -49,21 +49,32 @@ class APICallTests: XCTestCase {
         }
         // mock MSTable
         class mockMSTable: MSTable {
-            var query: MSQuery
+            var myQuery: MSQuery
             
             init(name tableName: String, client: MSClient, query: MSQuery) {
+                self.myQuery = query
                 super.init(name: tableName, client: client)
-                self.query = query
             }
             
             override func query(with predicate: NSPredicate) -> MSQuery {
-                return query
+                return myQuery
             }
             
         }
         // mock query
         class mockMSQuery: MSQuery {
+            var mUser: MSUser
+            init(user: MSUser) {
+                self.mUser = user
+                super.init()
+            }
             
+            
+            override func read(completion: MSReadQueryBlock? = nil) {
+                completion?(
+                    MSQueryResult(items: [["id" : "bleh", "firstName": "Enrique", "lastName": "Siu"]], totalCount: 1, nextLink: "none"),
+                    nil)
+            }
         }
         // mock azure storage account
         class mockAZSAccount: CloudStorageAccountProtocol {
@@ -88,8 +99,9 @@ class APICallTests: XCTestCase {
             
         }
         
-        let mockClient = mockMSClient(user: mockMSUser(userId: "enrique"))
-        let mockQuery = mockMSQuery()
+        let mockUser = mockMSUser(userId: "enrique")
+        let mockClient = mockMSClient(user: mockUser)
+        let mockQuery = mockMSQuery(user: mockUser)
         let mockTable = mockMSTable(name: "User", client: mockClient, query: mockQuery)
         mockClient.setTable(mTable: mockTable)
         let mockBlob = mockBlobStorage()
@@ -101,17 +113,102 @@ class APICallTests: XCTestCase {
         apiCalls.login(closure:
             {(userEntry) -> Void in
                 XCTAssertNotNil(userEntry)
+                XCTAssertEqual(userEntry?.id, "bleh")
+                XCTAssertEqual(userEntry?.firstName, "Enrique")
+                XCTAssertEqual(userEntry?.lastName, "Siu")
         })
-        
-        // Testing if there's a valid user in the User table
-        //mockTable.ins
     }
     
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    func testLoginEmptyUser() {
+        // mock MSClient
+        class mockMSClient: MSClient {
+            var table: MSTable?
+            
+            init(user: MSUser) {
+                super.init()
+                self.currentUser = user
+            }
+            
+            func setTable(mTable: MSTable) {
+                self.table = mTable
+            }
+            
+            override func table(withName tableName: String) -> MSTable {
+                return self.table!
+            }
+            
         }
+        // mock MSUser
+        class mockMSUser: MSUser {
+            
+        }
+        // mock MSTable
+        class mockMSTable: MSTable {
+            var myQuery: MSQuery
+            
+            init(name tableName: String, client: MSClient, query: MSQuery) {
+                self.myQuery = query
+                super.init(name: tableName, client: client)
+            }
+            
+            override func query(with predicate: NSPredicate) -> MSQuery {
+                return myQuery
+            }
+            
+        }
+        // mock query
+        class mockMSQuery: MSQuery {
+            var mUser: MSUser
+            init(user: MSUser) {
+                self.mUser = user
+                super.init()
+            }
+            
+            override func read(completion: MSReadQueryBlock? = nil) {
+                completion?(nil, nil)
+            }
+        }
+        // mock azure storage account
+        class mockAZSAccount: CloudStorageAccountProtocol {
+            var blobStorage: BlobClientProtocol
+            
+            init(mBlobStorage: BlobClientProtocol) {
+                self.blobStorage = mBlobStorage
+            }
+            
+            func getBlobStorageClient() -> BlobClientProtocol {
+                return self.blobStorage
+            }
+        }
+        // mock azure blob storage
+        class mockBlobStorage: BlobClientProtocol {
+            func containerReference(fromName: String) -> AZSCloudBlobContainer {
+                return mockBlobContainer()
+            }
+        }
+        // mock azure blob container
+        class mockBlobContainer: AZSCloudBlobContainer {
+            
+        }
+        
+        let mockUser = mockMSUser(userId: "enrique")
+        let mockClient = mockMSClient(user: mockUser)
+        let mockQuery = mockMSQuery(user: mockUser)
+        let mockTable = mockMSTable(name: "User", client: mockClient, query: mockQuery)
+        mockClient.setTable(mTable: mockTable)
+        let mockBlob = mockBlobStorage()
+        let mockAzsAccount = mockAZSAccount(mBlobStorage: mockBlob)
+        let apiCalls = APICalls(mClient: mockClient, mAzsAccount: mockAzsAccount)
+        
+        
+        // Testing if there are no users in the User table
+        apiCalls.login(closure:
+            {(userEntry) -> Void in
+                // check if new user added in User
+        })
+        
+        // Testing if login works with a valid user in the User table
+        //mockTable.ins
     }
     
 }
