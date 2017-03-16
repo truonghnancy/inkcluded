@@ -165,7 +165,7 @@ class APICallTests: XCTestCase {
             }
             
             override func read(completion: MSReadQueryBlock? = nil) {
-                completion?(nil, nil)
+                completion?(nil, NSError(domain: "test", code: 404, userInfo: nil))
             }
         }
         // mock azure storage account
@@ -204,7 +204,7 @@ class APICallTests: XCTestCase {
         // Testing if there are no users in the User table
         apiCalls.login(closure:
             {(userEntry) -> Void in
-                // check if new user added in User
+                XCTAssertNil(userEntry)
         })
         
         // Testing if login works with a valid user in the User table

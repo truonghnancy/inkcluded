@@ -232,9 +232,6 @@ class APICalls {
         let cTable = client.table(withName: "User")
         let QS_USER = cTable.query(with: NSPredicate(format: "id = %@", userId))
         var retUser: User?
-        QS_USER.read { (result, error) in
-            
-        }
         
         QS_USER.read { (result, error) in
             if let err = error {
