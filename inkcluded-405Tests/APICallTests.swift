@@ -556,11 +556,134 @@ class APICallTests: XCTestCase {
         })
     }
     
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    /**
+     * Tests the sendMessage function of APICalls.
+     * Christopher Siu
+     */
+    func testSendMessage() {
+        // Mock MSClient:
+        class mockMSClient : MSClient {
+            init(user: MSUser) {
+                super.init()
+                self.currentUser = user
+            }
+        }
+        
+        // Mock MSUser:
+        class mockMSUser : MSUser {}
+        
+        // Mock Error:
+        enum mockError : Error {
+            case mockError
+        }
+        
+        // Mock Azure storage account:
+        class mockAZSAccount : CloudStorageAccountProtocol {
+            var blobStorage: BlobClientProtocol
+            
+            init(mBlobStorage: BlobClientProtocol) {
+                self.blobStorage = mBlobStorage
+            }
+            
+            func getBlobStorageClient() -> BlobClientProtocol {
+                return self.blobStorage
+            }
+        }
+        
+        // Mock Azure blob storage:
+        class mockBlobStorage : BlobClientProtocol {
+            func containerReference(fromName: String) -> AZSCloudBlobContainer {
+                if fromName == "4294967295" {
+                    return mockBlobContainer()
+                }
+                else {
+                    return mockErrBlobContainer()
+                }
+            }
+        }
+        
+        // Mock Azure blob container:
+        class mockBlobContainer : AZSCloudBlobContainer {
+            override func createContainerIfNotExists(with
+             accessType: AZSContainerPublicAccessType,
+             requestOptions: AZSBlobRequestOptions?,
+             operationContext: AZSOperationContext?,
+             completionHandler: @escaping (Error?, Bool) -> Void) {
+                completionHandler(nil, true)
+            }
+            
+            override func blockBlobReference(fromName blobName: String)
+             -> AZSCloudBlockBlob {
+                return mockBlockBlob()
+            }
+        }
+        
+        // Mock erroring Azure blob container:
+        class mockErrBlobContainer : AZSCloudBlobContainer {
+            override func createContainerIfNotExists(with
+             accessType: AZSContainerPublicAccessType,
+             requestOptions: AZSBlobRequestOptions?,
+             operationContext: AZSOperationContext?,
+             completionHandler: @escaping (Error?, Bool) -> Void) {
+                completionHandler(mockError.mockError, false)
+            }
+        }
+        
+        // Mock Azure block blob:
+        class mockBlockBlob : AZSCloudBlockBlob {
+            init() {
+                super.init(storageUri: AZSStorageUri(), credentials: nil,
+                           snapshotTime: nil, error: nil)
+            }
+            
+            override func uploadFromFile(withPath filePath: String,
+             completionHandler: @escaping (Error?) -> Void) {
+                if filePath == "/dev/null"
+                   && metadata["timestamp"] as! String == "32768"
+                   && metadata["sender"] as! String == "65536"
+                   && metadata["username"] as! String == "~xX_Er1c_Xx~" {
+                    completionHandler(nil)
+                }
+                else {
+                    completionHandler(mockError.mockError)
+                }
+            }
+        }
+        
+        // Create and link mocks.
+        let mockClient = mockMSClient(user: mockMSUser(userId: "cesiu"))
+        let mockBlob = mockBlobStorage()
+        let mockAzsAccount = mockAZSAccount(mBlobStorage: mockBlob)
+        let apiCalls = APICalls(mClient: mockClient,
+                                mAzsAccount: mockAzsAccount)
+        
+        // A successful call should call the closure with 'true'.
+        apiCalls.sendMessage(message: Message(filepath: "/dev/null",
+         filename: "", groupid: "4294967295", timestamp: "32768",
+         senderid: "65536", senderfirstname: "~xX_Er1c_Xx~")) { (result) in
+            XCTAssertTrue(result)
+        }
+        
+        // Otherwise, the closure should be called with 'false'. This can be
+        //  because an attribute was set incorrectly...
+        apiCalls.sendMessage(message: Message(filepath: "/dev/null",
+         filename: "", groupid: "Bad group!", timestamp: "32768",
+         senderid: "65536", senderfirstname: "~xX_Er1c_Xx~")) { (result) in
+            XCTAssertFalse(result)
+        }
+        // ...or because the container couldn't be created.
+        apiCalls.sendMessage(message: Message(filepath: "Bad file path!",
+         filename: "", groupid: "4294967295", timestamp: "32768",
+         senderid: "65536", senderfirstname: "~xX_Er1c_Xx~")) { (result) in
+            XCTAssertFalse(result)
         }
     }
+    
+//    func testPerformanceExample() {
+//        // This is an example of a performance test case.
+//        self.measure {
+//            // Put the code you want to measure the time of here.
+//        }
+//    }
     
 }
