@@ -39,11 +39,15 @@ class DrawView: UIView {
     // Whether to allow strokes to be drawn
     var shouldDraw: Bool
     
+    // Whether content has been loaded to this drawView already
+    var isLoaded: Bool
+    
     // if this belongs in a group, it should have a group index
     var groupMessageIndex: Int?
     
     override init(frame: CGRect) {
         shouldDraw = true
+        isLoaded = false
         super.init(frame: frame)
 
         self.initWillContext()
@@ -121,6 +125,14 @@ class DrawView: UIView {
             self.strokeRenderer.stride = pathStride
             self.strokeRenderer.color = UIColor.black
         }
+    }
+    
+    func showLoading() {
+        self.backgroundColor = UIColor.black
+        let activityView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+        activityView.center = self.center
+        activityView.startAnimating()
+        self.addSubview(activityView)
     }
     
     func setNewDelegate(newDelegate: DrawStrokesDelegate) {

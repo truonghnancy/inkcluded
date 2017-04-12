@@ -76,7 +76,8 @@ class CanvasViewController: UIViewController {
             groupid: (msgGroup?.id)!,
             timestamp: timestamp,
             senderid: (curUser?.id)!,
-            senderfirstname: (curUser?.firstName)!
+            senderfirstname: (curUser?.firstName)!,
+            blockBlob: nil
         )
         
         let loadView = LoadView(frame: self.view.frame)

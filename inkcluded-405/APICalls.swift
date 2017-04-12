@@ -53,14 +53,45 @@ struct Message {
     private(set) var timestamp: String;
     private(set) var senderid: String;
     private(set) var senderfirstname: String;
+    private var blockBlob: AZSCloudBlockBlob!
     
-    init(filepath: String, filename: String, groupid: String, timestamp: String, senderid: String, senderfirstname: String) {
+    init(filepath: String, filename: String, groupid: String, timestamp: String, senderid: String, senderfirstname: String, blockBlob: AZSCloudBlockBlob!) {
         self.filepath = filepath;
         self.filename = filename;
         self.groupid = groupid;
         self.timestamp = timestamp;
         self.senderid = senderid;
         self.senderfirstname = senderfirstname;
+        self.blockBlob = blockBlob
+    }
+    
+    func getContents(closure: @escaping ([AnyObject]!) -> Void) {
+        if (self.filename.isEmpty || blockBlob == nil) {
+            return closure(nil)
+        }
+        
+        if FileManager().fileExists(atPath: self.filepath) {
+                let elements = CanvasModel.decodeObjectsFromWillFile(textViewDelegate: nil, atPath: self.filepath)
+                return closure(elements)
+        }
+        else {
+            self.blockBlob.downloadToFile(withPath: self.filepath, append: false) {
+                (error) in
+                    let elements = CanvasModel.decodeObjectsFromWillFile(textViewDelegate: nil, atPath: self.filepath)
+                    return closure(elements)
+            }
+        }
+    }
+    
+    func download(closure: @escaping (Bool) -> Void) {
+        if (self.filename.isEmpty || blockBlob == nil) {
+            closure(false)
+        }
+    
+        self.blockBlob.downloadToFile(withPath: self.filepath, append: false) {
+            (error) in
+            closure(error == nil)
+        }
     }
 }
 
@@ -366,10 +397,6 @@ class APICalls {
         
     }
     
-    /*
-     Gets all messages of a groupid and requires a closure that takes in the name of all the blobs that were retrieved
-     Josh Choi
-     */
     func getAllMessage(groupId: String, closure: @escaping ([Message]?) -> Void) {
         let blobContainer = azsBlobClient.containerReference(fromName: groupId)
         let myDispatchGroup = DispatchGroup()
@@ -394,51 +421,38 @@ class APICalls {
                     
                     blockBlob.downloadAttributes(completionHandler: { (error) in
                         if (error != nil) {
-                            let tempMessage = Message(filepath: "", filename: cblob.blobName, groupid: groupId, timestamp: "", senderid: "", senderfirstname: "")
+                            let tempMessage = Message(
+                                filepath: "",
+                                filename: cblob.blobName,
+                                groupid: groupId,
+                                timestamp: "",
+                                senderid: "",
+                                senderfirstname: "",
+                                blockBlob: blockBlob
+                            )
                             
                             blobNames.append(tempMessage)
-                            
-                            myDispatchGroup.leave()
                         }
                         else {
                             let filepath = (documentsDirectory + "/" + cblob.blobName)
                             
-                            blockBlob.downloadToFile(withPath: filepath, append: false) {
-                                (error) in
-                                if error != nil {
-                                    
-                                    let tempMessage = Message(
-                                        filepath: "",
-                                        filename: cblob.blobName,
-                                        groupid: groupId,
-                                        timestamp: blockBlob.metadata.object(forKey: "timestamp") as! String,
-                                        senderid: blockBlob.metadata.object(forKey: "sender") as! String,
-                                        senderfirstname: blockBlob.metadata.object(forKey: "username") as! String
-                                    )
-                                    
-                                    blobNames.append(tempMessage)
-                                    
-                                    myDispatchGroup.leave()
-                                }
-                                else {
-                                    
-                                    let tempMessage = Message(
-                                        filepath: filepath,
-                                        filename: cblob.blobName,
-                                        groupid: groupId,
-                                        timestamp: blockBlob.metadata.object(forKey: "timestamp") as! String,
-                                        senderid: blockBlob.metadata.object(forKey: "sender") as! String,
-                                        senderfirstname: blockBlob.metadata.object(forKey: "username") as! String
-                                    )
-                                    
-                                    blobNames.append(tempMessage)
-                                    
-                                    myDispatchGroup.leave()
-                                }
-                            }
+                            let tempMessage = Message(
+                                filepath: filepath,
+                                filename: cblob.blobName,
+                                groupid: groupId,
+                                timestamp: blockBlob.metadata.object(forKey: "timestamp") as! String,
+                                senderid: blockBlob.metadata.object(forKey: "sender") as! String,
+                                senderfirstname: blockBlob.metadata.object(forKey: "username") as! String,
+                                blockBlob: blockBlob
+                            )
+                            
+                            blobNames.append(tempMessage)
                         }
+                        
+                        myDispatchGroup.leave()
                     })
                 }
+                
                 myDispatchGroup.notify(queue: .main, execute: {
                     closure(blobNames.sorted(by: { $0.timestamp < $1.timestamp }))
                     return
@@ -446,4 +460,85 @@ class APICalls {
             }
         })
     }
+    
+    /*
+     Gets all messages of a groupid and requires a closure that takes in the name of all the blobs that were retrieved
+     Josh Choi
+     */
+//    func getAllMessage_old(groupId: String, closure: @escaping ([Message]?) -> Void) {
+//        let blobContainer = azsBlobClient.containerReference(fromName: groupId)
+//        let myDispatchGroup = DispatchGroup()
+//        
+//        blobContainer.listBlobsSegmented(with: nil, prefix: nil, useFlatBlobListing: true, blobListingDetails: AZSBlobListingDetails.metadata, maxResults: -1, completionHandler: { (error, result) in
+//            
+//            if error != nil {
+//                print("Error in getting blob list", error!)
+//                closure(nil)
+//                return
+//            }
+//            else {
+//                var blobNames = [Message]()
+//                let documentsDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+//                
+//                for blob in result!.blobs!
+//                {
+//                    myDispatchGroup.enter()
+//                    
+//                    let cblob = blob as! AZSCloudBlob
+//                    let blockBlob = blobContainer.blockBlobReference(fromName: cblob.blobName)
+//                    
+//                    blockBlob.downloadAttributes(completionHandler: { (error) in
+//                        if (error != nil) {
+//                            let tempMessage = Message(filepath: "", filename: cblob.blobName, groupid: groupId, timestamp: "", senderid: "", senderfirstname: "")
+//                            
+//                            blobNames.append(tempMessage)
+//                            
+//                            myDispatchGroup.leave()
+//                        }
+//                        else {
+//                            let filepath = (documentsDirectory + "/" + cblob.blobName)
+//                            
+//                            blockBlob.downloadToFile(withPath: filepath, append: false) {
+//                                (error) in
+//                                if error != nil {
+//                                    
+//                                    let tempMessage = Message(
+//                                        filepath: "",
+//                                        filename: cblob.blobName,
+//                                        groupid: groupId,
+//                                        timestamp: blockBlob.metadata.object(forKey: "timestamp") as! String,
+//                                        senderid: blockBlob.metadata.object(forKey: "sender") as! String,
+//                                        senderfirstname: blockBlob.metadata.object(forKey: "username") as! String
+//                                    )
+//                                    
+//                                    blobNames.append(tempMessage)
+//                                    
+//                                    myDispatchGroup.leave()
+//                                }
+//                                else {
+//                                    
+//                                    let tempMessage = Message(
+//                                        filepath: filepath,
+//                                        filename: cblob.blobName,
+//                                        groupid: groupId,
+//                                        timestamp: blockBlob.metadata.object(forKey: "timestamp") as! String,
+//                                        senderid: blockBlob.metadata.object(forKey: "sender") as! String,
+//                                        senderfirstname: blockBlob.metadata.object(forKey: "username") as! String
+//                                    )
+//                                    
+//                                    blobNames.append(tempMessage)
+//                                    
+//                                    myDispatchGroup.leave()
+//                                }
+//                            }
+//                        }
+//                    })
+//                }
+//                myDispatchGroup.notify(queue: .main, execute: {
+//                    closure(blobNames.sorted(by: { $0.timestamp < $1.timestamp }))
+//                    return
+//                })
+//            }
+//        })
+//    }
 }
