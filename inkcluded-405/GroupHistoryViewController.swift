@@ -50,28 +50,41 @@ class GroupHistoryViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let visibleDrawViews = self.messageDrawViews.filter({ (drawView) -> Bool in
-            let yPos = drawView.frame.origin.y
-            let max = scrollView.contentOffset.y + self.view.frame.height
-            let min = scrollView.contentOffset.y - self.view.frame.height
+        if (!isDownloadingMessages) {
+            isDownloadingMessages = true
+            let myDispatchGroup = DispatchGroup()
             
-            return !drawView.isLoaded && yPos >= min && yPos <= max
-        })
-        
-        for drawView in visibleDrawViews {
-            let message = curMessages[drawView.groupMessageIndex!]
+            let visibleDrawViews = self.messageDrawViews.filter({ (drawView) -> Bool in
+                let yPos = drawView.frame.origin.y
+                let max = scrollView.contentOffset.y + self.view.frame.height
+                let min = scrollView.contentOffset.y - self.view.frame.height
+                
+                return !drawView.isLoaded && yPos >= min && yPos <= max
+            })
             
-            // Set the is loaded flag so it won't load again
-            drawView.isLoaded = true
+            for drawView in visibleDrawViews {
+                let message = curMessages[drawView.groupMessageIndex!]
+                
+                // Set the is loaded flag so it won't load again
+                drawView.isLoaded = true
+                
+                myDispatchGroup.enter()
+                
+                message.getContents(closure: { (elements) in
+                    if let drawViewContent = elements {
+                        self.messageElements[drawView.groupMessageIndex!] = drawViewContent
+                        drawView.refreshViewWithElements(elements: drawViewContent)
+                    }
+                    else {
+                        drawView.isLoaded = false
+                    }
+                    myDispatchGroup.leave()
+                })
+            }
             
-            message.getContents(closure: { (elements) in
-                if let drawViewContent = elements {
-                    self.messageElements[drawView.groupMessageIndex!] = drawViewContent
-                    drawView.refreshViewWithElements(elements: drawViewContent)
-                }
-                else {
-                    drawView.isLoaded = false
-                }
+            myDispatchGroup.notify(queue: .main, execute: {
+                self.isDownloadingMessages = false
+                return
             })
         }
     }

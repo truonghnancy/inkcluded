@@ -101,18 +101,6 @@ class CanvasViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    // Loads a completely new canvas and discards the old canvas. Placeholder button just for canvas bugtesting.
-    func loadButtonPressed(_ sender: Any) {
-        // Set the document path
-        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-        let willDocPath = documentsPath.appending("willFile")
-    
-        // Clear and restore context
-        model?.clearCanvasElements()
-        let renderElements = model?.restoreStateFromWILLFile(textViewDelegate: self, fromFile: willDocPath)
-        resetDrawView(withElements: renderElements!)
-    }
-    
     func restoreState(fromElements elements: [AnyObject]) {
         if model == nil {
             model = CanvasModel()

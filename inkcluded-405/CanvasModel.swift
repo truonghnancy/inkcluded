@@ -92,20 +92,6 @@ class CanvasModel {
         return doc.createDocument(atPath: path)
     }
     
-    func restoreStateFromWILLFile(textViewDelegate: UITextViewDelegate, fromFile path: String) -> [AnyObject] {
-        let elements = CanvasModel.decodeObjectsFromWillFile(textViewDelegate: textViewDelegate, atPath: path)
-        
-        if let canvasElements = elements {
-            self.canvasElements.append(contentsOf: canvasElements)
-        }
-        else{
-            print("Failed to load from WILL file")
-            self.canvasElements = []
-        }
-    
-        return canvasElements
-    }
-    
     func restoreState(fromElements elements: [AnyObject]) {
         self.canvasElements.append(contentsOf: elements)
     }
