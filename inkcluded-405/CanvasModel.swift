@@ -39,9 +39,7 @@ class CanvasModel {
         
         // set the size of the section
         section.size = drawViewSize
-        print("\t\t CanvasElements")
         for elem in canvasElements {
-            print("\t\tElement: ", elem)
             // if the element is a stroke
             if let strokeElem = elem as? Stroke {
                 inkEncoder.encodePath(
@@ -138,7 +136,6 @@ class CanvasModel {
                 var strokeStartValue: Float = Float()
                 var strokeFinishValue: Float = Float()
                 var blendMode: WCMBlendMode = WCMBlendMode(rawValue: 0)!
-                var stroke: Stroke!
                 
                 while (decoder?.decodePath(
                     toPoints: &strokePoints,
@@ -147,18 +144,18 @@ class CanvasModel {
                     andColor: &strokeColor,
                     andTs: &strokeStartValue,
                     andTf: &strokeFinishValue,
-                    andBlendMode: &blendMode))!
-                {
-                    stroke = Stroke(
-                        points: strokePoints,
-                        andStride: Int32(strokeStride),
-                        andWidth: strokeWidth,
-                        andColor: strokeColor,
-                        andTs: strokeStartValue,
-                        andTf: strokeFinishValue,
-                        andBlendMode: blendMode
-                    )
-                }
+                    andBlendMode: &blendMode))!{};
+                
+                let stroke = Stroke(
+                points: strokePoints,
+                andStride: Int32(strokeStride),
+                andWidth: strokeWidth,
+                andColor: strokeColor,
+                andTs: strokeStartValue,
+                andTf: strokeFinishValue,
+                andBlendMode: blendMode
+                )
+                
                 elements.append(stroke!)
             }
             else if let imageElement = element as? WCMDocumentSectionImage {
