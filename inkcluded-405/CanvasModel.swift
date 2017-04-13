@@ -39,7 +39,6 @@ class CanvasModel {
         
         // set the size of the section
         section.size = drawViewSize
-        
         for elem in canvasElements {
             // if the element is a stroke
             if let strokeElem = elem as? Stroke {
@@ -89,6 +88,7 @@ class CanvasModel {
         doc.sections.add(section)
         
         // Create and write to the file
+        print("CanvasElement Finished")
         return doc.createDocument(atPath: path)
     }
     
@@ -144,20 +144,19 @@ class CanvasModel {
                     andColor: &strokeColor,
                     andTs: &strokeStartValue,
                     andTf: &strokeFinishValue,
-                    andBlendMode: &blendMode))!
-                {
-                    let stroke = Stroke(
-                        points: strokePoints,
-                        andStride: Int32(strokeStride),
-                        andWidth: strokeWidth,
-                        andColor: strokeColor,
-                        andTs: strokeStartValue,
-                        andTf: strokeFinishValue,
-                        andBlendMode: blendMode
-                    )
-                    
-                    elements.append(stroke!)
-                }
+                    andBlendMode: &blendMode))!{};
+                
+                let stroke = Stroke(
+                points: strokePoints,
+                andStride: Int32(strokeStride),
+                andWidth: strokeWidth,
+                andColor: strokeColor,
+                andTs: strokeStartValue,
+                andTf: strokeFinishValue,
+                andBlendMode: blendMode
+                )
+                
+                elements.append(stroke!)
             }
             else if let imageElement = element as? WCMDocumentSectionImage {
                 if (imageElement.content.type.isEqual(WCMDocumentContentType.png())) {
