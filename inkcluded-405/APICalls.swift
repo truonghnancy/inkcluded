@@ -241,23 +241,11 @@ class APICalls {
             }
             else if result?.items?.count == 0 {
                 //adding a new user
-                cTable.insert(["id" : self.currentUser?.id]) { (result, error) in
-                    if error != nil {
-                        print(error!)
-                    } else if let user = result {
-                        retUser = User(id: user[AnyHashable("id")] as! String, firstName: user[AnyHashable("firstName")] as! String, lastName: user[AnyHashable("lastName")] as! String)
-                        closure(retUser)
-                        
-                    }
-                }
+                closure(nil)
             } else if let items = result?.items {
                 let user = items[0]
                 retUser = User(id: user[AnyHashable("id")] as! String, firstName: user[AnyHashable("firstName")] as! String, lastName: user[AnyHashable("lastName")] as! String)
                 closure(retUser)
-                return
-            }
-            else {
-                closure(nil)
                 return
             }
         }
