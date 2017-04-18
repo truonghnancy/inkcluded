@@ -394,7 +394,7 @@
 				TargetAttributes = {
 					15EBA6FD1E27079E00B38D0E = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = R55N4N32K4;
+						DevelopmentTeam = A4387556RB;
 						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
@@ -787,7 +787,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "inkcluded-405/inkcluded-405.entitlements";
-				DEVELOPMENT_TEAM = R55N4N32K4;
+				DEVELOPMENT_TEAM = A4387556RB;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/inkcluded-405",
@@ -812,7 +812,7 @@
 					"-lc++",
 					"-lz",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "boba.inkcluded-405";
+				PRODUCT_BUNDLE_IDENTIFIER = boba.stylo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "inkcluded-405/inkcluded-405-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -827,7 +827,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "inkcluded-405/inkcluded-405.entitlements";
-				DEVELOPMENT_TEAM = R55N4N32K4;
+				DEVELOPMENT_TEAM = A4387556RB;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/inkcluded-405",
@@ -851,7 +851,7 @@
 					"-lc++",
 					"-lz",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "boba.inkcluded-405";
+				PRODUCT_BUNDLE_IDENTIFIER = boba.stylo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "inkcluded-405/inkcluded-405-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
