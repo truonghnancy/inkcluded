@@ -15,7 +15,7 @@ class GroupsViewController: UIViewController {
     
     var groups : [Group]?
     var selectedGroup: Group?
-    var menuView: UIView?
+    var menuView: MenuView?
     var menuOpen: Bool = false
     let menuSize: CGFloat = 0.8
     
@@ -26,11 +26,11 @@ class GroupsViewController: UIViewController {
         self.groups = []
         
         // making the menu view
-        menuView = UITableView.init(frame: CGRect(x: -(self.view.frame.width*menuSize),
-                                                  y: 0.0,
-                                                  width: self.view.frame.width*menuSize,
-                                                  height: self.view.frame.height))
-        
+        menuView = MenuView(frame: CGRect(x: -(self.view.frame.width*menuSize),
+                                             y: 0.0,
+                                             width: self.view.frame.width*menuSize,
+                                             height: self.view.frame.height),
+                            delegate: self)
         self.view.addSubview(menuView!)
         
         // create & add the screen edge gesture recognizer to open the menu
@@ -77,6 +77,16 @@ class GroupsViewController: UIViewController {
         }
         else {
             openMenu()
+        }
+    }
+}
+
+extension GroupsViewController: MenuViewDelegate {
+    func didClickOnFeedbackButton() {
+        UIApplication.shared.open(URL(string: "https://stylo-9092d.firebaseapp.com")!, options: [:]) { (isSuccessful) in
+            if (!isSuccessful) {
+                print("nooo")
+            }
         }
     }
 }
