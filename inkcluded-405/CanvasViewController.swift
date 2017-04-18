@@ -84,7 +84,9 @@ class CanvasViewController: UIViewController {
         APICalls.sharedInstance.sendMessage(message: sendMessage) { (isSent) in
             if isSent {
                 loadView.removeFromSuperview()
-                let _ = self.navigationController?.popViewController(animated: false)
+                OperationQueue.main.addOperation {
+                    let _ = self.navigationController?.popViewController(animated: false)
+                }
             }
             else {
                 loadView.removeFromSuperview()
