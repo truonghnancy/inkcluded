@@ -233,7 +233,6 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
          email: searchBar.text!,
          closure: { (tempFriends) in
             self.searchResults = tempFriends!.count > 0 ? tempFriends! : [User]()
-            self.doShowSearchResults = true
             self.friendsSearchController.searchResultsTableView.reloadData()
          })
     }
