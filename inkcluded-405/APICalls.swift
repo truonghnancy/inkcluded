@@ -161,10 +161,17 @@ class APICalls {
                 
             }
             myDispatchGroup.notify(queue: .main, execute: {
-                closure(groups)
+                closure(self._sortGroup(group: groups))
                 return
             })
         }
+    }
+    
+    /*
+     Sorts GroupList
+     */
+    private func _sortGroup(group : [Group]) -> [Group] {
+        return group.sorted{$0.groupName < $1.groupName}
     }
     
     /*
