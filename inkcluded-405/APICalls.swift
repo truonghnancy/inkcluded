@@ -239,14 +239,13 @@ class APICalls {
                 closure(nil)
                 return
             }
-            else if let items = result?.items {
+            else if result?.items?.count == 0 {
+                //adding a new user
+                closure(nil)
+            } else if let items = result?.items {
                 let user = items[0]
                 retUser = User(id: user[AnyHashable("id")] as! String, firstName: user[AnyHashable("firstName")] as! String, lastName: user[AnyHashable("lastName")] as! String)
                 closure(retUser)
-                return
-            }
-            else {
-                closure(nil)
                 return
             }
         }
