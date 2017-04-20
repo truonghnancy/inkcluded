@@ -13,6 +13,7 @@ class CanvasViewController: UIViewController {
     
     var drawView: DrawView?
 
+    @IBOutlet var sendButton: UIBarButtonItem!
     @IBOutlet weak var canvas: UIView!
     
     var menu: CanvasMenuView?
@@ -57,6 +58,9 @@ class CanvasViewController: UIViewController {
      *
      **/
     @IBAction func sendButtonPressed(_ sender: Any) {
+        // Disable the send button
+        self.sendButton.isEnabled = false
+    
         // Set the document path
         let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
         let timestamp = String(format: "%llu", UInt64(floor(NSDate().timeIntervalSince1970 * 1000)));
@@ -92,6 +96,10 @@ class CanvasViewController: UIViewController {
                 loadView.removeFromSuperview()
             
                 self.failedToSendMessage()
+            }
+            
+            DispatchQueue.main.async {
+                self.sendButton.isEnabled = true
             }
         }
     }

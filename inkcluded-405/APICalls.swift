@@ -210,9 +210,11 @@ class APICalls {
                     myDispatchGroup.enter()
                     self._getUserAPI(userId: item[AnyHashable("userId")] as! String, closure:
                         {(user) -> Void in
-                            members.append(user!)
+                            if let resUser = user {
+                                members.append(resUser)
+                            }
                             myDispatchGroup.leave()
-                    })
+                        })
                 }
             }
             myDispatchGroup.notify(queue: .main, execute: {
