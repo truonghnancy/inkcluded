@@ -19,6 +19,12 @@ class GroupsViewController: UIViewController {
     var menuOpen: Bool = false
     let menuSize: CGFloat = 0.8
     
+    lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(handleRefresh), for: UIControlEvents.valueChanged)
+        
+        return refreshControl
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +38,8 @@ class GroupsViewController: UIViewController {
                                              height: self.view.frame.height),
                             delegate: self)
         self.view.addSubview(menuView!)
+        
+        self.groupsTableView.addSubview(self.refreshControl)
         
         // create & add the screen edge gesture recognizer to open the menu
         let edgePanGR = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(self.handleEdgePan(recognizer:)))
@@ -59,7 +67,7 @@ class GroupsViewController: UIViewController {
         super.viewWillAppear(animated)
         
         let apiCalls = APICalls.sharedInstance
-        if (apiCalls.currentUser != nil) {
+        if (apiCalls.currentUser != nil && (groups?.isEmpty)!) {
             let loadView = LoadView(frame: self.view.frame)
             self.view.addSubview(loadView)
             apiCalls.getGroupsAPI(sid: apiCalls.currentUser!.id, closure: { (groupList) in
@@ -69,6 +77,7 @@ class GroupsViewController: UIViewController {
             })
         }
     }
+    
     
     // BUTTON ACTION
     @IBAction func menuTapped(_ sender: UIBarButtonItem) {
@@ -152,6 +161,19 @@ extension GroupsViewController: UITableViewDelegate, UITableViewDataSource {
         cell.groupDetails.text = members?.joined(separator: ", ")
         
         return cell
+    }
+    
+    func handleRefresh() {
+        let loadView = LoadView(frame: self.view.frame)
+        self.view.addSubview(loadView)
+        
+        let apiCalls = APICalls.sharedInstance
+        apiCalls.getGroupsAPI(sid: apiCalls.currentUser!.id, closure: { (groupList) in
+            self.groups = groupList
+            self.groupsTableView.reloadData()
+            loadView.removeFromSuperview()
+        })
+        self.refreshControl.endRefreshing()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

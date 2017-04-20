@@ -61,6 +61,8 @@ class GroupHistoryViewController: UIViewController {
         self.historyView.contentSize = contentView!.frame.size
         self.historyView.addSubview(contentView!)
         
+        self.historyView.setContentOffset(CGPoint(x: 0, y: contentViewHeight - self.view.frame.height), animated: false)
+        
         var yPos: CGFloat = nameFieldHeight
         
         for message in self.curMessages! {
