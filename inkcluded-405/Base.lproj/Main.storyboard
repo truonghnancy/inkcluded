@@ -343,6 +343,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="canvas" destination="j5A-Ex-b1J" id="M4o-oW-19X"/>
+                        <outlet property="sendButton" destination="Rdb-7a-ocM" id="c7q-pn-8Jg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yVV-XB-7oL" userLabel="First Responder" sceneMemberID="firstResponder"/>
