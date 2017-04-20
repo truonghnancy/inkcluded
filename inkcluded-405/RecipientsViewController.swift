@@ -18,6 +18,7 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
     @IBOutlet var selectButton: UIBarButtonItem!
     
     var apiCalls: APICalls?                // The database interface
+    var curUid: String?                    // The current user ID
     var selectedRecipients = [User]()      // A list of selected recipients
     var friends : [User]?                  // A list of friends to select
     var searchResults = [User]()           // A list of search results
@@ -33,6 +34,7 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
         // Query the API to populate the inital friends list.
         self.apiCalls = APICalls.sharedInstance
         self.friends = Array(APICalls.sharedInstance.friendsList)
+        self.curUid = apiCalls?.currentUser?.id
         selectButton.isEnabled = false
     }
     
@@ -232,7 +234,11 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
         apiCalls?.findUserByEmail(
          email: searchBar.text!,
          closure: { (tempFriends) in
-            self.searchResults = tempFriends!.count > 0 ? tempFriends! : [User]()
+            // Don't let users add themselves to groups.
+            let filteredFriends = tempFriends!.filter { (tempUser) -> Bool in
+                return tempUser.id != self.curUid
+            }
+            self.searchResults = filteredFriends.count > 0 ? filteredFriends : [User]()
             self.friendsSearchController.searchResultsTableView.reloadData()
          })
     }
