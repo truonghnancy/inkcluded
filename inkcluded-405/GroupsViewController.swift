@@ -18,6 +18,7 @@ class GroupsViewController: UIViewController {
     var menuView: MenuView?
     var menuOpen: Bool = false
     let menuSize: CGFloat = 0.8
+    var deleteGroup: NSIndexPath? = nil
     
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
@@ -98,6 +99,16 @@ extension GroupsViewController: MenuViewDelegate {
             }
         }
     }
+    
+    // TODO: make a confirmation popup
+    // need to figure out a way to refresh the groups after logging back in as a different user
+    func didClickOnLogoutButton() {
+        APICalls.sharedInstance.logout()
+        print("logged out")
+        
+        self.performSegue(withIdentifier: "showLogin" , sender: self)
+        closeMenu()
+    }
 }
 
 extension GroupsViewController: UIGestureRecognizerDelegate {
@@ -141,6 +152,8 @@ extension GroupsViewController: UIGestureRecognizerDelegate {
 }
 
 extension GroupsViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return groups!.count;
     }
@@ -176,6 +189,32 @@ extension GroupsViewController: UITableViewDelegate, UITableViewDataSource {
         self.refreshControl.endRefreshing()
     }
     
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            deleteGroup = indexPath as NSIndexPath?
+            let groupselect = groups![deleteGroup!.row].id
+            print(groupselect)
+            
+            tableView.beginUpdates()
+            let apiCalls = APICalls.sharedInstance
+            groups?.remove(at: deleteGroup!.row)
+            
+            apiCalls.leaveGroup(groupId: groupselect)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            deleteGroup = nil
+            
+            tableView.endUpdates()
+        }
+    }
+    
+//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+//        if editingStyle == .delete {
+//            deleteGroup = indexPath
+//            let planetToDelete = groups?[indexPath.row]
+//            confirmDelete(planet: planetToDelete)
+//        }
+//    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // Set the selected group and segue to the group history view.
         self.selectedGroup = groups?[indexPath.row]
@@ -190,4 +229,39 @@ extension GroupsViewController: UITableViewDelegate, UITableViewDataSource {
             dest.curGroup = selectedGroup
         }
     }
+    
+//    func confirmDelete(planet: String) {
+//        let alert = UIAlertController(title: "Delete Group", message: "Are you sure you want to permanently delete \(planet)?", preferredStyle: .actionSheet)
+//        
+//        let DeleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: handleDeletePlanet)
+//        let CancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: cancelDeletePlanet)
+//        
+//        alert.addAction(DeleteAction)
+//        alert.addAction(CancelAction)
+//        
+//        // Support display in iPad
+//        alert.popoverPresentationController?.sourceView = self.view
+//        alert.popoverPresentationController?.sourceRect = CGRectMake(self.view.bounds.size.width / 2.0, self.view.bounds.size.height / 2.0, 1.0, 1.0)
+//        
+//        self.present(alert, animated: true, completion: nil)
+//    }
+//    
+//    func handleDeletePlanet(alertAction: UIAlertAction!) -> Void {
+//        if let indexPath = deletePlanetIndexPath {
+//            tableView.beginUpdates()
+//            
+//            planets.removeAtIndex(indexPath.row)
+//            
+//            // Note that indexPath is wrapped in an array:  [indexPath]
+//            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+//            
+//            deletePlanetIndexPath = nil
+//            
+//            tableView.endUpdates()
+//        }
+//    }
+//    
+//    func cancelDeletePlanet(alertAction: UIAlertAction!) {
+//        deletePlanetIndexPath = nil
+//    }
 }

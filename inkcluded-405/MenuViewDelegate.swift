@@ -10,4 +10,5 @@ import Foundation
 
 protocol MenuViewDelegate {
     func didClickOnFeedbackButton()
+    func didClickOnLogoutButton()
 }

@@ -98,6 +98,10 @@ class APICalls {
         self.groupList = []
     }
     
+    func logout() {
+        self.currentUser = nil
+    }
+    
     func login(closure: @escaping (User?) -> Void) {
         let sid = client.currentUser?.userId
         let userTable = client.table(withName: "User")
@@ -124,6 +128,21 @@ class APICalls {
                 return
             }
         })
+    }
+    
+    /*
+     Leave a group selected
+     Eric Roh
+    */
+    func leaveGroup(groupId: String) {
+        print("\t\t", groupId)
+        print("\t\t", currentUser!.id)
+        client.invokeAPI("removeUser", body: nil, httpMethod: "POST", parameters: [AnyHashable("groupId"): groupId, AnyHashable("userId"): currentUser!.id], headers: nil) { (myobject, response, error) in
+            if error != nil {
+                print("Error leaving group", error!)
+            }
+        }
+
     }
     
     /*

@@ -29,8 +29,17 @@ class MenuView: UIView {
         feedbackButton.setTitle("Feedback", for: .normal)
         
         feedbackButton.addTarget(self, action: #selector(self.didClickOnFeedbackButton), for: UIControlEvents.touchUpInside)
-        
         self.addSubview(feedbackButton)
+        
+        let logoutButton = UIButton(frame: CGRect(x: 0, y: self.frame.height - 50, width: self.frame.width, height: 25))
+        logoutButton.setTitle("Logout", for: .normal)
+        logoutButton.setTitleColor(UIColor.black, for: .normal)
+        logoutButton.addTarget(self, action: #selector(self.didClickOnLogoutButton), for: UIControlEvents.touchUpInside)
+        self.addSubview(logoutButton)
+    }
+    
+    func didClickOnLogoutButton() {
+        delegate?.didClickOnLogoutButton()
     }
     
     func didClickOnFeedbackButton() {
