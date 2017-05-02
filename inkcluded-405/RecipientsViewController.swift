@@ -117,23 +117,31 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
      */
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
-        if doShowSearchResults {
-            // Add the user corresponding to the cell to the list of friends, 
-            //  if it hasn't already been added.
-            let tempRecipient: User = (searchResults[indexPath.row])
-            if getIndexOfUser(friends!, keyUser: tempRecipient) < 0 {
-                friends?.append(tempRecipient)
+        if indexPath.row >= 0 {
+            if doShowSearchResults && indexPath.row < searchResults.count {
+                // Add the user corresponding to the cell to the list of 
+                //  friends if it hasn't already been added.
+                let tempRecipient: User = (searchResults[indexPath.row])
+                if getIndexOfUser(friends!, keyUser: tempRecipient) < 0 {
+                    friends?.append(tempRecipient)
+                    friendsTableView.reloadData()
+                }
+            }
+            else if indexPath.row < (friends?.count)! {
+                // Add the friend corresponding to the cell to the recipients 
+                //  list. Enable the select button.
+                let tempRecipient: User = (friends?[indexPath.row])!
+                selectedRecipients.append(tempRecipient)
+            
+                self.selectButton.isEnabled = self.selectedRecipients.count > 0
+            }
+            else {
+                // In this case, the index was somehow invalid. Refresh data? 
+                //  Can't replicate reported bugs.
                 friendsTableView.reloadData()
+                self.friendsSearchController.searchResultsTableView.reloadData()
             }
         }
-        else {
-            // Add the friend corresponding to the cell to the recipients list.
-            let tempRecipient: User = (friends?[indexPath.row])!
-            selectedRecipients.append(tempRecipient)
-            
-            self.selectButton.isEnabled = self.selectedRecipients.count > 0
-        }
-        
     }
     
     /**
