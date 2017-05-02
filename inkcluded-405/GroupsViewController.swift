@@ -92,7 +92,7 @@ class GroupsViewController: UIViewController {
 
 extension GroupsViewController: MenuViewDelegate {
     func didClickOnFeedbackButton() {
-        UIApplication.shared.open(URL(string: "https://stylo-9092d.firebaseapp.com")!, options: [:]) { (isSuccessful) in
+        UIApplication.shared.open(URL(string: "https://goo.gl/forms/TErdjjwKSdnjbAWx1")!, options: [:]) { (isSuccessful) in
             if (!isSuccessful) {
                 print("nooo")
             }

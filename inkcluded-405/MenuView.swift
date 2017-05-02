@@ -20,7 +20,7 @@ class MenuView: UIView {
         self.backgroundColor = UIColor.white
         
         let versionLabel = UILabel(frame: CGRect(x: 0, y:75, width: self.frame.width, height: 25))
-        versionLabel.text = "v0.1.3"
+        versionLabel.text = "v0.1.4"
         versionLabel.textAlignment = .center
         self.addSubview(versionLabel)
         
