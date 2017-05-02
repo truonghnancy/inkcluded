@@ -124,6 +124,9 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
                 let tempRecipient: User = (searchResults[indexPath.row])
                 if getIndexOfUser(friends!, keyUser: tempRecipient) < 0 {
                     friends?.append(tempRecipient)
+                    // Since searching is by exact match, we can just end it.
+                    doShowSearchResults = false
+                    self.friendsSearchController.setActive(false, animated: true)
                     friendsTableView.reloadData()
                 }
             }
