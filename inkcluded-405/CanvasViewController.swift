@@ -69,7 +69,8 @@ class CanvasViewController: UIViewController {
         docName = docName.appending(".will")
         let willDocPath = documentsPath.appending("/\(docName)")
         
-        if !(model!.saveCanvasElements(drawViewSize: (drawView?.bounds.size)!, toFile: willDocPath)) {
+        let size = CGSize(width: (drawView?.bounds.size.height)!, height: (drawView?.bounds.size.height)!)
+        if !(model!.saveCanvasElements(drawViewSize: size, toFile: willDocPath)) {
             self.failedToSendMessage()
             return
         }
@@ -109,18 +110,7 @@ class CanvasViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
-    
-    // Loads a completely new canvas and discards the old canvas. Placeholder button just for canvas bugtesting.
-    func loadButtonPressed(_ sender: Any) {
-        // Set the document path
-        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-        let willDocPath = documentsPath.appending("willFile")
-    
-        // Clear and restore context
-        model?.clearCanvasElements()
-        let renderElements = model?.restoreStateFromWILLFile(textViewDelegate: self, fromFile: willDocPath)
-        resetDrawView(withElements: renderElements!)
-    }
+
     
     func restoreState(fromElements elements: [AnyObject]) {
         if model == nil {
@@ -136,7 +126,7 @@ class CanvasViewController: UIViewController {
         
         drawView = getNewDrawView()
         
-        drawView?.refreshViewWithElements(elements: elements)
+        drawView?.refreshViewWithElements(elements: elements, atSize: self.view.bounds.size)
         
         canvas.addSubview(drawView!)
         self.orderedSubViews[0] = drawView!

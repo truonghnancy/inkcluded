@@ -80,7 +80,9 @@ class GroupHistoryViewController: UIViewController {
             }
         
             let drawView = DrawView(frame: CGRect(origin: origin, size: drawViewSize))
-            let elements = CanvasModel.decodeObjectsFromWillFile(textViewDelegate: nil, atPath: message.filepath)
+            let willContents = CanvasModel.decodeObjectsFromWillFile(textViewDelegate: nil, atPath: message.filepath)
+            let elements = willContents?.0
+            let willSize = willContents?.1
             
             // Set the message index
             drawView.groupMessageIndex = (messageElements?.count)!
@@ -96,7 +98,7 @@ class GroupHistoryViewController: UIViewController {
             drawView.addGestureRecognizer(tapRecognizer)
             
             if let drawViewContent = elements {
-                drawView.refreshViewWithElements(elements: drawViewContent)
+                drawView.refreshViewWithElements(elements: drawViewContent, atSize: willSize!)
                 messageElements?.append(drawViewContent)
             }
             else {

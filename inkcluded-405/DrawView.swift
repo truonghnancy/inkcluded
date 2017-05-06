@@ -198,7 +198,7 @@ class DrawView: UIView {
         }
     }
     
-    func refreshViewWithElements(elements: [AnyObject]) {
+    func refreshViewWithElements(elements: [AnyObject], atSize size: CGSize) {
         for element in elements {
             if let strokeElement = element as? Stroke {
                 strokeRenderer.resetAndClearBuffers()
