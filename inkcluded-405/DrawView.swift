@@ -39,9 +39,6 @@ class DrawView: UIView {
     // Whether to allow strokes to be drawn
     var shouldDraw: Bool
     
-    // if this belongs in a group, it should have a group index
-    var groupMessageIndex: Int?
-    
     override init(frame: CGRect) {
         shouldDraw = true
         super.init(frame: frame)

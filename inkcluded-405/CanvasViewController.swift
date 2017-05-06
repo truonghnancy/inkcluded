@@ -36,8 +36,7 @@ class CanvasViewController: UIViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         selectImageVC = storyboard.instantiateViewController(withIdentifier: "selectImageVC") as? SelectImageViewController
         
-        // Set up view
-        self.view.backgroundColor = UIColor.white
+        canvas.backgroundColor = UIColor.gray
         
         // Bindings
         selectImageVC?.selectImageDelegate = self
@@ -122,7 +121,7 @@ class CanvasViewController: UIViewController {
     }
     
     func resetDrawView(withElements elements: [AnyObject]) {
-        drawView?.removeFromSuperview();
+        drawView?.removeFromSuperview()
         
         drawView = getNewDrawView()
         
@@ -138,7 +137,9 @@ class CanvasViewController: UIViewController {
      * Helper Functions
      */
     func getNewDrawView() -> DrawView {
-        let newDrawView = DrawView(frame: self.view.bounds)
+        let size = self.view.bounds.width
+        let yOffset = self.view.bounds.height / 5
+        let newDrawView = DrawView(frame: CGRect(x: 0, y: yOffset, width: size, height: size))
         newDrawView.setNewDelegate(newDelegate: self)
         
         return newDrawView

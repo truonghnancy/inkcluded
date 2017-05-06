@@ -47,7 +47,7 @@ class GroupHistoryViewController: UIViewController {
     
     func loadAllMessages() {
         let parentSize = self.view.frame.size
-        let drawViewSize = CGSize(width: parentSize.width / 2, height: parentSize.height / 2)
+        let drawViewSize = CGSize(width: parentSize.width / 2, height: parentSize.width / 2)
         let leftX: CGFloat = 5.0
         let rightX = parentSize.width - drawViewSize.width - leftX
         let padding: CGFloat = 10.0
@@ -79,20 +79,13 @@ class GroupHistoryViewController: UIViewController {
                 nameField.textAlignment = .right
             }
         
-            let drawView = DrawView(frame: CGRect(origin: origin, size: drawViewSize))
+            // Decode elements from the will file
             let willContents = CanvasModel.decodeObjectsFromWillFile(textViewDelegate: nil, atPath: message.filepath)
             let elements = willContents?.0
             let willSize = willContents?.1
             
-            // Set the message index
-            drawView.groupMessageIndex = (messageElements?.count)!
-            
-            // Format the view
-            drawView.shouldDraw = false
-            drawView.layer.borderWidth = 1.0
-            drawView.layer.borderColor = UIColor.black.cgColor
-            drawView.clipsToBounds = true
-            
+            // Create the draw view
+            let drawView = GroupHistoryDrawView(frame: CGRect(origin: origin, size: drawViewSize), groupMessageIndex: (messageElements?.count)!)
             // add a gesture recognizer
             let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.respondToMessageTap(recognizer:)))
             drawView.addGestureRecognizer(tapRecognizer)
@@ -114,7 +107,7 @@ class GroupHistoryViewController: UIViewController {
     }
     
     func respondToMessageTap(recognizer: UITapGestureRecognizer) {
-        let drawView = recognizer.view as? DrawView
+        let drawView = recognizer.view as? GroupHistoryDrawView
         let elements = messageElements?[(drawView?.groupMessageIndex)!]
         
         self.performSegue(withIdentifier: "newMessageSegue", sender: elements)

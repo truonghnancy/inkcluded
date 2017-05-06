@@ -10,6 +10,7 @@
 		07A00B6F1E2EC51F00DD68F7 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A00B6E1E2EC51F00DD68F7 /* LoginViewController.swift */; };
 		150CAD101E3ECF73003255DB /* GroupsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150CAD0F1E3ECF73003255DB /* GroupsTableViewCell.swift */; };
 		15206C601E73D89900A08781 /* LoadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15206C5F1E73D89900A08781 /* LoadView.swift */; };
+		1576D2121EBE69DC00FB9767 /* GroupHistoryDrawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1576D2111EBE69DC00FB9767 /* GroupHistoryDrawView.swift */; };
 		158ECEF51E5CF0E300D45DB3 /* DrawStrokesDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158ECEF41E5CF0E300D45DB3 /* DrawStrokesDelegate.swift */; };
 		158ECEF71E5D07AD00D45DB3 /* CanvasModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158ECEF61E5D07AD00D45DB3 /* CanvasModel.swift */; };
 		15A978991E28D89E007E4B21 /* GroupsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A978981E28D89E007E4B21 /* GroupsViewController.swift */; };
@@ -71,6 +72,7 @@
 		07A00B701E2EC71B00DD68F7 /* inkcluded-405.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "inkcluded-405.entitlements"; sourceTree = "<group>"; };
 		150CAD0F1E3ECF73003255DB /* GroupsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsTableViewCell.swift; sourceTree = "<group>"; };
 		15206C5F1E73D89900A08781 /* LoadView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadView.swift; sourceTree = "<group>"; };
+		1576D2111EBE69DC00FB9767 /* GroupHistoryDrawView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupHistoryDrawView.swift; sourceTree = "<group>"; };
 		158ECEF41E5CF0E300D45DB3 /* DrawStrokesDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawStrokesDelegate.swift; sourceTree = "<group>"; };
 		158ECEF61E5D07AD00D45DB3 /* CanvasModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasModel.swift; sourceTree = "<group>"; };
 		15A978981E28D89E007E4B21 /* GroupsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsViewController.swift; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 				B9DE53CA1E6CE7E400831710 /* DraggableTextView.swift */,
 				15206C5F1E73D89900A08781 /* LoadView.swift */,
 				15EFEE2C1EA5B3A400C6D106 /* MenuView.swift */,
+				1576D2111EBE69DC00FB9767 /* GroupHistoryDrawView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -606,6 +609,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				15EBA3E81E50F0D1006821C9 /* CanvasMenuDelegate.swift in Sources */,
+				1576D2121EBE69DC00FB9767 /* GroupHistoryDrawView.swift in Sources */,
 				CCB4C7B61E5AB0850050D3DD /* APICalls.swift in Sources */,
 				9DB896761E5BC42B00E1B592 /* GroupHistoryViewController.swift in Sources */,
 				9DB896781E5BD5D800E1B592 /* MessageTableViewCell.swift in Sources */,
