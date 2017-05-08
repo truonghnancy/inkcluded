@@ -14,7 +14,7 @@ class GroupHistoryViewController: UIViewController {
     var curGroup: Group?
     var curMessages: [Message]?
     var contentView: UIView?
-    var messageElements: [[AnyObject]]?
+    var messageElements: [([AnyObject], CGSize)]?
     
     @IBOutlet var historyView: UIScrollView!
     @IBOutlet var navBar: UINavigationItem!
@@ -92,11 +92,11 @@ class GroupHistoryViewController: UIViewController {
             
             if let drawViewContent = elements {
                 drawView.refreshViewWithElements(elements: drawViewContent, atSize: willSize!)
-                messageElements?.append(drawViewContent)
+                messageElements?.append((drawViewContent, willSize!))
             }
             else {
                 drawView.backgroundColor = UIColor.black
-                messageElements?.append([])
+                messageElements?.append(([], CGSize(width: 0, height: 0)))
             }
             
             contentView?.addSubview(nameField)
@@ -108,17 +108,18 @@ class GroupHistoryViewController: UIViewController {
     
     func respondToMessageTap(recognizer: UITapGestureRecognizer) {
         let drawView = recognizer.view as? GroupHistoryDrawView
-        let elements = messageElements?[(drawView?.groupMessageIndex)!]
+        let elements = messageElements?[(drawView?.groupMessageIndex)!].0
+        let size = messageElements?[(drawView?.groupMessageIndex)!].1
         
-        self.performSegue(withIdentifier: "newMessageSegue", sender: elements)
+        self.performSegue(withIdentifier: "newMessageSegue", sender: (elements, size))
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "newMessageSegue" {
             let destination = segue.destination as? CanvasViewController
             destination?.msgGroup = curGroup
-            if let elements = sender as? [AnyObject] {
-                destination?.restoreState(fromElements: elements)
+            if let elementsTuple = sender as? ([AnyObject], CGSize) {
+                destination?.restoreState(fromElements: elementsTuple.0, atSize: elementsTuple.1)
             }
         }
     }

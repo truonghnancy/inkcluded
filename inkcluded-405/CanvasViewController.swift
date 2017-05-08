@@ -12,6 +12,7 @@ import UIKit
 class CanvasViewController: UIViewController {
     
     var drawView: DrawView?
+    var willSize: CGSize? // original size of the will canvas
 
     @IBOutlet var sendButton: UIBarButtonItem!
     @IBOutlet weak var canvas: UIView!
@@ -111,12 +112,13 @@ class CanvasViewController: UIViewController {
     }
 
     
-    func restoreState(fromElements elements: [AnyObject]) {
+    func restoreState(fromElements elements: [AnyObject], atSize size: CGSize) {
         if model == nil {
             model = CanvasModel()
         }
         model?.clearCanvasElements()
         model?.restoreState(fromElements: elements)
+        self.willSize = size
         resetDrawView(withElements: elements)
     }
     
@@ -125,7 +127,12 @@ class CanvasViewController: UIViewController {
         
         drawView = getNewDrawView()
         
-        drawView?.refreshViewWithElements(elements: elements, atSize: self.view.bounds.size)
+        if let size = self.willSize {
+            drawView?.refreshViewWithElements(elements: elements, atSize: size)
+        }
+        else {
+            drawView?.refreshViewWithElements(elements: elements, atSize: (drawView?.frame.size)!)
+        }
         
         canvas.addSubview(drawView!)
         self.orderedSubViews[0] = drawView!
