@@ -12,6 +12,7 @@ import UIKit
 class CanvasViewController: UIViewController {
     
     var drawView: DrawView?
+    var willSize: CGSize? // original size of the will canvas
 
     @IBOutlet var sendButton: UIBarButtonItem!
     @IBOutlet weak var canvas: UIView!
@@ -36,8 +37,7 @@ class CanvasViewController: UIViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         selectImageVC = storyboard.instantiateViewController(withIdentifier: "selectImageVC") as? SelectImageViewController
         
-        // Set up view
-        self.view.backgroundColor = UIColor.white
+        canvas.backgroundColor = UIColor.gray
         
         // Bindings
         selectImageVC?.selectImageDelegate = self
@@ -69,7 +69,8 @@ class CanvasViewController: UIViewController {
         docName = docName.appending(".will")
         let willDocPath = documentsPath.appending("/\(docName)")
         
-        if !(model!.saveCanvasElements(drawViewSize: (drawView?.bounds.size)!, toFile: willDocPath)) {
+        let size = CGSize(width: (drawView?.bounds.size.height)!, height: (drawView?.bounds.size.height)!)
+        if !(model!.saveCanvasElements(drawViewSize: size, toFile: willDocPath)) {
             self.failedToSendMessage()
             return
         }
@@ -109,34 +110,29 @@ class CanvasViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
+
     
-    // Loads a completely new canvas and discards the old canvas. Placeholder button just for canvas bugtesting.
-    func loadButtonPressed(_ sender: Any) {
-        // Set the document path
-        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-        let willDocPath = documentsPath.appending("willFile")
-    
-        // Clear and restore context
-        model?.clearCanvasElements()
-        let renderElements = model?.restoreStateFromWILLFile(textViewDelegate: self, fromFile: willDocPath)
-        resetDrawView(withElements: renderElements!)
-    }
-    
-    func restoreState(fromElements elements: [AnyObject]) {
+    func restoreState(fromElements elements: [AnyObject], atSize size: CGSize) {
         if model == nil {
             model = CanvasModel()
         }
         model?.clearCanvasElements()
         model?.restoreState(fromElements: elements)
+        self.willSize = size
         resetDrawView(withElements: elements)
     }
     
     func resetDrawView(withElements elements: [AnyObject]) {
-        drawView?.removeFromSuperview();
+        drawView?.removeFromSuperview()
         
         drawView = getNewDrawView()
         
-        drawView?.refreshViewWithElements(elements: elements)
+        if let size = self.willSize {
+            drawView?.refreshViewWithElements(elements: elements, atSize: size)
+        }
+        else {
+            drawView?.refreshViewWithElements(elements: elements, atSize: (drawView?.frame.size)!)
+        }
         
         canvas.addSubview(drawView!)
         self.orderedSubViews[0] = drawView!
@@ -148,7 +144,9 @@ class CanvasViewController: UIViewController {
      * Helper Functions
      */
     func getNewDrawView() -> DrawView {
-        let newDrawView = DrawView(frame: self.view.bounds)
+        let size = self.view.bounds.width
+        let yOffset = self.view.bounds.height / 5
+        let newDrawView = DrawView(frame: CGRect(x: 0, y: yOffset, width: size, height: size))
         newDrawView.setNewDelegate(newDelegate: self)
         
         return newDrawView

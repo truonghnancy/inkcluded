@@ -14,7 +14,7 @@ class GroupHistoryViewController: UIViewController {
     var curGroup: Group?
     var curMessages: [Message]?
     var contentView: UIView?
-    var messageElements: [[AnyObject]]?
+    var messageElements: [([AnyObject], CGSize)]?
     
     @IBOutlet var historyView: UIScrollView!
     @IBOutlet var navBar: UINavigationItem!
@@ -47,7 +47,7 @@ class GroupHistoryViewController: UIViewController {
     
     func loadAllMessages() {
         let parentSize = self.view.frame.size
-        let drawViewSize = CGSize(width: parentSize.width / 2, height: parentSize.height / 2)
+        let drawViewSize = CGSize(width: parentSize.width / 2, height: parentSize.width / 2)
         let leftX: CGFloat = 5.0
         let rightX = parentSize.width - drawViewSize.width - leftX
         let padding: CGFloat = 10.0
@@ -79,29 +79,24 @@ class GroupHistoryViewController: UIViewController {
                 nameField.textAlignment = .right
             }
         
-            let drawView = DrawView(frame: CGRect(origin: origin, size: drawViewSize))
-            let elements = CanvasModel.decodeObjectsFromWillFile(textViewDelegate: nil, atPath: message.filepath)
+            // Decode elements from the will file
+            let willContents = CanvasModel.decodeObjectsFromWillFile(textViewDelegate: nil, atPath: message.filepath)
+            let elements = willContents?.0
+            let willSize = willContents?.1
             
-            // Set the message index
-            drawView.groupMessageIndex = (messageElements?.count)!
-            
-            // Format the view
-            drawView.shouldDraw = false
-            drawView.layer.borderWidth = 1.0
-            drawView.layer.borderColor = UIColor.black.cgColor
-            drawView.clipsToBounds = true
-            
+            // Create the draw view
+            let drawView = GroupHistoryDrawView(frame: CGRect(origin: origin, size: drawViewSize), groupMessageIndex: (messageElements?.count)!)
             // add a gesture recognizer
             let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.respondToMessageTap(recognizer:)))
             drawView.addGestureRecognizer(tapRecognizer)
             
             if let drawViewContent = elements {
-                drawView.refreshViewWithElements(elements: drawViewContent)
-                messageElements?.append(drawViewContent)
+                drawView.refreshViewWithElements(elements: drawViewContent, atSize: willSize!)
+                messageElements?.append((drawViewContent, willSize!))
             }
             else {
                 drawView.backgroundColor = UIColor.black
-                messageElements?.append([])
+                messageElements?.append(([], CGSize(width: 0, height: 0)))
             }
             
             contentView?.addSubview(nameField)
@@ -112,18 +107,19 @@ class GroupHistoryViewController: UIViewController {
     }
     
     func respondToMessageTap(recognizer: UITapGestureRecognizer) {
-        let drawView = recognizer.view as? DrawView
-        let elements = messageElements?[(drawView?.groupMessageIndex)!]
+        let drawView = recognizer.view as? GroupHistoryDrawView
+        let elements = messageElements?[(drawView?.groupMessageIndex)!].0
+        let size = messageElements?[(drawView?.groupMessageIndex)!].1
         
-        self.performSegue(withIdentifier: "newMessageSegue", sender: elements)
+        self.performSegue(withIdentifier: "newMessageSegue", sender: (elements, size))
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "newMessageSegue" {
             let destination = segue.destination as? CanvasViewController
             destination?.msgGroup = curGroup
-            if let elements = sender as? [AnyObject] {
-                destination?.restoreState(fromElements: elements)
+            if let elementsTuple = sender as? ([AnyObject], CGSize) {
+                destination?.restoreState(fromElements: elementsTuple.0, atSize: elementsTuple.1)
             }
         }
     }

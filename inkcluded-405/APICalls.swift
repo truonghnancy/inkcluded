@@ -349,7 +349,7 @@ class APICalls {
                         return
                     }
                     else {
-                        self.sendPushNotificationAPI(groupId: message.groupid)
+                        self.sendPushNotificationAPI(groupId: message.groupid, messageId: message.filename)
                         closure(true)
                         return
                     }
@@ -358,8 +358,8 @@ class APICalls {
         })
     }
     
-    func sendPushNotificationAPI(groupId: String) {
-        client.invokeAPI("pushMessage", body: nil, httpMethod: "POST", parameters: [AnyHashable("groupId"): groupId], headers: nil) { (myobject, response, error) in
+    func sendPushNotificationAPI(groupId: String, messageId: String) {
+        client.invokeAPI("pushMessage", body: nil, httpMethod: "POST", parameters: [AnyHashable("groupId"): groupId, AnyHashable("messageId"): messageId], headers: nil) { (myobject, response, error) in
             if error != nil {
                 print("Error sending push notification", error!)
             }

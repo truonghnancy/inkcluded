@@ -24,11 +24,6 @@ struct CanvasMenuButton {
     init(type: CanvasMenuItem, image: UIImage) {
         self.type = type
         self.image = image
-//        self.button = UIButton(
-//            frame: (CGRect(
-//                    origin: CGPoint(x:10, y:0),
-//                    size: CGSize(width: CanvasMenuButton.BUTTON_WIDTH, height: CanvasMenuButton.BUTTON_WIDTH
-//            ))))
         self.button = UIButton(type: .custom)
         self.button.frame = CGRect(
             origin: CGPoint(x:10, y:0),
@@ -44,8 +39,8 @@ struct CanvasMenuButton {
 
 public class CanvasMenuView: UIView {
 
-    static let MENU_WIDTH: CGFloat = 65.0
-    static let MENU_HEIGHT_RATIO: CGFloat = 0.5
+    static let MENU_HEIGHT: CGFloat = 90.0
+    static let MENU_WIDTH_RATIO: CGFloat = 0.8
     
     private var itemList: [CanvasMenuButton]?
 
@@ -53,8 +48,9 @@ public class CanvasMenuView: UIView {
 
     init(size: CGSize, delegate: CanvasMenuDelegate) {
         let borderWidth: CGFloat = 2.0
-        let origin = CGPoint(x: size.width - CanvasMenuView.MENU_WIDTH + borderWidth * 2, y: (size.height * CanvasMenuView.MENU_HEIGHT_RATIO) / 2)
-        let frameSize = CGSize(width: CanvasMenuView.MENU_WIDTH, height: size.height * CanvasMenuView.MENU_HEIGHT_RATIO)
+//        let origin = CGPoint(x: size.width - CanvasMenuView.MENU_WIDTH + borderWidth * 2, y: (size.height * CanvasMenuView.MENU_HEIGHT_RATIO) / 2)
+        let origin = CGPoint(x: 0, y: size.height - CanvasMenuView.MENU_HEIGHT)
+        let frameSize = CGSize(width: size.width * CanvasMenuView.MENU_HEIGHT, height: CanvasMenuView.MENU_HEIGHT)
         
         super.init(frame: CGRect(origin: origin, size: frameSize))
         
@@ -72,11 +68,12 @@ public class CanvasMenuView: UIView {
     
     func addMenuButtonToView(items: [CanvasMenuButton]) {
         let padding: CGFloat = 30.0
-        var yPos = ((self.frame.height - (CanvasMenuButton.BUTTON_WIDTH + padding) * CGFloat(items.count)) / 2) + padding
+        var xPos = (CGFloat(items.count) * CanvasMenuButton.BUTTON_WIDTH + (CGFloat(items.count) - 1) * padding) / 2
         
         for item in items {
-            item.button.frame.origin.y = yPos
-            yPos +=  CanvasMenuButton.BUTTON_WIDTH + padding
+            item.button.frame.origin.y = CanvasMenuButton.BUTTON_WIDTH / 4
+            item.button.frame.origin.x = xPos
+            xPos += CanvasMenuButton.BUTTON_WIDTH + padding
             
             item.button.addTarget(self, action: #selector(didClickOnMenuButton), for: .touchUpInside)
             

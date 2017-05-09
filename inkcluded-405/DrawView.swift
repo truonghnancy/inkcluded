@@ -39,9 +39,6 @@ class DrawView: UIView {
     // Whether to allow strokes to be drawn
     var shouldDraw: Bool
     
-    // if this belongs in a group, it should have a group index
-    var groupMessageIndex: Int?
-    
     override init(frame: CGRect) {
         shouldDraw = true
         super.init(frame: frame)
@@ -198,11 +195,42 @@ class DrawView: UIView {
         }
     }
     
-    func refreshViewWithElements(elements: [AnyObject]) {
+    func scaleStrokeVector(vector: WCMFloatVector, atScaleFactor scaleFactor: Float) -> WCMFloatVector {
+        var cur = vector.begin()
+        
+        while (cur != vector.end()) {
+            cur?.pointee = (cur?.pointee)! * scaleFactor
+            cur = cur?.advanced(by: 1)
+        }
+    
+        return vector
+    }
+    
+    func determineScaleFactor(originalSize size: CGSize) -> Float {
+        if (size.width == 0 || size.height == 0) {
+            return 1;
+        }
+    
+        // Determine scale factor
+        let curSize = self.frame.size
+        var scaledSize = CGSize(width: size.width, height: size.height)
+        while (scaledSize.height > curSize.height || scaledSize.width > curSize.width) {
+            scaledSize.width *= 0.9
+            scaledSize.height *= 0.9
+        }
+        
+        return Float(scaledSize.width / size.width)
+    }
+    
+    func refreshViewWithElements(elements: [AnyObject], atSize size: CGSize) {
         for element in elements {
             if let strokeElement = element as? Stroke {
+                let scaledVector = scaleStrokeVector(
+                    vector: strokeElement.points.copy(),
+                    atScaleFactor: determineScaleFactor(originalSize: size)
+                )
                 strokeRenderer.resetAndClearBuffers()
-                strokeRenderer.drawPoints(strokeElement.points.pointer(), finishStroke: true)
+                strokeRenderer.drawPoints(scaledVector.pointer(), finishStroke: true)
                 strokeRenderer.blendStroke(in: strokesLayer, with: strokeElement.blendMode)
             }
             else if let imageElement = element as? DraggableImageView {
