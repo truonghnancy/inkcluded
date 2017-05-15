@@ -19,6 +19,7 @@ class GroupsViewController: UIViewController {
     var menuOpen: Bool = false
     let menuSize: CGFloat = 0.8
     var deleteGroup: NSIndexPath? = nil
+    var delComf : Bool = false
     
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
@@ -56,12 +57,21 @@ class GroupsViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         let apiCalls = APICalls.sharedInstance
-        
+        print("view appear")
         if (apiCalls.currentUser == nil) {
             super.viewDidAppear(animated)
             self.performSegue(withIdentifier: "showLogin" , sender: self)
             self.groups = apiCalls.groupList
         }
+//        else if ((groups?.isEmpty)!) {
+//            let loadView = LoadView(frame: self.view.frame)
+//            self.view.addSubview(loadView)
+//            apiCalls.getGroupsAPI(sid: apiCalls.currentUser!.id, closure: { (groupList) in
+//                self.groups = groupList
+//                self.groupsTableView.reloadData()
+//                loadView.removeFromSuperview()
+//            })
+//        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -103,11 +113,36 @@ extension GroupsViewController: MenuViewDelegate {
     // TODO: make a confirmation popup
     // need to figure out a way to refresh the groups after logging back in as a different user
     func didClickOnLogoutButton() {
+        confirmLogout()
+    }
+    
+    func confirmLogout() {
+        let alert = UIAlertController(title: "Log Out", message: "Do you want to log out as \(APICalls.sharedInstance.currentUser!.firstName)?", preferredStyle: .actionSheet)
+        
+        let LogoutAction = UIAlertAction(title: "Logout", style: .destructive, handler: handleLogout)
+        let CancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: handleCancelLogout)
+        
+        alert.addAction(LogoutAction)
+        alert.addAction(CancelAction)
+        
+        alert.popoverPresentationController?.sourceView = self.view
+        alert.popoverPresentationController?.sourceRect = CGRect(x: 1.0, y: 1.0, width: self.view.bounds.size.width / 2.0, height: self.view.bounds.size.height / 2.0)
+        //        (self.view.bounds.size.width / 2.0, self.view.bounds.size.height / 2.0, 1.0, 1.0)
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func handleLogout(alertAction: UIAlertAction) -> Void {
         APICalls.sharedInstance.logout()
         print("logged out")
-        
+        self.groups?.removeAll()
+        self.groupsTableView.reloadData()
         self.performSegue(withIdentifier: "showLogin" , sender: self)
         closeMenu()
+    }
+    
+    func handleCancelLogout(alertAction: UIAlertAction) -> Void{
+        
     }
 }
 
@@ -192,28 +227,46 @@ extension GroupsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             deleteGroup = indexPath as NSIndexPath?
-            let groupselect = groups![deleteGroup!.row].id
-            print(groupselect)
+            let groupselect = groups![indexPath.row]
+            print(groupselect.id)
             
-            tableView.beginUpdates()
-            let apiCalls = APICalls.sharedInstance
-            groups?.remove(at: deleteGroup!.row)
-            
-            apiCalls.leaveGroup(groupId: groupselect)
-            tableView.deleteRows(at: [indexPath], with: .automatic)
-            deleteGroup = nil
-            
-            tableView.endUpdates()
+            confirmDelete(groupName: groupselect.groupName, tableView: tableView, indexPath: indexPath)
         }
     }
     
-//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-//        if editingStyle == .delete {
-//            deleteGroup = indexPath
-//            let planetToDelete = groups?[indexPath.row]
-//            confirmDelete(planet: planetToDelete)
-//        }
-//    }
+    func confirmDelete(groupName: String, tableView: UITableView, indexPath: IndexPath) {
+        let alert = UIAlertController(title: "Delete Group", message: "Do you want to permanently delete \(groupName)?", preferredStyle: .actionSheet)
+        
+        let DeleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: handleDeleteGroup(tableView: tableView, forRowAt: indexPath))
+        let CancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: handleCancelGroup)
+        
+        alert.addAction(DeleteAction)
+        alert.addAction(CancelAction)
+        
+        alert.popoverPresentationController?.sourceView = self.view
+        alert.popoverPresentationController?.sourceRect = CGRect(x: 1.0, y: 1.0, width: self.view.bounds.size.width / 2.0, height: self.view.bounds.size.height / 2.0)
+//        (self.view.bounds.size.width / 2.0, self.view.bounds.size.height / 2.0, 1.0, 1.0)
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func handleDeleteGroup(tableView: UITableView, forRowAt indexPath: IndexPath) -> ((UIAlertAction) -> Void) {
+        func deleteGroup(alertAction: UIAlertAction) -> Void {
+            print("delete called")
+            let apiCalls = APICalls.sharedInstance
+            self.groups?.remove(at: indexPath.row)
+        
+            apiCalls.leaveGroup(group: self.groups![indexPath.row])
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            self.deleteGroup = nil
+        }
+        return deleteGroup
+    }
+
+    func handleCancelGroup(alertAction: UIAlertAction) -> Void{
+        deleteGroup = nil
+        delComf = false
+    }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // Set the selected group and segue to the group history view.
@@ -229,39 +282,5 @@ extension GroupsViewController: UITableViewDelegate, UITableViewDataSource {
             dest.curGroup = selectedGroup
         }
     }
-    
-//    func confirmDelete(planet: String) {
-//        let alert = UIAlertController(title: "Delete Group", message: "Are you sure you want to permanently delete \(planet)?", preferredStyle: .actionSheet)
-//        
-//        let DeleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: handleDeletePlanet)
-//        let CancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: cancelDeletePlanet)
-//        
-//        alert.addAction(DeleteAction)
-//        alert.addAction(CancelAction)
-//        
-//        // Support display in iPad
-//        alert.popoverPresentationController?.sourceView = self.view
-//        alert.popoverPresentationController?.sourceRect = CGRectMake(self.view.bounds.size.width / 2.0, self.view.bounds.size.height / 2.0, 1.0, 1.0)
-//        
-//        self.present(alert, animated: true, completion: nil)
-//    }
-//    
-//    func handleDeletePlanet(alertAction: UIAlertAction!) -> Void {
-//        if let indexPath = deletePlanetIndexPath {
-//            tableView.beginUpdates()
-//            
-//            planets.removeAtIndex(indexPath.row)
-//            
-//            // Note that indexPath is wrapped in an array:  [indexPath]
-//            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-//            
-//            deletePlanetIndexPath = nil
-//            
-//            tableView.endUpdates()
-//        }
-//    }
-//    
-//    func cancelDeletePlanet(alertAction: UIAlertAction!) {
-//        deletePlanetIndexPath = nil
-//    }
+
 }
