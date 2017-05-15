@@ -229,6 +229,7 @@ extension GroupsViewController: UITableViewDelegate, UITableViewDataSource {
             deleteGroup = indexPath as NSIndexPath?
             let groupselect = groups![indexPath.row]
             print(groupselect.id)
+            print(indexPath.row)
             
             confirmDelete(groupName: groupselect.groupName, tableView: tableView, indexPath: indexPath)
         }
@@ -253,10 +254,10 @@ extension GroupsViewController: UITableViewDelegate, UITableViewDataSource {
     func handleDeleteGroup(tableView: UITableView, forRowAt indexPath: IndexPath) -> ((UIAlertAction) -> Void) {
         func deleteGroup(alertAction: UIAlertAction) -> Void {
             print("delete called")
+            print(indexPath.row)
             let apiCalls = APICalls.sharedInstance
-            self.groups?.remove(at: indexPath.row)
-        
             apiCalls.leaveGroup(group: self.groups![indexPath.row])
+            self.groups?.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
             self.deleteGroup = nil
         }
