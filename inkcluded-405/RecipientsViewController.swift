@@ -252,6 +252,12 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
             self.searchResults = filteredFriends.count > 0 ? filteredFriends : [User]()
             self.friendsSearchController.searchResultsTableView.reloadData()
          })
+        
+        // If the user tapped outside the search bar:
+        if (!self.friendsSearchController.isActive) {
+            doShowSearchResults = false
+            friendsTableView.reloadData()
+        }
     }
 }
 
