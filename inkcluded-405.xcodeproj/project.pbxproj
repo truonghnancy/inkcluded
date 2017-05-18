@@ -47,6 +47,7 @@
 		CCFD64A41E3EEF600097BE78 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCFD64A31E3EEF600097BE78 /* SafariServices.framework */; };
 		EE5A8EFE1E404A2200BC44AF /* WILLCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE5A8EFD1E404A2200BC44AF /* WILLCore.framework */; };
 		EE5A8F041E404B4000BC44AF /* Stroke.m in Sources */ = {isa = PBXBuildFile; fileRef = EE5A8F031E404B4000BC44AF /* Stroke.m */; };
+		EEE35EC81ECD8372008AAF14 /* WindowsAzureMessaging.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEE35EC71ECD8372008AAF14 /* WindowsAzureMessaging.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -124,6 +125,7 @@
 		EE5A8EFF1E404B2800BC44AF /* inkcluded-405-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "inkcluded-405-Bridging-Header.h"; sourceTree = "<group>"; };
 		EE5A8F031E404B4000BC44AF /* Stroke.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Stroke.m; sourceTree = "<group>"; };
 		EE5A8F051E404B4A00BC44AF /* Stroke.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Stroke.h; sourceTree = "<group>"; };
+		EEE35EC71ECD8372008AAF14 /* WindowsAzureMessaging.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WindowsAzureMessaging.framework; path = Frameworks/WindowsAzureMessaging.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +133,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EEE35EC81ECD8372008AAF14 /* WindowsAzureMessaging.framework in Frameworks */,
 				CC7358AB1E429EC600496F35 /* MicrosoftAzureMobile.framework in Frameworks */,
 				CCFD64A41E3EEF600097BE78 /* SafariServices.framework in Frameworks */,
 				CC1FDB521E3D9B3800B38C11 /* WebKit.framework in Frameworks */,
@@ -305,6 +308,7 @@
 		FA5CDF0585B1B344D4526D21 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EEE35EC71ECD8372008AAF14 /* WindowsAzureMessaging.framework */,
 				CC7358AA1E429EC600496F35 /* MicrosoftAzureMobile.framework */,
 				CCFD64A51E3EFC9D0097BE78 /* FBSDKCoreKit.framework */,
 				CCFD64A31E3EEF600097BE78 /* SafariServices.framework */,
