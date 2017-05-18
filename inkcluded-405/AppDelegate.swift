@@ -22,37 +22,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         else {
             return false
         }
+        
+    }
+
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+        let settings = UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+        
+        UIApplication.shared.registerUserNotificationSettings(settings)
+        UIApplication.shared.registerForRemoteNotifications()
+        
+        print("second one called")
+        
+        let apiCalls = APICalls.sharedInstance
+        
+        print("client " + String(describing: apiCalls.client))
+        
+        return true
     }
     
-    /**- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *) deviceToken {
-    SBNotificationHub* hub = [[SBNotificationHub alloc] initWithConnectionString:HUBLISTENACCESS
-    notificationHubPath:HUBNAME];
-    
-    [hub registerNativeWithDeviceToken:deviceToken tags:nil completion:^(NSError* error) {
-    if (error != nil) {
-    NSLog(@"Error registering for notifications: %@", error);
-    }
-    else {
-    [self MessageBox:@"Registration Status" message:@"Registered"];
-    }
-    }];
-    }
-    
-    -(void)MessageBox:(NSString *)title message:(NSString *)messageText
-    {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:messageText delegate:self
-    cancelButtonTitle:@"OK" otherButtonTitles: nil];
-    [alert show];
-    }
-    
-    - (void)application:(UIApplication *)application didReceiveRemoteNotification: (NSDictionary *)userInfo {
-    NSLog(@"%@", userInfo);
-    [self MessageBox:@"Notification" message:[[userInfo objectForKey:@"aps"] valueForKey:@"alert"]];
-    }**/
-    
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+    func application(_ application: UIApplication,
+                     didReceiveRemoteNotification userInfo: [AnyHashable : Any],
+                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void){
+        print(userInfo)
         NSLog("%@", userInfo)
         self.MessageBox("Notification", message: (userInfo["aps"] as! [AnyHashable : Any])["alert"] as! String)
+        print(userInfo)
     }
     
     func MessageBox(_ title: String, message messageText: String) {
@@ -81,36 +76,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             
         }
-        
-        /**SBNotificationHub* hub = [[SBNotificationHub alloc] initWithConnectionString:HUBLISTENACCESS
-            notificationHubPath:HUBNAME];**/
-        
-        /**[hub registerNativeWithDeviceToken:deviceToken tags:nil completion:^(NSError* error) {
-            if (error != nil) {
-            NSLog(@"Error registering for notifications: %@", error);
-            }
-            else {
-            [self MessageBox:@"Registration Status" message:@"Registered"];
-            }
-            }];**/
-        
-        
-    }
-
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        
-        let settings = UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
-        
-        UIApplication.shared.registerUserNotificationSettings(settings)
-        UIApplication.shared.registerForRemoteNotifications()
-        
-        print("second one called")
-        
-        let apiCalls = APICalls.sharedInstance
-        
-        print("client " + String(describing: apiCalls.client))
-        
-        return true
     }
 
 //    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
