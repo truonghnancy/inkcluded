@@ -23,8 +23,87 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return false
         }
     }
+    
+    /**- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *) deviceToken {
+    SBNotificationHub* hub = [[SBNotificationHub alloc] initWithConnectionString:HUBLISTENACCESS
+    notificationHubPath:HUBNAME];
+    
+    [hub registerNativeWithDeviceToken:deviceToken tags:nil completion:^(NSError* error) {
+    if (error != nil) {
+    NSLog(@"Error registering for notifications: %@", error);
+    }
+    else {
+    [self MessageBox:@"Registration Status" message:@"Registered"];
+    }
+    }];
+    }
+    
+    -(void)MessageBox:(NSString *)title message:(NSString *)messageText
+    {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:messageText delegate:self
+    cancelButtonTitle:@"OK" otherButtonTitles: nil];
+    [alert show];
+    }
+    
+    - (void)application:(UIApplication *)application didReceiveRemoteNotification: (NSDictionary *)userInfo {
+    NSLog(@"%@", userInfo);
+    [self MessageBox:@"Notification" message:[[userInfo objectForKey:@"aps"] valueForKey:@"alert"]];
+    }**/
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+        NSLog("%@", userInfo)
+        self.MessageBox("Notification", message: (userInfo["aps"] as! [AnyHashable : Any])["alert"] as! String)
+    }
+    
+    func MessageBox(_ title: String, message messageText: String) {
+        let alert = UIAlertController(title: title, message: messageText, preferredStyle: UIAlertControllerStyle.alert)
+        let cancelAction = UIAlertAction(title: "OK",
+                                         style: .cancel, handler: nil)
+        
+        alert.addAction(cancelAction)
+        self.window?.rootViewController?.present(alert, animated: true) {
+            // TODO completion block, might be some use later?
+        }
+    }
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        
+        let hub = SBNotificationHub(connectionString: HUBLISTENACCESS, notificationHubPath: HUBNAME)
+        
+        hub?.registerNative(withDeviceToken: deviceToken, tags: nil) {
+            (error) -> Void in
+            
+            if (error != nil) {
+                print("Error registering for notifications:", error!)
+            }
+            else {
+                print("Registered")
+            }
+            
+        }
+        
+        /**SBNotificationHub* hub = [[SBNotificationHub alloc] initWithConnectionString:HUBLISTENACCESS
+            notificationHubPath:HUBNAME];**/
+        
+        /**[hub registerNativeWithDeviceToken:deviceToken tags:nil completion:^(NSError* error) {
+            if (error != nil) {
+            NSLog(@"Error registering for notifications: %@", error);
+            }
+            else {
+            [self MessageBox:@"Registration Status" message:@"Registered"];
+            }
+            }];**/
+        
+        
+    }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+        let settings = UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+        
+        UIApplication.shared.registerUserNotificationSettings(settings)
+        UIApplication.shared.registerForRemoteNotifications()
+        
         print("second one called")
         
         let apiCalls = APICalls.sharedInstance
