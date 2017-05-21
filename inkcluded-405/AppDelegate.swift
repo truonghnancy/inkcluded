@@ -22,9 +22,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         else {
             return false
         }
+        
     }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+        let settings = UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+        
+        UIApplication.shared.registerUserNotificationSettings(settings)
+        UIApplication.shared.registerForRemoteNotifications()
+        
         print("second one called")
         
         let apiCalls = APICalls.sharedInstance
@@ -32,6 +39,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("client " + String(describing: apiCalls.client))
         
         return true
+    }
+    
+    func application(_ application: UIApplication,
+                     didReceiveRemoteNotification userInfo: [AnyHashable : Any],
+                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void){
+        print(userInfo)
+        NSLog("%@", userInfo)
+        self.MessageBox("Notification", message: (userInfo["aps"] as! [AnyHashable : Any])["alert"] as! String)
+        print(userInfo)
+    }
+    
+    func MessageBox(_ title: String, message messageText: String) {
+        let alert = UIAlertController(title: title, message: messageText, preferredStyle: UIAlertControllerStyle.alert)
+        let cancelAction = UIAlertAction(title: "OK",
+                                         style: .cancel, handler: nil)
+        
+        alert.addAction(cancelAction)
+        self.window?.rootViewController?.present(alert, animated: true) {
+            // TODO completion block, might be some use later?
+        }
+    }
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        
+        let hub = SBNotificationHub(connectionString: HUBLISTENACCESS, notificationHubPath: HUBNAME)
+        
+        hub?.registerNative(withDeviceToken: deviceToken, tags: nil) {
+            (error) -> Void in
+            
+            if (error != nil) {
+                print("Error registering for notifications:", error!)
+            }
+            else {
+                print("Registered")
+            }
+            
+        }
     }
 
 //    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {

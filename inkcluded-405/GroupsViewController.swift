@@ -103,10 +103,12 @@ class GroupsViewController: UIViewController {
 
 extension GroupsViewController: MenuViewDelegate {
     func didClickOnFeedbackButton() {
-        UIApplication.shared.open(URL(string: "https://goo.gl/forms/TErdjjwKSdnjbAWx1")!, options: [:]) { (isSuccessful) in
-            if (!isSuccessful) {
-                print("nooo")
-            }
+        let url = URL(string: "https://goo.gl/forms/TErdjjwKSdnjbAWx1")!
+        if UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.openURL(url)
+        }
+        else {
+            print("feedback url could not be opened")
         }
     }
     
