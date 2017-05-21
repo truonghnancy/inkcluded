@@ -13,5 +13,10 @@
 #import <WILLCore/WacomInkSerialization.h>
 #import <MicrosoftAzureMobile/MicrosoftAzureMobile.h>
 #import "Stroke.h"
+#import <WindowsAzureMessaging/SBNotificationHub.h>
+
+#define HUBNAME @"penmessagepush1"
+#define HUBLISTENACCESS @"Endpoint=sb://penmessageapp1.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=WYEEmboI+dSZ12ExjcP89gmafDTHkAs2jqKd+uP1YLE="
+
 
 #endif
