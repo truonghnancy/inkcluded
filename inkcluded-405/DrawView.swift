@@ -211,35 +211,38 @@ class DrawView: UIView {
             return 1;
         }
     
-        // Determine scale factor
-        let curSize = self.frame.size
-        var scaledSize = CGSize(width: size.width, height: size.height)
-        while (scaledSize.height > curSize.height || scaledSize.width > curSize.width) {
-            scaledSize.width *= 0.9
-            scaledSize.height *= 0.9
-        }
-        
-        return Float(scaledSize.width / size.width)
+        return Float(self.frame.size.width / size.width)
     }
     
     func refreshViewWithElements(elements: [AnyObject], atSize size: CGSize) {
         for element in elements {
+            let scaleFactor = determineScaleFactor(originalSize: size)
             if let strokeElement = element as? Stroke {
                 let scaledVector = scaleStrokeVector(
                     vector: strokeElement.points.copy(),
-                    atScaleFactor: determineScaleFactor(originalSize: size)
+                    atScaleFactor: scaleFactor
                 )
                 strokeRenderer.resetAndClearBuffers()
                 strokeRenderer.drawPoints(scaledVector.pointer(), finishStroke: true)
                 strokeRenderer.blendStroke(in: strokesLayer, with: strokeElement.blendMode)
             }
-            else if let imageElement = element as? DraggableImageView {
-                self.addSubview(imageElement)
+            else if let messageImageElement = element as? DraggableImageView {
+                let imageElement = DraggableImageView(image: messageImageElement.image!)
                 imageElement.isUserInteractionEnabled = shouldDraw
+                imageElement.frame = CGRect(origin: CGPoint(x: messageImageElement.frame.origin.x * CGFloat(scaleFactor),
+                                                            y: messageImageElement.frame.origin.y * CGFloat(scaleFactor)),
+                                            size: CGSize(width: messageImageElement.frame.width * CGFloat(scaleFactor),
+                                                         height: messageImageElement.frame.height * CGFloat(scaleFactor)))
+                self.addSubview(imageElement)
             }
-            else if let textViewElement = element as? DraggableTextView {
-                self.addSubview(textViewElement)
+            else if let messageTextElement = element as? DraggableTextView {
+                let textViewElement = DraggableTextView(frame: CGRect(origin: CGPoint(x: messageTextElement.frame.origin.x * CGFloat(scaleFactor),
+                                                                                      y: messageTextElement.frame.origin.y * CGFloat(scaleFactor)),
+                                                                      size: CGSize(width: messageTextElement.frame.width * CGFloat(scaleFactor),
+                                                                                   height: messageTextElement.frame.height * CGFloat(scaleFactor))))
+                textViewElement.text = messageTextElement.text
                 textViewElement.isUserInteractionEnabled = shouldDraw
+                self.addSubview(textViewElement)
             }
             else {
                 print("Not expecting this type")
