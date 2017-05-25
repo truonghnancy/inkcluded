@@ -211,15 +211,7 @@ class DrawView: UIView {
             return 1;
         }
     
-        // Determine scale factor
-        let curSize = self.frame.size
-        var scaledSize = CGSize(width: size.width, height: size.height)
-        while (scaledSize.height > curSize.height || scaledSize.width > curSize.width) {
-            scaledSize.width *= 0.9
-            scaledSize.height *= 0.9
-        }
-        
-        return Float(scaledSize.width / size.width)
+        return Float(self.frame.size.width / size.width)
     }
     
     func refreshViewWithElements(elements: [AnyObject], atSize size: CGSize) {
