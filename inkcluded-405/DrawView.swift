@@ -235,9 +235,11 @@ class DrawView: UIView {
             }
             else if let imageElement = element as? DraggableImageView {
                 self.addSubview(imageElement)
+                imageElement.isUserInteractionEnabled = shouldDraw
             }
             else if let textViewElement = element as? DraggableTextView {
                 self.addSubview(textViewElement)
+                textViewElement.isUserInteractionEnabled = shouldDraw
             }
             else {
                 print("Not expecting this type")
