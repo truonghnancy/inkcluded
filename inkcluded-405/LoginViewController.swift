@@ -15,6 +15,14 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
 
         print("\t\tviewDidLoad")
+        
+        /* Forgive me, security experts, for I have sinned. */
+        let lastLoginStr = UserDefaults.standard.string(
+                            forKey: "_stylo-ios-last-login")
+        if (lastLoginStr == "facebook" || lastLoginStr == "google"
+            || lastLoginStr == "microsoftaccount") {
+            self.loginAndGetData(oauthType: lastLoginStr!)
+        }
     }
 
     @IBAction func facebookButtonPress(_ sender: Any) {
@@ -24,6 +32,7 @@ class LoginViewController: UIViewController {
     @IBAction func googleButtonPress(_ sender: Any) {
         self.loginAndGetData(oauthType: "google")
     }
+    
     @IBAction func microsoftButtonPress(_ sender: Any) {
         self.loginAndGetData(oauthType: "microsoftaccount")
     }
@@ -72,6 +81,11 @@ class LoginViewController: UIViewController {
                                 self.dismiss(animated: true, completion: nil)
                             }
                         })
+                    
+                    /* Ugh. */
+                    UserDefaults.standard.set(oauthType,
+                                              forKey: "_stylo-ios-last-login")
+                    UserDefaults.standard.synchronize()
                 }
         })
     }
