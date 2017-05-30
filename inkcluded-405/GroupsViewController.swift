@@ -89,6 +89,63 @@ class GroupsViewController: UIViewController {
         }
     }
     
+    func tableView(_ tableView: UITableView, editActionsForRowAt: IndexPath) -> [UITableViewRowAction]? {
+        let rename = UITableViewRowAction(style: .normal, title: "Rename") { action, indexPath in
+            let alertController = UIAlertController(title: "Group Name", message: "", preferredStyle: .alert)
+            
+            let confirmAction = UIAlertAction(title: "Confirm", style: .default) { (_) in
+                let newGroupName = alertController.textFields![0].text
+                print("chris sucks")
+                APICalls.sharedInstance.renameGroup(group: self.groups![indexPath.row], newName: newGroupName!) { newName in
+                    print(newName)
+                    if let name = newName {
+                        print("asdfjaskld;fj")
+                        self.groups![indexPath.row].groupName = name
+                        tableView.reloadData()
+                    }
+                }
+            }
+            
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
+            
+            alertController.addTextField { (textField) in
+                textField.placeholder = "New Group Name"
+            }
+            
+            alertController.addAction(confirmAction)
+            alertController.addAction(cancelAction)
+            
+            self.present(alertController, animated: true, completion: nil)
+        }
+        rename.backgroundColor = UIColor(colorLiteralRed: 14/255, green: 171/255, blue: 245/255, alpha: 1)
+        
+        let add = UITableViewRowAction(style: .normal, title: "Add") { action, indexPath in
+            print("add \(indexPath)")
+        }
+        
+        add.backgroundColor = UIColor(colorLiteralRed: 75.0/255.0, green: 177.0/255.0, blue: 86.0/255.0, alpha: 1.0)
+        
+        let delete = UITableViewRowAction(style: .normal, title: "Delete") { action, indexPath in
+            print("delete \(indexPath.row)")
+            self.deleteGroup = indexPath as NSIndexPath?
+            let groupselect = self.groups![indexPath.row]
+            print(groupselect.id)
+            print(indexPath.row)
+            
+            self.confirmDelete(groupName: groupselect.groupName, tableView: tableView, indexPath: indexPath)
+        }
+        delete.backgroundColor = .red
+        
+        if APICalls.sharedInstance.currentUser!.id != self.groups![editActionsForRowAt.row].admin {
+            return [delete, add]
+        }
+        
+        return [delete, add, rename]
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
     
     // BUTTON ACTION
     @IBAction func menuTapped(_ sender: UIBarButtonItem) {
@@ -226,16 +283,16 @@ extension GroupsViewController: UITableViewDelegate, UITableViewDataSource {
         self.refreshControl.endRefreshing()
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            deleteGroup = indexPath as NSIndexPath?
-            let groupselect = groups![indexPath.row]
-            print(groupselect.id)
-            print(indexPath.row)
-            
-            confirmDelete(groupName: groupselect.groupName, tableView: tableView, indexPath: indexPath)
-        }
-    }
+//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+//        if editingStyle == .delete {
+//            deleteGroup = indexPath as NSIndexPath?
+//            let groupselect = groups![indexPath.row]
+//            print(groupselect.id)
+//            print(indexPath.row)
+//            
+//            confirmDelete(groupName: groupselect.groupName, tableView: tableView, indexPath: indexPath)
+//        }
+//    }
     
     func confirmDelete(groupName: String, tableView: UITableView, indexPath: IndexPath) {
         let alert = UIAlertController(title: "Delete Group", message: "Do you want to permanently delete \(groupName)?", preferredStyle: .actionSheet)
