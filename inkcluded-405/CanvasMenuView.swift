@@ -47,10 +47,8 @@ public class CanvasMenuView: UIView {
     private var delegate: CanvasMenuDelegate!
 
     init(size: CGSize, delegate: CanvasMenuDelegate) {
-        let borderWidth: CGFloat = 2.0
-//        let origin = CGPoint(x: size.width - CanvasMenuView.MENU_WIDTH + borderWidth * 2, y: (size.height * CanvasMenuView.MENU_HEIGHT_RATIO) / 2)
         let origin = CGPoint(x: 0, y: size.height - CanvasMenuView.MENU_HEIGHT)
-        let frameSize = CGSize(width: size.width * CanvasMenuView.MENU_HEIGHT, height: CanvasMenuView.MENU_HEIGHT)
+        let frameSize = CGSize(width: size.width, height: CanvasMenuView.MENU_HEIGHT)
         
         super.init(frame: CGRect(origin: origin, size: frameSize))
         
@@ -68,8 +66,12 @@ public class CanvasMenuView: UIView {
     
     func addMenuButtonToView(items: [CanvasMenuButton]) {
         let padding: CGFloat = 30.0
-        var xPos = (CGFloat(items.count) * CanvasMenuButton.BUTTON_WIDTH + (CGFloat(items.count) - 1) * padding) / 2
+        let buttonViewWidth = CGFloat(items.count) * CanvasMenuButton.BUTTON_WIDTH + (CGFloat(items.count) - 1) * padding
+        let buttonView = UIView(frame: CGRect(x: 0, y: 0, width: buttonViewWidth, height: self.frame.height))
         
+        buttonView.center.x = self.center.x
+        
+        var xPos: CGFloat = 0.0
         for item in items {
             item.button.frame.origin.y = CanvasMenuButton.BUTTON_WIDTH / 4
             item.button.frame.origin.x = xPos
@@ -79,8 +81,10 @@ public class CanvasMenuView: UIView {
             
             item.button.isEnabled = self.delegate.shouldEnableMenuItem(item: item.type)
             
-            self.addSubview(item.button)
+            buttonView.addSubview(item.button)
         }
+        
+        self.addSubview(buttonView)
     }
     
     func refreshView() {

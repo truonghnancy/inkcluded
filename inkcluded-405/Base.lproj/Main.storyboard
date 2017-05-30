@@ -548,13 +548,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j5A-Ex-b1J">
-                                <rect key="frame" x="0.0" y="28" width="375" height="639"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="j5A-Ex-b1J">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="j5A-Ex-b1J" firstAttribute="width" secondItem="K61-YK-BR2" secondAttribute="width" id="Ffi-y8-pl8"/>
+                            <constraint firstItem="j5A-Ex-b1J" firstAttribute="centerY" secondItem="K61-YK-BR2" secondAttribute="centerY" id="VG7-Q6-WFx"/>
+                            <constraint firstItem="j5A-Ex-b1J" firstAttribute="leading" secondItem="K61-YK-BR2" secondAttribute="leading" id="bqj-Ud-3Ku"/>
+                            <constraint firstItem="j5A-Ex-b1J" firstAttribute="height" secondItem="K61-YK-BR2" secondAttribute="height" id="tck-HC-diy"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="New Message" id="sKP-1Q-Wun">
                         <barButtonItem key="rightBarButtonItem" style="plain" id="Rdb-7a-ocM">
