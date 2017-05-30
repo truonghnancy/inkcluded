@@ -23,6 +23,11 @@ class TutorialPageViewController: UIPageViewController {
                                animated: true,
                                completion: nil)
         }
+        
+        let appearance = UIPageControl.appearance()
+        appearance.pageIndicatorTintColor = UIColor.darkGray
+        appearance.currentPageIndicatorTintColor = UIColor.lightGray
+        appearance.backgroundColor = UIColor.white
     }
     
     private(set) lazy var orderedViewControllers: [UIViewController] = {
@@ -40,6 +45,19 @@ class TutorialPageViewController: UIPageViewController {
     private func newTutorialViewController(num: String) -> UIViewController {
         return UIStoryboard(name: "Main", bundle: nil) .
             instantiateViewController(withIdentifier: "Tutorial\(num)Controller")
+    }
+    
+    func presentationCount(for pageViewController: UIPageViewController) -> Int {
+        return orderedViewControllers.count
+    }
+    
+    func presentationIndex(for pageViewController: UIPageViewController) -> Int {
+        guard let firstViewController = viewControllers?.first,
+            let firstViewControllerIndex = orderedViewControllers.index(of: firstViewController) else {
+                return 0
+        }
+        
+        return firstViewControllerIndex
     }
 }
 
@@ -82,18 +100,5 @@ extension TutorialPageViewController: UIPageViewControllerDataSource {
         }
         
         return orderedViewControllers[nextIndex]
-    }
-    
-    func presentationCountForPageViewController(pageViewController: UIPageViewController) -> Int {
-        return orderedViewControllers.count
-    }
-    
-    func presentationIndexForPageViewController(pageViewController: UIPageViewController) -> Int {
-        guard let firstViewController = viewControllers?.first,
-            let firstViewControllerIndex = orderedViewControllers.index(of: firstViewController) else {
-                return 0
-        }
-        
-        return firstViewControllerIndex
     }
 }
