@@ -118,6 +118,11 @@ extension GroupsViewController: MenuViewDelegate {
         confirmLogout()
     }
     
+    func didClickOnTutorialButton() {
+        self.performSegue(withIdentifier: "viewTutorialSegue", sender: self)
+        closeMenu()
+    }
+    
     func confirmLogout() {
         let alert = UIAlertController(title: "Log Out", message: "Do you want to log out as \(APICalls.sharedInstance.currentUser!.firstName)?", preferredStyle: .actionSheet)
         
