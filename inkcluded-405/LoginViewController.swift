@@ -53,6 +53,7 @@ class LoginViewController: UIViewController {
         
         let loaderView = LoadView(frame: self.view.frame)
         self.view.addSubview(loaderView)
+        
         apiCalls.client.login(withProvider: oauthType, urlScheme: "inkcluded-405", controller: self, animated: true, completion:
             {(user, error) -> Void in
                 if (error != nil) {
