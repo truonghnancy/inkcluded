@@ -63,6 +63,7 @@ class GroupsViewController: UIViewController {
             self.performSegue(withIdentifier: "showLogin" , sender: self)
             self.groups = apiCalls.groupList
         }
+        
 //        else if ((groups?.isEmpty)!) {
 //            let loadView = LoadView(frame: self.view.frame)
 //            self.view.addSubview(loadView)
@@ -291,6 +292,12 @@ extension GroupsViewController: UITableViewDelegate, UITableViewDataSource {
             let dest: GroupHistoryViewController = segue.destination
                       as!GroupHistoryViewController
             dest.curGroup = selectedGroup
+        }
+        // If we're segueing to the new group view, set the groups array.
+        else if (segue.identifier == "createGroupSegue") {
+            let dest: RecipientsViewController = segue.destination
+                as!RecipientsViewController
+            dest.groupsViewController = self
         }
     }
 

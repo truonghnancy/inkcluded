@@ -120,7 +120,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="70"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Neg-Ge-6NF" id="naO-iH-xd4">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="70"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="69"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9VW-tU-XfI">
@@ -176,7 +176,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="New Message" id="Oli-19-8lx">
                             <connections>
-                                <segue destination="l8m-89-xx1" kind="show" id="hLQ-g9-8jw"/>
+                                <segue destination="l8m-89-xx1" kind="show" identifier="createGroupSegue" id="hLQ-g9-8jw"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -411,8 +411,8 @@
         <!--Tutorial Page View Controller-->
         <scene sceneID="dd2-LB-fIL">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Ygu-Q3-z2P" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="lBF-jW-JqV" userLabel="Tutorial Page View Controller" customClass="TutorialPageViewController" customModule="inkcluded_405" customModuleProvider="target" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ygu-Q3-z2P" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-281" y="840"/>
         </scene>
@@ -486,7 +486,7 @@
                                         <rect key="frame" x="0.0" y="72" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="kbQ-WO-8jZ" id="Gwx-8S-fo4">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -665,7 +665,7 @@
         <image name="8_menuView" width="640" height="1136"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Fn8-DQ-fSr"/>
         <segue reference="rHK-UY-Rba"/>
+        <segue reference="Rtv-oo-sCb"/>
     </inferredMetricsTieBreakers>
 </document>
