@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import EBForeNotification
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -44,20 +45,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didReceiveRemoteNotification userInfo: [AnyHashable : Any],
                      fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void){
-        print(userInfo)
         NSLog("%@", userInfo)
-        self.MessageBox("Notification", message: (userInfo["aps"] as! [AnyHashable : Any])["alert"] as! String)
-        print(userInfo)
-    }
-    
-    func MessageBox(_ title: String, message messageText: String) {
-        let alert = UIAlertController(title: title, message: messageText, preferredStyle: UIAlertControllerStyle.alert)
-        let cancelAction = UIAlertAction(title: "OK",
-                                         style: .cancel, handler: nil)
         
-        alert.addAction(cancelAction)
-        self.window?.rootViewController?.present(alert, animated: true) {
-            // TODO completion block, might be some use later?
+        if #available(iOS 10, *) {
+            EBForeNotification.handleRemoteNotification(userInfo, soundID: 1312, isIos10: true)
+        }
+        else {
+            EBForeNotification.handleRemoteNotification(userInfo, soundID: 1312)
         }
     }
     
@@ -77,15 +71,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
         }
     }
-
-//    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-//        if url.scheme?.lowercased() == "http://penmessageapp.azurewebsites.net" {
-//            return (self.client!.resume(with: url as URL))
-//        }
-//        else {
-//            return false
-//        }
-//    }
     
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

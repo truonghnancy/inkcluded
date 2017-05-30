@@ -11,12 +11,6 @@ import UIKit
 
 class GroupHistoryViewController: UIViewController {
     
-    class MessageScrollView: UIScrollView {
-        func scrollViewDidScroll(_ scrollView: UIScrollView) {
-            
-        }
-    }
-    
     var curGroup: Group?
     var curMessages: [Message]?
     var contentView: UIView?
@@ -36,10 +30,6 @@ class GroupHistoryViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if (self.navigationController?.viewControllers[(self.navigationController?.viewControllers.count)!-2] is RecipientsViewController) {
-            self.navigationController?.viewControllers.remove(at: (self.navigationController?.viewControllers.count)!-2)
-        }
-        
         let loadView = LoadView(frame: self.view.frame)
         self.view.addSubview(loadView)
         APICalls.sharedInstance.getAllMessage(groupId: (curGroup?.id)!) { (messages) in
@@ -48,27 +38,21 @@ class GroupHistoryViewController: UIViewController {
             }
             else {
                 self.curMessages = messages
-                self.initialLoadAllMessages()
+                self.loadAllMessages()
             }
             
             loadView.removeFromSuperview()
         }
     }
     
-    @IBAction func backToGroups(_ sender: UIBarButtonItem) {
-        self.performSegue(withIdentifier: "unwindToGroups", sender: self)
-    }
-    
-    func initialLoadAllMessages() {
-        let setSize = 5
-        let cmessages = self.curMessages![self.curMessages!.count - setSize...self.curMessages!.count - 1]
+    func loadAllMessages() {
         let parentSize = self.view.frame.size
         let drawViewSize = CGSize(width: parentSize.width / 2, height: parentSize.width / 2)
         let leftX: CGFloat = 5.0
         let rightX = parentSize.width - drawViewSize.width - leftX
         let padding: CGFloat = 10.0
         let nameFieldHeight: CGFloat = 15.0
-        let contentViewHeight = CGFloat(cmessages.count) * (padding + drawViewSize.height + nameFieldHeight)
+        let contentViewHeight = CGFloat(self.curMessages!.count) * (padding + drawViewSize.height + nameFieldHeight)
         
         if contentView != nil {
             contentView?.removeFromSuperview()
@@ -81,7 +65,7 @@ class GroupHistoryViewController: UIViewController {
         
         var yPos: CGFloat = nameFieldHeight
         
-        for message in cmessages {
+        for message in self.curMessages! {
             var origin = CGPoint(x: leftX, y: yPos)
             if message.senderid == APICalls.sharedInstance.currentUser?.id {
                 origin.x = rightX
@@ -142,11 +126,5 @@ class GroupHistoryViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-    }
-}
-
-extension GroupHistoryViewController: UIScrollViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        print("hello")
     }
 }

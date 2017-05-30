@@ -55,13 +55,18 @@ class GroupHistoryViewController: UIViewController {
         }
     }
     
+<<<<<<< Updated upstream
     @IBAction func backToGroups(_ sender: UIBarButtonItem) {
         self.performSegue(withIdentifier: "unwindToGroups", sender: self)
     }
     
+    
+    func loadAllMessages() {
+=======
     func initialLoadAllMessages() {
         let setSize = 5
         let cmessages = self.curMessages![self.curMessages!.count - setSize...self.curMessages!.count - 1]
+>>>>>>> Stashed changes
         let parentSize = self.view.frame.size
         let drawViewSize = CGSize(width: parentSize.width / 2, height: parentSize.width / 2)
         let leftX: CGFloat = 5.0
