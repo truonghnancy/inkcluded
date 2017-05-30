@@ -30,7 +30,9 @@ class GroupHistoryViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.navigationController?.viewControllers.remove(at: (self.navigationController?.viewControllers.count)!-2)
+        if (self.navigationController?.viewControllers[(self.navigationController?.viewControllers.count)!-2] is RecipientsViewController) {
+            self.navigationController?.viewControllers.remove(at: (self.navigationController?.viewControllers.count)!-2)
+        }
         
         let loadView = LoadView(frame: self.view.frame)
         self.view.addSubview(loadView)
