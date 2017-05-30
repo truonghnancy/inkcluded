@@ -30,6 +30,10 @@ class GroupHistoryViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        if (self.navigationController?.viewControllers[(self.navigationController?.viewControllers.count)!-2] is RecipientsViewController) {
+            self.navigationController?.viewControllers.remove(at: (self.navigationController?.viewControllers.count)!-2)
+        }
+        
         let loadView = LoadView(frame: self.view.frame)
         self.view.addSubview(loadView)
         APICalls.sharedInstance.getAllMessage(groupId: (curGroup?.id)!) { (messages) in
@@ -44,6 +48,11 @@ class GroupHistoryViewController: UIViewController {
             loadView.removeFromSuperview()
         }
     }
+    
+    @IBAction func backToGroups(_ sender: UIBarButtonItem) {
+        self.performSegue(withIdentifier: "unwindToGroups", sender: self)
+    }
+    
     
     func loadAllMessages() {
         let parentSize = self.view.frame.size

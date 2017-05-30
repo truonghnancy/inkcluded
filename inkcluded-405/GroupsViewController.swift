@@ -89,6 +89,9 @@ class GroupsViewController: UIViewController {
         }
     }
     
+    @IBAction func unwindtoGroups(seque: UIStoryboardSegue) {
+        
+    }
     
     // BUTTON ACTION
     @IBAction func menuTapped(_ sender: UIBarButtonItem) {
