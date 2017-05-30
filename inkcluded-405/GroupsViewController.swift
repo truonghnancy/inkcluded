@@ -63,6 +63,7 @@ class GroupsViewController: UIViewController {
             self.performSegue(withIdentifier: "showLogin" , sender: self)
             self.groups = apiCalls.groupList
         }
+        
 //        else if ((groups?.isEmpty)!) {
 //            let loadView = LoadView(frame: self.view.frame)
 //            self.view.addSubview(loadView)
@@ -173,6 +174,11 @@ extension GroupsViewController: MenuViewDelegate {
     // need to figure out a way to refresh the groups after logging back in as a different user
     func didClickOnLogoutButton() {
         confirmLogout()
+    }
+    
+    func didClickOnTutorialButton() {
+        self.performSegue(withIdentifier: "viewTutorialSegue", sender: self)
+        closeMenu()
     }
     
     func confirmLogout() {
@@ -340,6 +346,12 @@ extension GroupsViewController: UITableViewDelegate, UITableViewDataSource {
             let dest: GroupHistoryViewController = segue.destination
                       as!GroupHistoryViewController
             dest.curGroup = selectedGroup
+        }
+        // If we're segueing to the new group view, set the groups array.
+        else if (segue.identifier == "createGroupSegue") {
+            let dest: RecipientsViewController = segue.destination
+                as!RecipientsViewController
+            dest.groupsViewController = self
         }
     }
 
