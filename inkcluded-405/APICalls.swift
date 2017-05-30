@@ -32,8 +32,9 @@ struct User: Hashable {
 
 struct Group {
     private(set) var id: String;
-    private(set) var members: [User];
-    private(set) var groupName: String;
+    var members: [User];
+    
+    var groupName: String;
     private(set) var admin: String;
     private(set) var messages: [Message];
     
@@ -295,6 +296,56 @@ class APICalls {
                 return
             }
         }
+    }
+    
+    /*
+     Renames the group selected
+     Eric Roh
+    */
+    func renameGroup(group: Group, newName: String, closure: @escaping (String?) -> Void) {
+        let groupTable = client.table(withName: "Group")
+        
+        groupTable.update(["id": group.id, "name": newName]) { (result, error) in
+            if let err = error {
+                print("Error while changing name", err)
+            }
+            else if let item = result {
+                print(item["name"])
+                for var grp in self.groupList {
+                    if grp.id == group.id {
+                        grp.groupName = newName
+                    }
+                }
+                closure(newName)
+            }
+        }
+    }
+    
+    /*
+     Adds new members to an existing group
+     Eric Roh
+    */
+    func addNewMembers( group: Group, members: [User], closure: @escaping (Group?) -> Void) {
+        var group = group
+        let gxuTable = client.table(withName: "GroupXUser")
+        
+        for member in members {
+            if group.members.contains(member) {
+                self.friendsList.insert(member)
+                gxuTable.insert(["groupId" : group.id, "userId" : member.id], completion: { (result, error) in
+                    if error != nil {
+                        print("Error while inserting member to GroupXUser", error!)
+                        closure(nil)
+                        return
+                    }
+                    else {
+                        group.members.append(member)
+                    }
+                })
+            }
+        }
+        
+        closure(group)
     }
     
     /**
