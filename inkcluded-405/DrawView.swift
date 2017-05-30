@@ -214,7 +214,9 @@ class DrawView: UIView {
         return Float(self.frame.size.width / size.width)
     }
     
-    func refreshViewWithElements(elements: [AnyObject], atSize size: CGSize) {
+    func refreshViewWithElements(elements: [AnyObject], atSize size: CGSize) -> [AnyObject] {
+        var scaledElements: [AnyObject] = []
+        
         for element in elements {
             let scaleFactor = determineScaleFactor(originalSize: size)
             if let strokeElement = element as? Stroke {
@@ -225,6 +227,7 @@ class DrawView: UIView {
                 strokeRenderer.resetAndClearBuffers()
                 strokeRenderer.drawPoints(scaledVector.pointer(), finishStroke: true)
                 strokeRenderer.blendStroke(in: strokesLayer, with: strokeElement.blendMode)
+                scaledElements.append(Stroke(points: scaledVector, andStride: strokeElement.stride, andWidth: strokeElement.width, andColor: strokeElement.color, andTs: strokeElement.ts, andTf: strokeElement.tf, andBlendMode: strokeElement.blendMode))
             }
             else if let messageImageElement = element as? DraggableImageView {
                 let imageElement = DraggableImageView(image: messageImageElement.image!)
@@ -233,6 +236,7 @@ class DrawView: UIView {
                                                             y: messageImageElement.frame.origin.y * CGFloat(scaleFactor)),
                                             size: CGSize(width: messageImageElement.frame.width * CGFloat(scaleFactor),
                                                          height: messageImageElement.frame.height * CGFloat(scaleFactor)))
+                scaledElements.append(imageElement)
                 self.addSubview(imageElement)
             }
             else if let messageTextElement = element as? DraggableTextView {
@@ -242,6 +246,7 @@ class DrawView: UIView {
                                                                                    height: messageTextElement.frame.height * CGFloat(scaleFactor))))
                 textViewElement.text = messageTextElement.text
                 textViewElement.isUserInteractionEnabled = shouldDraw
+                scaledElements.append(textViewElement)
                 self.addSubview(textViewElement)
             }
             else {
@@ -250,6 +255,7 @@ class DrawView: UIView {
         }
         
         refreshViewInRect(rect: viewLayer.bounds)
+        return scaledElements
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

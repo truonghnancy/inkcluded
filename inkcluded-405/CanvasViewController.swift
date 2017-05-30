@@ -127,12 +127,16 @@ class CanvasViewController: UIViewController {
         
         drawView = getNewDrawView()
         
+        var scaledElements: [AnyObject]
         if let size = self.willSize {
-            drawView?.refreshViewWithElements(elements: elements, atSize: size)
+            scaledElements = (drawView?.refreshViewWithElements(elements: elements, atSize: size))!
         }
         else {
-            drawView?.refreshViewWithElements(elements: elements, atSize: (drawView?.frame.size)!)
+            scaledElements = (drawView?.refreshViewWithElements(elements: elements, atSize: (drawView?.frame.size)!))!
         }
+        
+        self.model?.clearCanvasElements()
+        self.model?.restoreState(fromElements: scaledElements)
         
         canvas.addSubview(drawView!)
         self.orderedSubViews[0] = drawView!
@@ -147,6 +151,9 @@ class CanvasViewController: UIViewController {
         let size = self.view.bounds.width
         let yOffset = self.view.bounds.height / 5
         let newDrawView = DrawView(frame: CGRect(x: 0, y: yOffset, width: size, height: size))
+        newDrawView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 1.0)
+        newDrawView.heightAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 1.0)
+        newDrawView.center = self.view.center
         newDrawView.setNewDelegate(newDelegate: self)
         
         return newDrawView

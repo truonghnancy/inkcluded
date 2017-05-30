@@ -16,14 +16,15 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
     @IBOutlet var friendsSearchController: UISearchDisplayController!
     @IBOutlet var friendsTableView: UITableView!
     @IBOutlet var selectButton: UIBarButtonItem!
+    var groupsViewController : GroupsViewController?
     
-    var apiCalls: APICalls?                // The database interface
-    var curUid: String?                    // The current user ID
+    var apiCalls : APICalls?               // The database interface
+    var curUid : String?                   // The current user ID
     var selectedRecipients = [User]()      // A list of selected recipients
     var friends : [User]?                  // A list of friends to select
     var searchResults = [User]()           // A list of search results
     var doShowSearchResults : Bool = false // If the search table is visible
-    var createdGroup: Group?               // A group created from recipients
+    var createdGroup : Group?              // A group created from recipients
     
     /**
      * Performs setup once the view loads.
@@ -197,6 +198,10 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
                     }
                     
                     self.createdGroup = newGroup
+                    
+                    // Reload the groups on the main menu.
+                    self.groupsViewController?.groups?.append(newGroup!)
+                    self.groupsViewController?.groupsTableView?.reloadData()
                     
                     self.selectedRecipients = []
                     self.selectButton.isEnabled = false
