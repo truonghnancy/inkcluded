@@ -89,6 +89,9 @@ class GroupsViewController: UIViewController {
         }
     }
     
+    @IBAction func unwindtoGroups(seque: UIStoryboardSegue) {
+        
+    }
     
     // BUTTON ACTION
     @IBAction func menuTapped(_ sender: UIBarButtonItem) {
@@ -116,6 +119,11 @@ extension GroupsViewController: MenuViewDelegate {
     // need to figure out a way to refresh the groups after logging back in as a different user
     func didClickOnLogoutButton() {
         confirmLogout()
+    }
+    
+    func didClickOnTutorialButton() {
+        self.performSegue(withIdentifier: "viewTutorialSegue", sender: self)
+        closeMenu()
     }
     
     func confirmLogout() {
