@@ -138,10 +138,13 @@ class GroupsViewController: UIViewController {
         delete.backgroundColor = .red
         
         if APICalls.sharedInstance.currentUser!.id != self.groups![editActionsForRowAt.row].admin {
-            return [delete, add]
+            return [delete]
         }
         
-        return [delete, add, rename]
+        return [delete, rename]
+    }
+    
+    @IBAction func unwindtoGroups(seque: UIStoryboardSegue) {
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
