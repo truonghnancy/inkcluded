@@ -31,6 +31,7 @@
 		40F865A6725D8820F56B8B8C /* Pods_inkcluded_405UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A91286597B4880684D0F00B8 /* Pods_inkcluded_405UITests.framework */; };
 		511B13F71CC0BF7A3E91B09F /* Pods_inkcluded_405Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EF4486F25C1DC46A245DD95 /* Pods_inkcluded_405Tests.framework */; };
 		94FD3B2AB153812810DE99FE /* Pods_inkcluded_405.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF60963865909A6CB6D3F7E0 /* Pods_inkcluded_405.framework */; };
+		9D2DC30D1EDCF92C0025CADE /* TutorialPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2DC30C1EDCF92C0025CADE /* TutorialPageViewController.swift */; };
 		9D6636361E4073E100958C8F /* RecipientsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6636351E4073E100958C8F /* RecipientsViewController.swift */; };
 		9D7FC8841E413D0900293C83 /* FriendTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7FC8831E413D0900293C83 /* FriendTableViewCell.swift */; };
 		9D9CEB9C1E51629300C6B11C /* CanvasMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EBA3E41E50ED39006821C9 /* CanvasMenuView.swift */; };
@@ -103,6 +104,7 @@
 		892F434D1390A6A7A4AE4786 /* Pods-inkcluded-405.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-inkcluded-405.debug.xcconfig"; path = "Pods/Target Support Files/Pods-inkcluded-405/Pods-inkcluded-405.debug.xcconfig"; sourceTree = "<group>"; };
 		8B26E46F58CA9B6566173A73 /* Pods-inkcluded-405Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-inkcluded-405Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-inkcluded-405Tests/Pods-inkcluded-405Tests.release.xcconfig"; sourceTree = "<group>"; };
 		8EF4486F25C1DC46A245DD95 /* Pods_inkcluded_405Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_inkcluded_405Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D2DC30C1EDCF92C0025CADE /* TutorialPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialPageViewController.swift; sourceTree = "<group>"; };
 		9D6636351E4073E100958C8F /* RecipientsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipientsViewController.swift; sourceTree = "<group>"; };
 		9D7FC8831E413D0900293C83 /* FriendTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendTableViewCell.swift; sourceTree = "<group>"; };
 		9DB896751E5BC42B00E1B592 /* GroupHistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupHistoryViewController.swift; sourceTree = "<group>"; };
@@ -220,6 +222,7 @@
 				9D6636351E4073E100958C8F /* RecipientsViewController.swift */,
 				15EBA3EB1E5116AE006821C9 /* SelectImageViewController.swift */,
 				9DB896751E5BC42B00E1B592 /* GroupHistoryViewController.swift */,
+				9D2DC30C1EDCF92C0025CADE /* TutorialPageViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -639,6 +642,7 @@
 				15EBA3EC1E5116AE006821C9 /* SelectImageViewController.swift in Sources */,
 				B910C85B1E76115300D160EF /* CloudStorageAccountProtocol.swift in Sources */,
 				15EBA7021E27079F00B38D0E /* AppDelegate.swift in Sources */,
+				9D2DC30D1EDCF92C0025CADE /* TutorialPageViewController.swift in Sources */,
 				15FE85321E5EB981008206F9 /* DrawView.swift in Sources */,
 				9D6636361E4073E100958C8F /* RecipientsViewController.swift in Sources */,
 				15EBA3EE1E511E13006821C9 /* SelectImageDelegate.swift in Sources */,

@@ -185,11 +185,236 @@
                         <outlet property="groupsTableView" destination="x3e-0M-aN4" id="Aj8-Vq-aF9"/>
                         <segue destination="ufI-Xi-QbX" kind="presentation" identifier="showLogin" id="a26-wA-7mS"/>
                         <segue destination="dDT-sy-6Lq" kind="show" identifier="viewHistorySegue" id="rHK-UY-Rba"/>
+                        <segue destination="lBF-jW-JqV" kind="show" identifier="viewTutorialSegue" id="nPr-5v-ITG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="135.19999999999999" y="138.0809595202399"/>
+        </scene>
+        <!--Tutorial 0-->
+        <scene sceneID="cYH-3F-mig">
+            <objects>
+                <viewController storyboardIdentifier="Tutorial0Controller" id="KLQ-sL-Ge8" userLabel="Tutorial 0" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="3YJ-Pf-Ooi"/>
+                        <viewControllerLayoutGuide type="bottom" id="aea-Ih-d4O"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="A7l-Cd-tfX">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="0_blankGroups" translatesAutoresizingMaskIntoConstraints="NO" id="ezR-33-OzL">
+                                <rect key="frame" x="35" y="97" width="304" height="550"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XKn-tF-bn8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-282.39999999999998" y="1555.7721139430287"/>
+        </scene>
+        <!--Tutorial 1-->
+        <scene sceneID="aGh-d4-Jnd">
+            <objects>
+                <viewController storyboardIdentifier="Tutorial1Controller" id="4EP-uu-Z50" userLabel="Tutorial 1" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="0Xj-OG-6d0"/>
+                        <viewControllerLayoutGuide type="bottom" id="HyJ-ci-2jy"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="NAv-0K-Mgb">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="1_selectRecipients" translatesAutoresizingMaskIntoConstraints="NO" id="Fgv-v1-ed4">
+                                <rect key="frame" x="35" y="97" width="304" height="550"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="g1a-l5-nNX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="328.80000000000001" y="1555.7721139430287"/>
+        </scene>
+        <!--Tutorial 2-->
+        <scene sceneID="gP0-nq-K2v">
+            <objects>
+                <viewController storyboardIdentifier="Tutorial2Controller" id="wJx-SQ-4AC" userLabel="Tutorial 2" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="na7-rW-qBk"/>
+                        <viewControllerLayoutGuide type="bottom" id="me6-mo-SEP"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="gTd-Tz-7Wk">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="2_groupName" translatesAutoresizingMaskIntoConstraints="NO" id="dob-zi-2Gg">
+                                <rect key="frame" x="35" y="97" width="304" height="550"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UrU-qr-Y6k" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="940" y="1556"/>
+        </scene>
+        <!--Tutorial 3-->
+        <scene sceneID="qkP-v1-NlN">
+            <objects>
+                <viewController storyboardIdentifier="Tutorial3Controller" id="qyG-p4-yBv" userLabel="Tutorial 3" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="6Pr-Sa-rL4"/>
+                        <viewControllerLayoutGuide type="bottom" id="CHr-ux-lHH"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="bwN-8D-4F8">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="3_blankGroup" translatesAutoresizingMaskIntoConstraints="NO" id="yeN-hm-PDj">
+                                <rect key="frame" x="35" y="97" width="304" height="550"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9JJ-Eq-M9E" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1553" y="1556"/>
+        </scene>
+        <!--Tutorial 4-->
+        <scene sceneID="fBq-8z-Mo1">
+            <objects>
+                <viewController storyboardIdentifier="Tutorial4Controller" id="uUm-5z-o8p" userLabel="Tutorial 4" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="0g6-P3-guL"/>
+                        <viewControllerLayoutGuide type="bottom" id="408-a7-Nr2"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="4Gh-Ex-SDx">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="4_newMessage" translatesAutoresizingMaskIntoConstraints="NO" id="gMM-Fb-uz9">
+                                <rect key="frame" x="35" y="97" width="304" height="550"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hpq-7P-00E" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2162" y="1556"/>
+        </scene>
+        <!--Tutorial 5-->
+        <scene sceneID="pWP-Nb-GK1">
+            <objects>
+                <viewController storyboardIdentifier="Tutorial5Controller" id="M71-Tm-RLa" userLabel="Tutorial 5" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="WXr-5R-0NR"/>
+                        <viewControllerLayoutGuide type="bottom" id="tnS-MH-BYD"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Xlb-k7-ko3">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="5_drawMessage" translatesAutoresizingMaskIntoConstraints="NO" id="GFn-JX-GTl">
+                                <rect key="frame" x="35" y="97" width="304" height="550"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bou-kS-7dl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2778" y="1556"/>
+        </scene>
+        <!--Tutorial 6-->
+        <scene sceneID="4v8-Go-bTJ">
+            <objects>
+                <viewController storyboardIdentifier="Tutorial6Controller" id="JSq-9o-nk5" userLabel="Tutorial 6" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="LY4-We-frh"/>
+                        <viewControllerLayoutGuide type="bottom" id="pHY-YH-tEc"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="04U-tP-Qra">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="6_messageView" translatesAutoresizingMaskIntoConstraints="NO" id="aTc-RD-CMH">
+                                <rect key="frame" x="35" y="97" width="304" height="550"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CRt-5b-Cvm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3386" y="1556"/>
+        </scene>
+        <!--Tutorial 7-->
+        <scene sceneID="3GL-gP-gZq">
+            <objects>
+                <viewController storyboardIdentifier="Tutorial7Controller" id="Iex-30-YUL" userLabel="Tutorial 7" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Z5r-il-k2k"/>
+                        <viewControllerLayoutGuide type="bottom" id="cBW-bM-lt7"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="rGU-0T-T5B">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="7_groupView" translatesAutoresizingMaskIntoConstraints="NO" id="SbY-X1-drJ">
+                                <rect key="frame" x="35" y="97" width="304" height="550"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rOY-FS-h5t" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3994" y="1556"/>
+        </scene>
+        <!--Tutorial 8-->
+        <scene sceneID="Kd1-NQ-uqQ">
+            <objects>
+                <viewController storyboardIdentifier="Tutorial8Controller" id="k36-AF-zOM" userLabel="Tutorial 8" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="vO3-cv-izc"/>
+                        <viewControllerLayoutGuide type="bottom" id="bEY-q2-hhw"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="3iM-21-CHb">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="8_menuView" translatesAutoresizingMaskIntoConstraints="NO" id="QSp-8O-em1">
+                                <rect key="frame" x="35" y="97" width="304" height="550"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CjU-KW-LE7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4607" y="1556"/>
+        </scene>
+        <!--Tutorial Page View Controller-->
+        <scene sceneID="dd2-LB-fIL">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ygu-Q3-z2P" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="lBF-jW-JqV" userLabel="Tutorial Page View Controller" customClass="TutorialPageViewController" customModule="inkcluded_405" customModuleProvider="target" sceneMemberID="viewController"/>
+            </objects>
+            <point key="canvasLocation" x="-281" y="840"/>
         </scene>
         <!--Title-->
         <scene sceneID="c0J-f3-GWd">
@@ -421,8 +646,19 @@
             <point key="canvasLocation" x="2343" y="139"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="0_blankGroups" width="640" height="1136"/>
+        <image name="1_selectRecipients" width="640" height="1136"/>
+        <image name="2_groupName" width="640" height="1136"/>
+        <image name="3_blankGroup" width="640" height="1136"/>
+        <image name="4_newMessage" width="640" height="1136"/>
+        <image name="5_drawMessage" width="640" height="1136"/>
+        <image name="6_messageView" width="640" height="1136"/>
+        <image name="7_groupView" width="640" height="1136"/>
+        <image name="8_menuView" width="640" height="1136"/>
+    </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Rtv-oo-sCb"/>
-        <segue reference="9cx-8N-Uuu"/>
+        <segue reference="Fn8-DQ-fSr"/>
+        <segue reference="rHK-UY-Rba"/>
     </inferredMetricsTieBreakers>
 </document>
