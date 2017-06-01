@@ -11,16 +11,13 @@ import UIKit
 
 class GroupHistoryViewController: UIViewController {
     
-    class MessageScrollView: UIScrollView {
-        func scrollViewDidScroll(_ scrollView: UIScrollView) {
-            
-        }
-    }
-    
     var curGroup: Group?
     var curMessages: [Message]?
     var contentView: UIView?
     var messageElements: [([AnyObject], CGSize)]?
+    var beginning: Int?
+    var end: Int?
+    var cyPos: CGFloat?
     
     @IBOutlet var historyView: UIScrollView!
     @IBOutlet var navBar: UINavigationItem!
@@ -48,7 +45,15 @@ class GroupHistoryViewController: UIViewController {
             }
             else {
                 self.curMessages = messages
+                if self.curMessages!.count - 10 >= 0 {
+                    self.beginning = self.curMessages!.count - 10
+                }
+                else {
+                    self.beginning = 0
+                }
+                self.end = self.curMessages!.count
                 self.initialLoadAllMessages()
+                self.historyView.delegate = self
             }
             
             loadView.removeFromSuperview()
@@ -59,9 +64,21 @@ class GroupHistoryViewController: UIViewController {
         self.performSegue(withIdentifier: "unwindToGroups", sender: self)
     }
     
+    func __nextTopMessages() -> [Message] {
+        let remaining = self.beginning! - 10
+        if remaining < 0 {
+            return Array(self.curMessages![0...self.beginning! - 1])
+        }
+        else {
+            return Array(self.curMessages![self.beginning! - 10...self.beginning! - 1])
+        }
+    }
+    
     func initialLoadAllMessages() {
-        let setSize = 5
-        let cmessages = self.curMessages![self.curMessages!.count - setSize...self.curMessages!.count - 1]
+        if self.curMessages!.count == 0 {
+            return
+        }
+        let cmessages = self.curMessages![self.beginning!...self.curMessages!.count - 1]
         let parentSize = self.view.frame.size
         let drawViewSize = CGSize(width: parentSize.width / 2, height: parentSize.width / 2)
         let leftX: CGFloat = 5.0
@@ -73,7 +90,7 @@ class GroupHistoryViewController: UIViewController {
         if contentView != nil {
             contentView?.removeFromSuperview()
         }
-        contentView = UIView(frame: CGRect(x: 0, y: 0, width: parentSize.width, height: contentViewHeight))
+        contentView = MessageHistoryView(frame: CGRect(x: 0, y: 0, width: parentSize.width, height: contentViewHeight))
         self.historyView.contentSize = contentView!.frame.size
         self.historyView.addSubview(contentView!)
         
@@ -120,6 +137,71 @@ class GroupHistoryViewController: UIViewController {
             
             yPos += CGFloat(drawViewSize.height) + padding + nameFieldHeight
         }
+        cyPos = 0
+    }
+    
+    func loadTopMessages() {
+        if beginning! <= 0 {
+            return
+        }
+        let cmessages = __nextTopMessages()
+        let setSize = cmessages.count
+        let parentSize = self.view.frame.size
+        let drawViewSize = CGSize(width: parentSize.width / 2, height: parentSize.width / 2)
+        let leftX: CGFloat = 5.0
+        let rightX = parentSize.width - drawViewSize.width - leftX
+        let padding: CGFloat = 10.0
+        let nameFieldHeight: CGFloat = 15.0
+        let messageSize = CGFloat(drawViewSize.height) + padding + nameFieldHeight
+        let contentViewHeight = CGFloat((self.end! - self.beginning!) + setSize) * messageSize
+        var yPos: CGFloat = nameFieldHeight + cyPos!
+        
+        for message in cmessages.reversed() {
+            yPos -= messageSize
+            
+            var origin = CGPoint(x: leftX, y: yPos)
+            if message.senderid == APICalls.sharedInstance.currentUser?.id {
+                origin.x = rightX
+            }
+            
+            let nameFieldOrigin = CGPoint(x: origin.x, y: origin.y - nameFieldHeight)
+            let nameField = UILabel(frame: CGRect(origin: nameFieldOrigin, size: CGSize(width: drawViewSize.width, height: nameFieldHeight)))
+            nameField.text = message.senderfirstname
+            nameField.font = UIFont(name: "AvenirNext-Medium", size: nameFieldHeight)
+            if message.senderid == APICalls.sharedInstance.currentUser?.id {
+                nameField.textAlignment = .right
+            }
+            
+            // Decode elements from the will file
+            let willContents = CanvasModel.decodeObjectsFromWillFile(textViewDelegate: nil, atPath: message.filepath)
+            let elements = willContents?.0
+            let willSize = willContents?.1
+            
+            // Create the draw view
+            let drawView = GroupHistoryDrawView(frame: CGRect(origin: origin, size: drawViewSize), groupMessageIndex: (messageElements?.count)!)
+            // add a gesture recognizer
+            let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.respondToMessageTap(recognizer:)))
+            drawView.addGestureRecognizer(tapRecognizer)
+            
+            if let drawViewContent = elements {
+                drawView.refreshViewWithElements(elements: drawViewContent, atSize: willSize!)
+                messageElements?.append((drawViewContent, willSize!))
+            }
+            else {
+                drawView.backgroundColor = UIColor.black
+                messageElements?.append(([], CGSize(width: 0, height: 0)))
+            }
+            
+            contentView?.addSubview(nameField)
+            contentView?.addSubview(drawView)
+        }
+        self.contentView?.frame = CGRect(x: 0, y: -1 * yPos + nameFieldHeight, width: parentSize.width, height: contentViewHeight)
+        self.historyView.contentSize = contentView!.frame.size
+        
+        self.historyView.setContentOffset(CGPoint(x: 0, y: messageSize * CGFloat(setSize)), animated: false)
+        
+        self.cyPos = yPos - nameFieldHeight
+        self.beginning! -= cmessages.count
     }
     
     func respondToMessageTap(recognizer: UITapGestureRecognizer) {
@@ -129,6 +211,8 @@ class GroupHistoryViewController: UIViewController {
         
         self.performSegue(withIdentifier: "newMessageSegue", sender: (elements, size))
     }
+    
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "newMessageSegue" {
@@ -145,8 +229,28 @@ class GroupHistoryViewController: UIViewController {
     }
 }
 
-extension GroupHistoryViewController: UIScrollViewDelegate {
+extension GroupHistoryViewController: UIScrollViewDelegate  {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        print("hello")
+        if (scrollView.contentOffset.y < 0){
+            self.loadTopMessages()
+        }
+    }
+}
+
+/** This segment found at https://stackoverflow.com/questions/11770743/capturing-touches-on-a-subview-outside-the-frame-of-its-superview-using-hittest
+ *  to recognize gestures outside of frame MessageViewFrame once frame is resized
+ **/
+class MessageHistoryView: UIView {
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        if (!self.clipsToBounds && !self.isHidden && self.alpha > 0.0) {
+            let subviews = self.subviews.reversed()
+            for member in subviews {
+                let subPoint = member.convert(point, from: self)
+                if let result:UIView = member.hitTest(subPoint, with:event) {
+                    return result;
+                }
+            }
+        }
+        return nil
     }
 }
