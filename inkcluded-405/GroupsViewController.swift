@@ -57,6 +57,7 @@ class GroupsViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         let apiCalls = APICalls.sharedInstance
+        
         print("view appear")
         if (apiCalls.currentUser == nil) {
             super.viewDidAppear(animated)
@@ -79,6 +80,7 @@ class GroupsViewController: UIViewController {
         super.viewWillAppear(animated)
         
         let apiCalls = APICalls.sharedInstance
+        
         if (apiCalls.currentUser != nil && (groups?.isEmpty)!) {
             let loadView = LoadView(frame: self.view.frame)
             self.view.addSubview(loadView)
@@ -202,6 +204,8 @@ extension GroupsViewController: MenuViewDelegate {
     
     func handleLogout(alertAction: UIAlertAction) -> Void {
         APICalls.sharedInstance.logout()
+        UserDefaults.standard.removeObject(forKey: "_stylo-ios-last-login")
+        UserDefaults.standard.synchronize()
         print("logged out")
         self.groups?.removeAll()
         self.groupsTableView.reloadData()
