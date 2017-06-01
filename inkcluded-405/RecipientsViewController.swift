@@ -37,6 +37,10 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
         self.friends = Array(APICalls.sharedInstance.friendsList)
         self.curUid = apiCalls?.currentUser?.id
         selectButton.isEnabled = false
+        
+        // Why is this not on by default? Don't let users go forwards and
+        //  backwards at the same time.
+        self.navigationController?.navigationBar.isExclusiveTouch = true
     }
     
     /**
@@ -161,12 +165,6 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
                 return selectedUser.id != toRemove.id
             }
             
-//            let removeIdx : Int = getIndexOfUser(selectedRecipients,
-//                                                 keyUser: toRemove)
-//            if removeIdx >= 0 {
-//                selectedRecipients.remove(at: removeIdx)
-//            }
-            
             self.selectButton.isEnabled = self.selectedRecipients.count > 0
         }
     }
@@ -199,8 +197,11 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
                     
                     self.createdGroup = newGroup
                     
+                    // The groups recipients are inserted separately from its
+                    //  creator. Append the creator manually just this once.
+                    self.createdGroup?.members.append((self.apiCalls?.currentUser)!)
                     // Reload the groups on the main menu.
-                    self.groupsViewController?.groups?.append(newGroup!)
+                    self.groupsViewController?.groups?.append(self.createdGroup!)
                     self.groupsViewController?.groupsTableView?.reloadData()
                     
                     self.selectedRecipients = []
