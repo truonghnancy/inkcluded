@@ -25,6 +25,10 @@ class GroupHistoryViewController: UIViewController {
         self.navBar.title = curGroup?.groupName
         self.messageElements = []
         self.curMessages = []
+        
+        // Why is this not on by default? Don't let users go forwards and
+        //  backwards at the same time.
+        self.navigationController?.navigationBar.isExclusiveTouch = true
     }
     
     override func viewWillAppear(_ animated: Bool) {

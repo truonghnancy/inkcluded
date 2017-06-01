@@ -37,6 +37,10 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
         self.friends = Array(APICalls.sharedInstance.friendsList)
         self.curUid = apiCalls?.currentUser?.id
         selectButton.isEnabled = false
+        
+        // Why is this not on by default? Don't let users go forwards and
+        //  backwards at the same time.
+        self.navigationController?.navigationBar.isExclusiveTouch = true
     }
     
     /**
