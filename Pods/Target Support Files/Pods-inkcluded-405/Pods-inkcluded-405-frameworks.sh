@@ -85,7 +85,9 @@ strip_invalid_archs() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/AZSClient/AZSClient.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/EBForeNotification/EBForeNotification.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/AZSClient/AZSClient.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/EBForeNotification/EBForeNotification.framework"
 fi

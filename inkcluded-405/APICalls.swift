@@ -432,10 +432,10 @@ class APICalls {
     func sendPushNotificationAPI(groupId: String, messageId: String) {
         client.invokeAPI("pushMessage", body: nil, httpMethod: "POST", parameters: [AnyHashable("groupId"): groupId, AnyHashable("messageId"): messageId], headers: nil) { (myobject, response, error) in
             if error != nil {
+                print(response!)
                 print("Error sending push notification", error!)
             }
         }
-        
     }
     
     /*
@@ -518,4 +518,25 @@ class APICalls {
             }
         })
     }
+    
+    /**
+    func downloadNewMesssages(groupId : String, closure : @escaping (Bool) -> Void) {
+        var curGroup : Group?
+        var latestTime = 0
+        
+        for group in self.groupList {
+            if group.id == groupId {
+                curGroup! = group
+            }
+        }
+        
+        for message in curGroup!.messages {
+            if Int(message.timestamp)! > latestTime {
+                latestTime = Int(message.timestamp)!
+            }
+        }
+        
+        
+    
+    }**/
 }
