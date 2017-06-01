@@ -337,9 +337,16 @@ extension GroupsViewController: UITableViewDelegate, UITableViewDataSource {
         delComf = false
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // Set the selected group and segue to the group history view.
+    /**
+     * Responds to a group's being selected.
+     */
+    func tableView(_ tableView: UITableView,
+                   didSelectRowAt indexPath: IndexPath) {
+        // Identify the selected group, deselect the cell, and segue to the 
+        //  group history view.
         self.selectedGroup = groups?[indexPath.row]
+        self.groupsTableView.cellForRow(at: indexPath)?
+            .setSelected(false, animated: false)
         self.performSegue(withIdentifier: "viewHistorySegue", sender: self)
     }
     
