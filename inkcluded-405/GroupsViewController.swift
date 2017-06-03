@@ -13,7 +13,8 @@ class GroupsViewController: UIViewController {
     
     @IBOutlet var groupsTableView: UITableView!
     
-    var groups : [Group]?
+    var groups : [Group]? // An array of the user's groups
+    var groupTimeCache : [String: String]? // A map of group IDs to their last-view-times
     var selectedGroup: Group?
     var menuView: MenuView?
     var menuOpen: Bool = false
@@ -32,6 +33,11 @@ class GroupsViewController: UIViewController {
         super.viewDidLoad()
         
         self.groups = []
+        
+        // Set the nav bar colors.
+        UINavigationBar.appearance().barTintColor = UIColor(colorLiteralRed: 75.0/255.0, green: 177.0/255.0, blue: 86.0/255.0, alpha: 1.0)
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        UIBarButtonItem.appearance().tintColor = UIColor.white
         
         // making the menu view
         menuView = MenuView(frame: CGRect(x: -(self.view.frame.width*menuSize),
@@ -80,13 +86,7 @@ class GroupsViewController: UIViewController {
         
         let apiCalls = APICalls.sharedInstance
         if (apiCalls.currentUser != nil && (groups?.isEmpty)!) {
-            let loadView = LoadView(frame: self.view.frame)
-            self.view.addSubview(loadView)
-            apiCalls.getGroupsAPI(sid: apiCalls.currentUser!.id, closure: { (groupList) in
-                self.groups = groupList
-                self.groupsTableView.reloadData()
-                loadView.removeFromSuperview()
-            })
+            refreshGroups()
         }
     }
     
@@ -280,15 +280,7 @@ extension GroupsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func handleRefresh() {
-        let loadView = LoadView(frame: self.view.frame)
-        self.view.addSubview(loadView)
-        
-        let apiCalls = APICalls.sharedInstance
-        apiCalls.getGroupsAPI(sid: apiCalls.currentUser!.id, closure: { (groupList) in
-            self.groups = groupList
-            self.groupsTableView.reloadData()
-            loadView.removeFromSuperview()
-        })
+        refreshGroups()
         self.refreshControl.endRefreshing()
     }
     
@@ -350,6 +342,54 @@ extension GroupsViewController: UITableViewDelegate, UITableViewDataSource {
         self.performSegue(withIdentifier: "viewHistorySegue", sender: self)
     }
     
+    func refreshGroups() {
+        let loadView = LoadView(frame: self.view.frame)
+        self.view.addSubview(loadView)
+        
+        // Load the cached group last-view-times, if it exists.
+        groupTimeCache = ((UserDefaults.standard.dictionary(forKey: "_stylo-ios-group-times") ?? [String: [String: String]]()) as! [String: String])
+        
+        // Get all the groups from Azure.
+        let apiCalls = APICalls.sharedInstance
+        apiCalls.getGroupsAPI(sid: apiCalls.currentUser!.id, closure: { (groupList) in
+            self.groups = groupList
+            for tempGroup in self.groups! {
+                apiCalls.getAllMessage(groupId: tempGroup.id, closure: { (tempMessages) in
+                    if let tempTimes = self.groupTimeCache?[tempGroup.id] {
+                        // If the group was in the map, check to see if the messages are new.
+                        if tempMessages!.count > 0 {
+                            let newTime = tempMessages![tempMessages!.count - 1].timestamp
+                            if newTime > tempTimes {
+                                self.groupTimeCache?[tempGroup.id]? = newTime
+                            }
+                        }
+                    }
+                    else {
+                        // Otherwise, add the group to the map.
+                        if tempMessages!.count > 0 {
+                            // If the group has messages, get the timestamp of the last one.
+                            self.groupTimeCache?[tempGroup.id] = tempMessages![tempMessages!.count - 1].timestamp
+                        }
+                        else {
+                            // Otherwise, use the current timestamp.
+                            self.groupTimeCache?[tempGroup.id] = String(format: "%llu", UInt64(floor(NSDate().timeIntervalSince1970 * 1000)))
+                        }
+                    }
+                    self.groups?.sort(by: { (group1, group2) in
+                        print(self.groupTimeCache?[group1.id] ?? "0")
+                        return (self.groupTimeCache?[group1.id] ?? "0") > (self.groupTimeCache?[group2.id] ?? "0")
+                    })
+                    self.groupsTableView.reloadData()
+                    
+                    // Save the cache.
+                    UserDefaults.standard.set(self.groupTimeCache, forKey: "_stylo-ios-group-times")
+                    UserDefaults.standard.synchronize()
+                })
+            }
+            loadView.removeFromSuperview()
+        })
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // If we're segueing to the group history view, set the selected group.
         if (segue.identifier == "viewHistorySegue") {
@@ -364,5 +404,4 @@ extension GroupsViewController: UITableViewDelegate, UITableViewDataSource {
             dest.groupsViewController = self
         }
     }
-
 }

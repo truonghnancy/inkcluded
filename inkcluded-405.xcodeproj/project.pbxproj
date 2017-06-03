@@ -32,6 +32,7 @@
 		511B13F71CC0BF7A3E91B09F /* Pods_inkcluded_405Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EF4486F25C1DC46A245DD95 /* Pods_inkcluded_405Tests.framework */; };
 		94FD3B2AB153812810DE99FE /* Pods_inkcluded_405.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF60963865909A6CB6D3F7E0 /* Pods_inkcluded_405.framework */; };
 		9D2DC30D1EDCF92C0025CADE /* TutorialPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2DC30C1EDCF92C0025CADE /* TutorialPageViewController.swift */; };
+		9D3F2E1E1EE36D49004A872F /* icon_large_green.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D3F2E1D1EE36D49004A872F /* icon_large_green.png */; };
 		9D6636361E4073E100958C8F /* RecipientsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6636351E4073E100958C8F /* RecipientsViewController.swift */; };
 		9D7FC8841E413D0900293C83 /* FriendTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7FC8831E413D0900293C83 /* FriendTableViewCell.swift */; };
 		9D9CEB9C1E51629300C6B11C /* CanvasMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EBA3E41E50ED39006821C9 /* CanvasMenuView.swift */; };
@@ -105,6 +106,7 @@
 		8B26E46F58CA9B6566173A73 /* Pods-inkcluded-405Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-inkcluded-405Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-inkcluded-405Tests/Pods-inkcluded-405Tests.release.xcconfig"; sourceTree = "<group>"; };
 		8EF4486F25C1DC46A245DD95 /* Pods_inkcluded_405Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_inkcluded_405Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D2DC30C1EDCF92C0025CADE /* TutorialPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialPageViewController.swift; sourceTree = "<group>"; };
+		9D3F2E1D1EE36D49004A872F /* icon_large_green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_large_green.png; path = "../../../Library/Mobile Documents/com~apple~CloudDocs/CPE-40x/icon_large_green.png"; sourceTree = "<group>"; };
 		9D6636351E4073E100958C8F /* RecipientsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipientsViewController.swift; sourceTree = "<group>"; };
 		9D7FC8831E413D0900293C83 /* FriendTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendTableViewCell.swift; sourceTree = "<group>"; };
 		9DB896751E5BC42B00E1B592 /* GroupHistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupHistoryViewController.swift; sourceTree = "<group>"; };
@@ -273,6 +275,7 @@
 				EE5A8EFF1E404B2800BC44AF /* inkcluded-405-Bridging-Header.h */,
 				15EBA7051E27079F00B38D0E /* Main.storyboard */,
 				15EBA7081E27079F00B38D0E /* Assets.xcassets */,
+				9D3F2E1D1EE36D49004A872F /* icon_large_green.png */,
 				15EBA70A1E27079F00B38D0E /* LaunchScreen.storyboard */,
 				15EBA70D1E27079F00B38D0E /* Info.plist */,
 			);
@@ -456,6 +459,7 @@
 			files = (
 				15EBA70C1E27079F00B38D0E /* LaunchScreen.storyboard in Resources */,
 				15EBA7091E27079F00B38D0E /* Assets.xcassets in Resources */,
+				9D3F2E1E1EE36D49004A872F /* icon_large_green.png in Resources */,
 				15EBA7071E27079F00B38D0E /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
