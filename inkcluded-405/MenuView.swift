@@ -25,7 +25,7 @@ class MenuView: UIView {
         self.addSubview(versionLabel)
         
         let feedbackButton = UIButton(frame: CGRect(x: 0, y: 125, width: self.frame.width, height: 100))
-        feedbackButton.backgroundColor = UIColor(colorLiteralRed: 99.0/255.0, green: 174/255.0, blue: 245.0/255.0, alpha: 1.0)
+        feedbackButton.backgroundColor = UIColor(colorLiteralRed: 22.0/255.0, green: 144/255.0, blue: 63.0/255.0, alpha: 1.0)
         feedbackButton.setTitle("Feedback", for: .normal)
         feedbackButton.addTarget(self, action: #selector(self.didClickOnFeedbackButton), for: UIControlEvents.touchUpInside)
         self.addSubview(feedbackButton)

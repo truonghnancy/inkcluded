@@ -376,7 +376,6 @@ extension GroupsViewController: UITableViewDelegate, UITableViewDataSource {
                         }
                     }
                     self.groups?.sort(by: { (group1, group2) in
-                        print(self.groupTimeCache?[group1.id] ?? "0")
                         return (self.groupTimeCache?[group1.id] ?? "0") > (self.groupTimeCache?[group2.id] ?? "0")
                     })
                     self.groupsTableView.reloadData()
