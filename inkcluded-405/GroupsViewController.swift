@@ -13,7 +13,7 @@ class GroupsViewController: UIViewController {
     
     @IBOutlet var groupsTableView: UITableView!
     
-    var groups : [Group]?
+    var groups : [Group]? // An array of the user's groups
     var selectedGroup: Group?
     var menuView: MenuView?
     var menuOpen: Bool = false
@@ -33,6 +33,11 @@ class GroupsViewController: UIViewController {
         super.viewDidLoad()
         
         self.groups = []
+        
+        // Set the nav bar colors.
+        UINavigationBar.appearance().barTintColor = UIColor(colorLiteralRed: 75.0/255.0, green: 177.0/255.0, blue: 86.0/255.0, alpha: 1.0)
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        UIBarButtonItem.appearance().tintColor = UIColor.white
         
         // making the menu view
         menuView = MenuView(frame: CGRect(x: -(self.view.frame.width*menuSize),
@@ -82,13 +87,7 @@ class GroupsViewController: UIViewController {
         
         let apiCalls = APICalls.sharedInstance
         if (apiCalls.currentUser != nil && (groups?.isEmpty)!) {
-            let loadView = LoadView(frame: self.view.frame)
-            self.view.addSubview(loadView)
-            apiCalls.getGroupsAPI(sid: apiCalls.currentUser!.id, closure: { (groupList) in
-                self.groups = groupList
-                self.groupsTableView.reloadData()
-                loadView.removeFromSuperview()
-            })
+            refreshGroups()
         }
     }
     
@@ -121,7 +120,7 @@ class GroupsViewController: UIViewController {
             
             self.present(alertController, animated: true, completion: nil)
         }
-        rename.backgroundColor = UIColor(colorLiteralRed: 14/255, green: 171/255, blue: 245/255, alpha: 1)
+        rename.backgroundColor = UIColor(colorLiteralRed: 26.0/255.0, green: 128.0/255.0, blue: 43.0/255.0, alpha: 1.0)
         
         let add = UITableViewRowAction(style: .normal, title: "Add") { action, indexPath in
             print("add \(indexPath)")
@@ -289,15 +288,7 @@ extension GroupsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func handleRefresh() {
-        let loadView = LoadView(frame: self.view.frame)
-        self.view.addSubview(loadView)
-        
-        let apiCalls = APICalls.sharedInstance
-        apiCalls.getGroupsAPI(sid: apiCalls.currentUser!.id, closure: { (groupList) in
-            self.groups = groupList
-            self.groupsTableView.reloadData()
-            loadView.removeFromSuperview()
-        })
+        refreshGroups()
         self.refreshControl.endRefreshing()
     }
     
@@ -359,6 +350,20 @@ extension GroupsViewController: UITableViewDelegate, UITableViewDataSource {
         self.performSegue(withIdentifier: "viewHistorySegue", sender: self)
     }
     
+    func refreshGroups() {
+        let loadView = LoadView(frame: self.view.frame)
+        self.view.addSubview(loadView)
+        
+        // Get all the groups from Azure.
+        let apiCalls = APICalls.sharedInstance
+        apiCalls.getGroupsAPI(sid: apiCalls.currentUser!.id,
+                              closure: { (groupList) in
+            self.groups = groupList
+            self.groupsTableView.reloadData()
+            loadView.removeFromSuperview()
+        })
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // If we're segueing to the group history view, set the selected group.
         if (segue.identifier == "viewHistorySegue") {
@@ -373,5 +378,4 @@ extension GroupsViewController: UITableViewDelegate, UITableViewDataSource {
             dest.groupsViewController = self
         }
     }
-
 }
