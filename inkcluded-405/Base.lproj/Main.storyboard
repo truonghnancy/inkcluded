@@ -59,7 +59,7 @@
                                     <action selector="microsoftButtonPress:" destination="ufI-Xi-QbX" eventType="touchUpInside" id="Ccz-bF-3ls"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="icon_large_green.png" translatesAutoresizingMaskIntoConstraints="NO" id="M1O-3X-u9C">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="styloGreen" translatesAutoresizingMaskIntoConstraints="NO" id="M1O-3X-u9C">
                                 <rect key="frame" x="37" y="20" width="300" height="300"/>
                             </imageView>
                         </subviews>
@@ -671,7 +671,7 @@
         <image name="6_messageView" width="640" height="1136"/>
         <image name="7_groupView" width="640" height="1136"/>
         <image name="8_menuView" width="640" height="1136"/>
-        <image name="icon_large_green.png" width="2000" height="2000"/>
+        <image name="styloGreen" width="2000" height="2000"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="9cx-8N-Uuu"/>
