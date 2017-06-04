@@ -518,25 +518,4 @@ class APICalls {
             }
         })
     }
-    
-    /**
-    func downloadNewMesssages(groupId : String, closure : @escaping (Bool) -> Void) {
-        var curGroup : Group?
-        var latestTime = 0
-        
-        for group in self.groupList {
-            if group.id == groupId {
-                curGroup! = group
-            }
-        }
-        
-        for message in curGroup!.messages {
-            if Int(message.timestamp)! > latestTime {
-                latestTime = Int(message.timestamp)!
-            }
-        }
-        
-        
-    
-    }**/
 }

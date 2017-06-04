@@ -147,6 +147,7 @@ class GroupHistoryViewController: UIViewController {
     
     func loadTopMessages() {
         if beginning! <= 0 {
+            self.isCalled = false
             return
         }
         let cmessages = __nextTopMessages()
