@@ -120,7 +120,7 @@ class GroupsViewController: UIViewController {
             
             self.present(alertController, animated: true, completion: nil)
         }
-        rename.backgroundColor = UIColor(colorLiteralRed: 14/255, green: 171/255, blue: 245/255, alpha: 1)
+        rename.backgroundColor = UIColor(colorLiteralRed: 26.0/255.0, green: 128.0/255.0, blue: 43.0/255.0, alpha: 1.0)
         
         let add = UITableViewRowAction(style: .normal, title: "Add") { action, indexPath in
             print("add \(indexPath)")
