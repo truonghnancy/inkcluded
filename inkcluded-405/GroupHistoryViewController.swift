@@ -5,7 +5,6 @@
 //  Created by Christopher on 2/20/17.
 //  Copyright © 2017 Boba. All rights reserved.
 //
-
 import Foundation
 import UIKit
 
@@ -43,12 +42,14 @@ class GroupHistoryViewController: UIViewController {
         
         let loadView = LoadView(frame: self.view.frame)
         self.view.addSubview(loadView)
+        print((curGroup?.id)!)
         APICalls.sharedInstance.getAllMessage(groupId: (curGroup?.id)!) { (messages) in
             if messages == nil {
                 self.curMessages = []
             }
             else {
                 self.curMessages = messages
+                print(self.curMessages)
                 if self.curMessages!.count - 10 >= 0 {
                     self.beginning = self.curMessages!.count - 10
                 }
@@ -107,7 +108,7 @@ class GroupHistoryViewController: UIViewController {
             if message.senderid == APICalls.sharedInstance.currentUser?.id {
                 origin.x = rightX
             }
-        
+            
             let nameFieldOrigin = CGPoint(x: origin.x, y: origin.y - nameFieldHeight)
             let nameField = UILabel(frame: CGRect(origin: nameFieldOrigin, size: CGSize(width: drawViewSize.width, height: nameFieldHeight)))
             nameField.text = message.senderfirstname
@@ -115,7 +116,7 @@ class GroupHistoryViewController: UIViewController {
             if message.senderid == APICalls.sharedInstance.currentUser?.id {
                 nameField.textAlignment = .right
             }
-        
+            
             // Decode elements from the will file
             let willContents = CanvasModel.decodeObjectsFromWillFile(textViewDelegate: nil, atPath: message.filepath)
             let elements = willContents?.0
@@ -202,7 +203,7 @@ class GroupHistoryViewController: UIViewController {
         self.contentView?.frame = CGRect(x: 0, y: -1 * yPos + nameFieldHeight, width: parentSize.width, height: contentViewHeight)
         self.historyView.contentSize = contentView!.frame.size
         
-        self.historyView.setContentOffset(CGPoint(x: 0, y: messageSize * CGFloat(setSize)), animated: false)
+        self.historyView.setContentOffset(CGPoint(x: 0, y: messageSize * CGFloat(setSize) + self.historyView.contentOffset.y), animated: false)
         
         self.cyPos = yPos - nameFieldHeight
         self.beginning! -= cmessages.count
