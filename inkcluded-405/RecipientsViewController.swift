@@ -221,7 +221,7 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
                     self.groupsViewController?.groups?.append(self.createdGroup!)
                     self.groupsViewController?.groups?.sort(by: {
                         (group1, group2) in
-                        return (group1.id > group2.id)
+                        return (group1.groupName < group2.groupName)
                     })
                     self.groupsViewController?.groupsTableView?.reloadData()
                     
