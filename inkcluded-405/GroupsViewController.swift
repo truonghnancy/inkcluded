@@ -14,7 +14,6 @@ class GroupsViewController: UIViewController {
     @IBOutlet var groupsTableView: UITableView!
     
     var groups : [Group]? // An array of the user's groups
-    var groupTimeCache : [String: String]? // A map of group IDs to their last-view-times
     var selectedGroup: Group?
     var menuView: MenuView?
     var menuOpen: Bool = false
@@ -346,45 +345,12 @@ extension GroupsViewController: UITableViewDelegate, UITableViewDataSource {
         let loadView = LoadView(frame: self.view.frame)
         self.view.addSubview(loadView)
         
-        // Load the cached group last-view-times, if it exists.
-        groupTimeCache = ((UserDefaults.standard.dictionary(forKey: "_stylo-ios-group-times") ?? [String: [String: String]]()) as! [String: String])
-        
         // Get all the groups from Azure.
         let apiCalls = APICalls.sharedInstance
-        apiCalls.getGroupsAPI(sid: apiCalls.currentUser!.id, closure: { (groupList) in
+        apiCalls.getGroupsAPI(sid: apiCalls.currentUser!.id,
+                              closure: { (groupList) in
             self.groups = groupList
-            for tempGroup in self.groups! {
-                apiCalls.getAllMessage(groupId: tempGroup.id, closure: { (tempMessages) in
-                    if let tempTimes = self.groupTimeCache?[tempGroup.id] {
-                        // If the group was in the map, check to see if the messages are new.
-                        if tempMessages!.count > 0 {
-                            let newTime = tempMessages![tempMessages!.count - 1].timestamp
-                            if newTime > tempTimes {
-                                self.groupTimeCache?[tempGroup.id]? = newTime
-                            }
-                        }
-                    }
-                    else {
-                        // Otherwise, add the group to the map.
-                        if tempMessages!.count > 0 {
-                            // If the group has messages, get the timestamp of the last one.
-                            self.groupTimeCache?[tempGroup.id] = tempMessages![tempMessages!.count - 1].timestamp
-                        }
-                        else {
-                            // Otherwise, use the current timestamp.
-                            self.groupTimeCache?[tempGroup.id] = String(format: "%llu", UInt64(floor(NSDate().timeIntervalSince1970 * 1000)))
-                        }
-                    }
-                    self.groups?.sort(by: { (group1, group2) in
-                        return (self.groupTimeCache?[group1.id] ?? "0") > (self.groupTimeCache?[group2.id] ?? "0")
-                    })
-                    self.groupsTableView.reloadData()
-                    
-                    // Save the cache.
-                    UserDefaults.standard.set(self.groupTimeCache, forKey: "_stylo-ios-group-times")
-                    UserDefaults.standard.synchronize()
-                })
-            }
+            self.groupsTableView.reloadData()
             loadView.removeFromSuperview()
         })
     }

@@ -7,6 +7,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -58,9 +59,8 @@
                                     <action selector="microsoftButtonPress:" destination="ufI-Xi-QbX" eventType="touchUpInside" id="Ccz-bF-3ls"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="icon_large_green.png" translatesAutoresizingMaskIntoConstraints="NO" id="M1O-3X-u9C">
-                                <rect key="frame" x="67" y="20" width="240" height="310"/>
-                                <autoresizingMask key="autoresizingMask"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="icon_large_green.png" translatesAutoresizingMaskIntoConstraints="NO" id="M1O-3X-u9C">
+                                <rect key="frame" x="37" y="20" width="300" height="300"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -71,11 +71,15 @@
                             <constraint firstItem="Djc-2s-MOO" firstAttribute="leading" secondItem="euw-Zr-w3D" secondAttribute="leading" id="Hiy-NR-HUT"/>
                             <constraint firstItem="euw-Zr-w3D" firstAttribute="width" secondItem="SyY-fN-sFg" secondAttribute="width" id="IuM-fd-NA3"/>
                             <constraint firstItem="Le8-KG-Cry" firstAttribute="height" secondItem="euw-Zr-w3D" secondAttribute="height" id="KtN-lR-Ayg"/>
+                            <constraint firstItem="M1O-3X-u9C" firstAttribute="centerX" secondItem="SyY-fN-sFg" secondAttribute="centerX" id="LLr-bs-jbC"/>
                             <constraint firstItem="Djc-2s-MOO" firstAttribute="trailing" secondItem="euw-Zr-w3D" secondAttribute="trailing" id="SpF-mV-Urf"/>
                             <constraint firstItem="Le8-KG-Cry" firstAttribute="top" secondItem="euw-Zr-w3D" secondAttribute="bottom" constant="-2" id="Ucc-KO-UyX"/>
                             <constraint firstItem="Djc-2s-MOO" firstAttribute="leading" secondItem="Le8-KG-Cry" secondAttribute="leading" id="bo1-x8-zKo"/>
+                            <constraint firstItem="Djc-2s-MOO" firstAttribute="top" secondItem="M1O-3X-u9C" secondAttribute="bottom" constant="8" id="c36-Bd-avZ"/>
                             <constraint firstItem="Djc-2s-MOO" firstAttribute="centerX" secondItem="SyY-fN-sFg" secondAttribute="centerX" id="lbh-na-pY7"/>
                             <constraint firstItem="Le8-KG-Cry" firstAttribute="centerX" secondItem="SyY-fN-sFg" secondAttribute="centerX" id="mLT-Po-Dll"/>
+                            <constraint firstItem="M1O-3X-u9C" firstAttribute="top" secondItem="niV-nL-F3D" secondAttribute="bottom" id="n1K-ij-D1A"/>
+                            <constraint firstItem="M1O-3X-u9C" firstAttribute="width" secondItem="SyY-fN-sFg" secondAttribute="width" multiplier="0.75" id="nSd-AF-Nht"/>
                             <constraint firstItem="Djc-2s-MOO" firstAttribute="top" secondItem="niV-nL-F3D" secondAttribute="bottom" constant="318" id="w1m-8P-nAB"/>
                             <constraint firstItem="Djc-2s-MOO" firstAttribute="width" secondItem="SyY-fN-sFg" secondAttribute="width" id="wXc-0g-TRd"/>
                             <constraint firstItem="Le8-KG-Cry" firstAttribute="top" secondItem="Djc-2s-MOO" secondAttribute="bottom" constant="69" id="wmk-AX-Jke"/>
