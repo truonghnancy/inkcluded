@@ -42,14 +42,12 @@ class GroupHistoryViewController: UIViewController {
         
         let loadView = LoadView(frame: self.view.frame)
         self.view.addSubview(loadView)
-        print((curGroup?.id)!)
         APICalls.sharedInstance.getAllMessage(groupId: (curGroup?.id)!) { (messages) in
             if messages == nil {
                 self.curMessages = []
             }
             else {
                 self.curMessages = messages
-                print(self.curMessages)
                 if self.curMessages!.count - 10 >= 0 {
                     self.beginning = self.curMessages!.count - 10
                 }
