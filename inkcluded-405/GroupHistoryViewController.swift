@@ -160,111 +160,71 @@ class GroupHistoryViewController: UIViewController {
         let messageSize = CGFloat(drawViewSize.height) + padding + nameFieldHeight
         let contentViewHeight = CGFloat((self.end! - self.beginning!) + setSize) * messageSize
         var yPos: CGFloat = nameFieldHeight + cyPos!
-        let dispatchGroup = DispatchGroup()
+        let myDispatchGroup = DispatchGroup()
         
-        var decodedMessages: [([AnyObject]?, CGSize)] = []
+        var decodedMessages: [(UILabel, GroupHistoryDrawView)] = []
         DispatchQueue.global(qos: .userInitiated).async {
+            var index = 0
+            
             for message in cmessages.reversed() {
-                decodedMessages.append(CanvasModel.decodeObjectsFromWillFile(textViewDelegate: nil, atPath: message.filepath))
+                myDispatchGroup.enter()
+                let decodedMessage = CanvasModel.decodeObjectsFromWillFile(textViewDelegate: nil, atPath: message.filepath)
+                
+                yPos -= messageSize
+                var origin = CGPoint(x: leftX, y: yPos)
+                if message.senderid == APICalls.sharedInstance.currentUser?.id {
+                    origin.x = rightX
+                }
+                
+                let nameFieldOrigin = CGPoint(x: origin.x, y: origin.y - nameFieldHeight)
+                let nameField = UILabel(frame: CGRect(origin: nameFieldOrigin, size: CGSize(width: drawViewSize.width, height: nameFieldHeight)))
+                nameField.text = message.senderfirstname
+                nameField.font = UIFont(name: "AvenirNext-Medium", size: nameFieldHeight)
+                if message.senderid == APICalls.sharedInstance.currentUser?.id {
+                    nameField.textAlignment = .right
+                }
+                
+                let elements = decodedMessage!.0
+                let willSize = decodedMessage!.1
+                
+                // Create the draw view
+                let drawView = GroupHistoryDrawView(frame: CGRect(origin: origin, size: drawViewSize), groupMessageIndex: (self.messageElements?.count)!)
+                // add a gesture recognizer
+                let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.respondToMessageTap(recognizer:)))
+                drawView.addGestureRecognizer(tapRecognizer)
+                
+                if let drawViewContent = elements {
+                    drawView.refreshViewWithElements(elements: drawViewContent, atSize: willSize)
+                    self.messageElements?.append((drawViewContent, willSize))
+                }
+                else {
+                    drawView.backgroundColor = UIColor.black
+                    self.messageElements?.append(([], CGSize(width: 0, height: 0)))
+                }
+                
+                decodedMessages.append(nameField, drawView)
+                
+                index += 1
+                myDispatchGroup.leave()
             }
             
-            DispatchQueue.main.async {
+            myDispatchGroup.notify(queue: .main, execute: {
                 for x in 0 ..< cmessages.count {
-                    let message = cmessages[x]
-                    yPos -= messageSize
-                    var origin = CGPoint(x: leftX, y: yPos)
-                    if message.senderid == APICalls.sharedInstance.currentUser?.id {
-                        origin.x = rightX
-                    }
-                    
-                    let nameFieldOrigin = CGPoint(x: origin.x, y: origin.y - nameFieldHeight)
-                    let nameField = UILabel(frame: CGRect(origin: nameFieldOrigin, size: CGSize(width: drawViewSize.width, height: nameFieldHeight)))
-                    nameField.text = message.senderfirstname
-                    nameField.font = UIFont(name: "AvenirNext-Medium", size: nameFieldHeight)
-                    if message.senderid == APICalls.sharedInstance.currentUser?.id {
-                        nameField.textAlignment = .right
-                    }
-                    
-                    let elements = decodedMessages[x].0
-                    let willSize = decodedMessages[x].1
-                    
-                    // Create the draw view
-                    let drawView = GroupHistoryDrawView(frame: CGRect(origin: origin, size: drawViewSize), groupMessageIndex: (self.messageElements?.count)!)
-                    // add a gesture recognizer
-                    let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.respondToMessageTap(recognizer:)))
-                    drawView.addGestureRecognizer(tapRecognizer)
-                    
-                    if let drawViewContent = elements {
-                        drawView.refreshViewWithElements(elements: drawViewContent, atSize: willSize)
-                        self.messageElements?.append((drawViewContent, willSize))
-                    }
-                    else {
-                        drawView.backgroundColor = UIColor.black
-                        self.messageElements?.append(([], CGSize(width: 0, height: 0)))
-                    }
-                    
-                    self.contentView?.addSubview(nameField)
-                    self.contentView?.addSubview(drawView)
+                    self.contentView?.addSubview(decodedMessages[x].0)
+                    self.contentView?.addSubview(decodedMessages[x].1)
                 }
-
+                
                 self.contentView?.frame = CGRect(x: 0, y: -1 * yPos + nameFieldHeight, width: parentSize.width, height: contentViewHeight)
                 self.historyView.contentSize = self.contentView!.frame.size
                 //self.historyView.contentSize.height += contentViewHeight
                 
-                self.historyView.setContentOffset(CGPoint(x: 0, y: messageSize * CGFloat(setSize)), animated: false)
+                self.historyView.setContentOffset(CGPoint(x: 0, y: messageSize * CGFloat(setSize) + self.historyView.contentOffset.y), animated: false)
                 
                 self.cyPos = yPos - nameFieldHeight
                 self.beginning! -= cmessages.count
                 self.isCalled = false
-            }
+            })
         }
-        
-//        for message in cmessages.reversed() {
-//            dispatchGroup.enter()
-//            // Decode elements from the will file
-//            DispatchQueue.global(qos: .userInitiated).async {
-//                let willContents = CanvasModel.decodeObjectsFromWillFile(textViewDelegate: nil, atPath: message.filepath)
-//                
-//                DispatchQueue.main.async {
-//                    yPos -= messageSize
-//                    
-//                    var origin = CGPoint(x: leftX, y: yPos)
-//                    if message.senderid == APICalls.sharedInstance.currentUser?.id {
-//                        origin.x = rightX
-//                    }
-//                    
-//                    let nameFieldOrigin = CGPoint(x: origin.x, y: origin.y - nameFieldHeight)
-//                    let nameField = UILabel(frame: CGRect(origin: nameFieldOrigin, size: CGSize(width: drawViewSize.width, height: nameFieldHeight)))
-//                    nameField.text = message.senderfirstname
-//                    nameField.font = UIFont(name: "AvenirNext-Medium", size: nameFieldHeight)
-//                    if message.senderid == APICalls.sharedInstance.currentUser?.id {
-//                        nameField.textAlignment = .right
-//                    }
-//                    
-//                    let elements = willContents?.0
-//                    let willSize = willContents?.1
-//                    
-//                    // Create the draw view
-//                    let drawView = GroupHistoryDrawView(frame: CGRect(origin: origin, size: drawViewSize), groupMessageIndex: (self.messageElements?.count)!)
-//                    // add a gesture recognizer
-//                    let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.respondToMessageTap(recognizer:)))
-//                    drawView.addGestureRecognizer(tapRecognizer)
-//                    
-//                    if let drawViewContent = elements {
-//                        drawView.refreshViewWithElements(elements: drawViewContent, atSize: willSize!)
-//                        self.messageElements?.append((drawViewContent, willSize!))
-//                    }
-//                    else {
-//                        drawView.backgroundColor = UIColor.black
-//                        self.messageElements?.append(([], CGSize(width: 0, height: 0)))
-//                    }
-//                    
-//                    self.contentView?.addSubview(nameField)
-//                    self.contentView?.addSubview(drawView)
-//                    dispatchGroup.leave()
-//                }
-//            }
-//        }
     }
     
     func respondToMessageTap(recognizer: UITapGestureRecognizer) {
@@ -294,7 +254,7 @@ class GroupHistoryViewController: UIViewController {
 
 extension GroupHistoryViewController: UIScrollViewDelegate  {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if (!isCalled && scrollView.contentOffset.y < 0){
+        if (!isCalled && scrollView.contentOffset.y <= 0){
             isCalled = true
             self.loadTopMessages()
         }
