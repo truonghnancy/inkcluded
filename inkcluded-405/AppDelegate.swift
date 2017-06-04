@@ -47,11 +47,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                      fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void){
         NSLog("%@", userInfo)
         
-        if #available(iOS 10, *) {
-            EBForeNotification.handleRemoteNotification(userInfo, soundID: 1312, isIos10: true)
-        }
-        else {
-            EBForeNotification.handleRemoteNotification(userInfo, soundID: 1312)
+        if userInfo["groupId"] != nil && userInfo["messageId"] != nil {
+            let groupid = userInfo["groupId"]
+            let messageid = userInfo["messageId"]
+            var groupname : String = ""
+            var sentuser : String = ""
+            var found = false
+            
+            for g in APICalls.sharedInstance.groupList {
+                if g.id == groupid as! String {
+                    groupname = g.groupName
+                    for m in g.messages {
+                        if m.filename == messageid as! String {
+                            sentuser = m.senderfirstname
+                        }
+                    }
+                    found = true
+                }
+            }
+            
+            if found {
+                let pushdict = ["Group" : groupname, "From" : sentuser]
+                if #available(iOS 10, *) {
+                    EBForeNotification.handleRemoteNotification(pushdict, soundID: 1312, isIos10: true)
+                }
+                else {
+                    EBForeNotification.handleRemoteNotification(pushdict, soundID: 1312)
+                }
+            }
         }
     }
     
