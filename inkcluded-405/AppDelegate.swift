@@ -47,11 +47,50 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                      fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void){
         NSLog("%@", userInfo)
         
-        if #available(iOS 10, *) {
-            EBForeNotification.handleRemoteNotification(userInfo, soundID: 1312, isIos10: true)
-        }
-        else {
-            EBForeNotification.handleRemoteNotification(userInfo, soundID: 1312)
+        if userInfo["aps"] != nil && (userInfo["aps"] as! [AnyHashable : Any])["groupId"] != nil && (userInfo["aps"] as! [AnyHashable : Any])["messageId"] != nil {
+            let groupid = (userInfo["aps"] as! [AnyHashable : Any])["groupId"]
+            let messageid = (userInfo["aps"] as! [AnyHashable : Any])["messageId"]
+            var groupname : String = ""
+            var sentuser : String = ""
+            var found = false
+            let myDispatchGroup = DispatchGroup()
+            
+            
+            APICalls.sharedInstance.getGroupsAPI(sid: APICalls.sharedInstance.currentUser!.id, closure: {
+                (groups) in
+                
+                for g in groups! {
+                    if g.id == groupid as! String {
+                        groupname = g.groupName
+                        
+                        myDispatchGroup.enter()
+                        APICalls.sharedInstance.getAllMessage(groupId: g.id, closure: {
+                            (messages) in
+                            
+                            for m in g.messages {
+                                if m.filename == messageid as! String {
+                                    sentuser = m.senderfirstname
+                                }
+                            }
+                            found = true
+                            myDispatchGroup.leave()
+                        })
+                        
+                    }
+                }
+                myDispatchGroup.notify(queue: .main, execute: {
+                    if found {
+                        let pushdict = ["aps" : ["alert" : "Message received from group " + groupname + " by " + sentuser]]
+                        if #available(iOS 10, *) {
+                            EBForeNotification.handleRemoteNotification(pushdict, soundID: 1312, isIos10: true)
+                        }
+                        else {
+                            EBForeNotification.handleRemoteNotification(pushdict, soundID: 1312)
+                        }
+                    }
+                })
+                
+            })
         }
     }
     

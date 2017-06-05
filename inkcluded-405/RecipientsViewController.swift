@@ -93,6 +93,12 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
             return cell
         }
         
+        if groupsViewController?.addGroup != nil && (groupsViewController?.addGroup?.members.contains(tempFriend!))! {
+            cell.selectionStyle = UITableViewCellSelectionStyle.none
+            cell.textLabel?.textColor = UIColor.gray
+            cell.isUserInteractionEnabled = false
+        }
+        
         // Set the cell's text to be the friend's name.
         cell.textLabel?.text =
          "\(tempFriend!.firstName) \(tempFriend!.lastName)"
@@ -172,7 +178,12 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "newCanvasSegue" {
             let destination = segue.destination as? GroupHistoryViewController
-            destination?.curGroup = createdGroup
+            if createdGroup == nil {
+                destination?.curGroup = groupsViewController?.addGroup
+            }
+            else {
+                destination?.curGroup = createdGroup
+            }
         }
     }
     
@@ -180,7 +191,13 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
      * Responds to the 'Select' button's being pressed.
      */
     @IBAction func selectPressed(_ sender: UIBarButtonItem) {
+        print(groupsViewController?.addGroup?.id)
+        
         if (self.selectedRecipients.count > 0) {
+            if self.groupsViewController?.addGroup != nil {
+                self.addNewMembers()
+                return
+            }
             let alertController = UIAlertController(title: "Group Name", message: "", preferredStyle: .alert)
             
             let confirmAction = UIAlertAction(title: "Confirm", style: .default) { (_) in
@@ -202,6 +219,10 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
                     self.createdGroup?.members.append((self.apiCalls?.currentUser)!)
                     // Reload the groups on the main menu.
                     self.groupsViewController?.groups?.append(self.createdGroup!)
+                    self.groupsViewController?.groups?.sort(by: {
+                        (group1, group2) in
+                        return (group1.groupName < group2.groupName)
+                    })
                     self.groupsViewController?.groupsTableView?.reloadData()
                     
                     self.selectedRecipients = []
@@ -221,6 +242,23 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
         
             self.present(alertController, animated: true, completion: nil)
         }
+    }
+    
+    func addNewMembers() {
+        let apicalls = APICalls.sharedInstance
+        print("before", self.selectedRecipients)
+        apicalls.addNewMembers(group: (self.groupsViewController?.addGroup)!, members: self.selectedRecipients) { newGroup in
+            if newGroup == nil {
+                let alert = UIAlertController(title: "Error", message: "Failed to Add New Members", preferredStyle: .alert)
+                self.present(alert, animated: true, completion: nil)
+            }
+            else {
+                print("added")
+                self.groupsViewController?.addGroup = newGroup
+                self.performSegue(withIdentifier: "newCanvasSegue", sender: self)
+            }
+        }
+        
     }
     
     /**

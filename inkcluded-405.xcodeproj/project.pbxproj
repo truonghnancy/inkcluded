@@ -273,6 +273,7 @@
 				EE5A8EFF1E404B2800BC44AF /* inkcluded-405-Bridging-Header.h */,
 				15EBA7051E27079F00B38D0E /* Main.storyboard */,
 				15EBA7081E27079F00B38D0E /* Assets.xcassets */,
+				9D3F2E1D1EE36D49004A872F /* icon_large_green.png */,
 				15EBA70A1E27079F00B38D0E /* LaunchScreen.storyboard */,
 				15EBA70D1E27079F00B38D0E /* Info.plist */,
 			);
@@ -408,6 +409,9 @@
 						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.Keychain = {
 								enabled = 1;
 							};
@@ -456,6 +460,7 @@
 			files = (
 				15EBA70C1E27079F00B38D0E /* LaunchScreen.storyboard in Resources */,
 				15EBA7091E27079F00B38D0E /* Assets.xcassets in Resources */,
+				9D3F2E1E1EE36D49004A872F /* icon_large_green.png in Resources */,
 				15EBA7071E27079F00B38D0E /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

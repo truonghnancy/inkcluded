@@ -13,12 +13,13 @@ class GroupsViewController: UIViewController {
     
     @IBOutlet var groupsTableView: UITableView!
     
-    var groups : [Group]?
+    var groups : [Group]? // An array of the user's groups
     var selectedGroup: Group?
     var menuView: MenuView?
     var menuOpen: Bool = false
     let menuSize: CGFloat = 0.8
     var deleteGroup: NSIndexPath? = nil
+    var addGroup: Group?
     var delComf : Bool = false
     
     lazy var refreshControl: UIRefreshControl = {
@@ -32,6 +33,11 @@ class GroupsViewController: UIViewController {
         super.viewDidLoad()
         
         self.groups = []
+        
+        // Set the nav bar colors.
+        UINavigationBar.appearance().barTintColor = UIColor(colorLiteralRed: 75.0/255.0, green: 177.0/255.0, blue: 86.0/255.0, alpha: 1.0)
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        UIBarButtonItem.appearance().tintColor = UIColor.white
         
         // making the menu view
         menuView = MenuView(frame: CGRect(x: -(self.view.frame.width*menuSize),
@@ -57,6 +63,7 @@ class GroupsViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         let apiCalls = APICalls.sharedInstance
+        addGroup = nil
         print("view appear")
         if (apiCalls.currentUser == nil) {
             super.viewDidAppear(animated)
@@ -80,17 +87,13 @@ class GroupsViewController: UIViewController {
         
         let apiCalls = APICalls.sharedInstance
         if (apiCalls.currentUser != nil && (groups?.isEmpty)!) {
-            let loadView = LoadView(frame: self.view.frame)
-            self.view.addSubview(loadView)
-            apiCalls.getGroupsAPI(sid: apiCalls.currentUser!.id, closure: { (groupList) in
-                self.groups = groupList
-                self.groupsTableView.reloadData()
-                loadView.removeFromSuperview()
-            })
+            refreshGroups()
         }
     }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt: IndexPath) -> [UITableViewRowAction]? {
+        var options: [UITableViewRowAction]?
+        
         let rename = UITableViewRowAction(style: .normal, title: "Rename") { action, indexPath in
             let alertController = UIAlertController(title: "Group Name", message: "", preferredStyle: .alert)
             
@@ -100,7 +103,6 @@ class GroupsViewController: UIViewController {
                 APICalls.sharedInstance.renameGroup(group: self.groups![indexPath.row], newName: newGroupName!) { newName in
                     print(newName)
                     if let name = newName {
-                        print("asdfjaskld;fj")
                         self.groups![indexPath.row].groupName = name
                         tableView.reloadData()
                     }
@@ -118,10 +120,14 @@ class GroupsViewController: UIViewController {
             
             self.present(alertController, animated: true, completion: nil)
         }
-        rename.backgroundColor = UIColor(colorLiteralRed: 14/255, green: 171/255, blue: 245/255, alpha: 1)
+        rename.backgroundColor = UIColor(colorLiteralRed: 26.0/255.0, green: 128.0/255.0, blue: 43.0/255.0, alpha: 1.0)
         
         let add = UITableViewRowAction(style: .normal, title: "Add") { action, indexPath in
             print("add \(indexPath)")
+            
+            self.addGroup = self.groups![indexPath.row]
+            self.selectedGroup = self.groups![indexPath.row]
+            self.performSegue(withIdentifier: "createGroupSegue", sender: self)
         }
         
         add.backgroundColor = UIColor(colorLiteralRed: 75.0/255.0, green: 177.0/255.0, blue: 86.0/255.0, alpha: 1.0)
@@ -137,11 +143,13 @@ class GroupsViewController: UIViewController {
         }
         delete.backgroundColor = .red
         
-        if APICalls.sharedInstance.currentUser!.id != self.groups![editActionsForRowAt.row].admin {
-            return [delete]
+        options = [delete, add]
+        
+        if APICalls.sharedInstance.currentUser!.id == self.groups![editActionsForRowAt.row].admin {
+            options?.append(rename)
         }
         
-        return [delete, rename]
+        return options
     }
     
     @IBAction func unwindtoGroups(seque: UIStoryboardSegue) {
@@ -280,15 +288,7 @@ extension GroupsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func handleRefresh() {
-        let loadView = LoadView(frame: self.view.frame)
-        self.view.addSubview(loadView)
-        
-        let apiCalls = APICalls.sharedInstance
-        apiCalls.getGroupsAPI(sid: apiCalls.currentUser!.id, closure: { (groupList) in
-            self.groups = groupList
-            self.groupsTableView.reloadData()
-            loadView.removeFromSuperview()
-        })
+        refreshGroups()
         self.refreshControl.endRefreshing()
     }
     
@@ -350,6 +350,23 @@ extension GroupsViewController: UITableViewDelegate, UITableViewDataSource {
         self.performSegue(withIdentifier: "viewHistorySegue", sender: self)
     }
     
+    func refreshGroups() {
+        let loadView = LoadView(frame: self.view.frame)
+        self.view.addSubview(loadView)
+        
+        // Get all the groups from Azure.
+        let apiCalls = APICalls.sharedInstance
+        apiCalls.getGroupsAPI(sid: apiCalls.currentUser!.id,
+                              closure: { (groupList) in
+            self.groups = groupList
+            self.groups?.sort(by: { (group1, group2) in
+                return (group1.groupName < group2.groupName)
+            })
+            self.groupsTableView.reloadData()
+            loadView.removeFromSuperview()
+        })
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // If we're segueing to the group history view, set the selected group.
         if (segue.identifier == "viewHistorySegue") {
@@ -364,5 +381,4 @@ extension GroupsViewController: UITableViewDelegate, UITableViewDataSource {
             dest.groupsViewController = self
         }
     }
-
 }

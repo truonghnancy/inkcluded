@@ -336,7 +336,6 @@ class APICalls {
                 print("Error while changing name", err)
             }
             else if let item = result {
-                print(item["name"])
                 for var grp in self.groupList {
                     if grp.id == group.id {
                         grp.groupName = newName
@@ -354,9 +353,11 @@ class APICalls {
     func addNewMembers( group: Group, members: [User], closure: @escaping (Group?) -> Void) {
         var group = group
         let gxuTable = client.table(withName: "GroupXUser")
+        let myDispatchGroup = DispatchGroup()
         
         for member in members {
-            if group.members.contains(member) {
+            if !group.members.contains(member) {
+                myDispatchGroup.enter()
                 self.friendsList.insert(member)
                 gxuTable.insert(["groupId" : group.id, "userId" : member.id], completion: { (result, error) in
                     if error != nil {
@@ -368,11 +369,14 @@ class APICalls {
                         group.members.append(member)
                         group.lastUpdate = Date()
                     }
+                    myDispatchGroup.leave()
                 })
             }
         }
-        
-        closure(group)
+        myDispatchGroup.notify(queue: .main, execute: {
+            print(group)
+            closure(group)
+        })
     }
     
     /**
@@ -545,27 +549,6 @@ class APICalls {
             }
         })
     }
-    
-    /**
-    func downloadNewMesssages(groupId : String, closure : @escaping (Bool) -> Void) {
-        var curGroup : Group?
-        var latestTime = 0
-        
-        for group in self.groupList {
-            if group.id == groupId {
-                curGroup! = group
-            }
-        }
-        
-        for message in curGroup!.messages {
-            if Int(message.timestamp)! > latestTime {
-                latestTime = Int(message.timestamp)!
-            }
-        }
-        
-        
-    
-    }**/
 }
 
 extension Formatter {

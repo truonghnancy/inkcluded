@@ -13,13 +13,20 @@ class LoadView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        let loaderImage = UIImage.animatedImageNamed("loader_", duration: 1.3)
-        let imageView = UIImageView(image: loaderImage)
-        imageView.center = self.center
+        let loadIndicator = UIActivityIndicatorView(
+                             frame:CGRect(
+                                    x: 100, y: 100,
+                                    width: 100, height: 100))
+                             as UIActivityIndicatorView
+        loadIndicator.activityIndicatorViewStyle =
+         UIActivityIndicatorViewStyle.whiteLarge
+        loadIndicator.center = self.center
+        loadIndicator.transform = CGAffineTransform(scaleX: 1.25, y: 1.25)
         
-        self.backgroundColor = UIColor(colorLiteralRed: 0.0, green: 0.0, blue: 0.0, alpha: 0.1)
-        
-        self.addSubview(imageView)
+        self.backgroundColor = UIColor(colorLiteralRed: 0.0, green: 0.0,
+                                       blue: 0.0, alpha: 0.25)
+        self.addSubview(loadIndicator)
+        loadIndicator.startAnimating()
     }
     
     required init?(coder aDecoder: NSCoder) {
