@@ -31,6 +31,7 @@ struct User: Hashable {
 }
 
 struct Group {
+    var lastUpdate: Date
     private(set) var id: String;
     var members: [User];
     
@@ -38,12 +39,13 @@ struct Group {
     private(set) var admin: String;
     private(set) var messages: [Message];
     
-    init(id: String, members: [User], groupName: String, admin: String, messages: [Message]) {
+    init(id: String, members: [User], groupName: String, admin: String, messages: [Message], lastUpdate: Date) {
         self.id = id;
         self.members = members;
         self.groupName = groupName;
         self.admin = admin;
         self.messages = messages;
+        self.lastUpdate = lastUpdate
     }
 }
 
@@ -166,10 +168,10 @@ class APICalls {
                 for item in items {
                     myDispatchGroup.enter()
                     self._getGroupInfo(groupId: item[AnyHashable("groupId")] as! String, closure:
-                        {(group) -> Void in
+                        {(group, date) -> Void in
                             self._getGroupMembersAPI(groupId: item[AnyHashable("groupId")] as! String, closure:
                                 {(members) -> Void in
-                                    groups.append(Group(id: item[AnyHashable("groupId")] as! String, members: members!, groupName: (group?.0)!, admin: (group?.1)!, messages: [Message]()))
+                                    groups.append(Group(id: item[AnyHashable("groupId")] as! String, members: members!, groupName: (group?.0)!, admin: (group?.1)!, messages: [Message](), lastUpdate: date!))
                                     for member in members! {
                                         if (member != self.currentUser!) {
                                             self.friendsList.insert(member)
@@ -182,10 +184,17 @@ class APICalls {
                 
             }
             myDispatchGroup.notify(queue: .main, execute: {
-                closure(groups)
+                closure(self._sortGroup(group: groups))
                 return
             })
         }
+    }
+    
+    /*
+     Sorts GroupList
+     */
+    private func _sortGroup(group : [Group]) -> [Group] {
+        return group.sorted{$0.lastUpdate > $1.lastUpdate}
     }
     
     /*
@@ -193,7 +202,7 @@ class APICalls {
      returns a tuple (name, admin)
      Eric Roh
      */
-    private func _getGroupInfo (groupId: String, closure: @escaping ((String, String)?) -> Void) {
+    private func _getGroupInfo (groupId: String, closure: @escaping ((String, String)?, Date?) -> Void) {
         let groupTable = client.table(withName: "Group")
         let query = groupTable.query(with: NSPredicate(format: "id = %@", groupId))
         var groupInfo: (String, String)?
@@ -201,11 +210,28 @@ class APICalls {
         query.read { (result, error) in
             if let err = error {
                 print("Selecting group info failed: ", err)
-                closure(nil)
+                closure(nil, nil)
                 return
             } else if let item = result?.items?[0] {
+//                var date: Date
+                let it = item[AnyHashable("lastMessage")]
+                print(type(of: it))
+                
+                
+//                do {
+//                    date = (item[AnyHashable("lastMessage")] as? Date)!
+//                    
+//                }
+//                catch {
+//                    print("current", Date())
+//                }
                 groupInfo = (item[AnyHashable("name")] as! String, item[AnyHashable("adminId")] as! String)
-                closure(groupInfo)
+                guard let date = it as? Date else {
+                    print(Date())
+                    closure(groupInfo, Date())
+                    return
+                }
+                closure(groupInfo, date)
                 return
             }
         }
@@ -341,6 +367,7 @@ class APICalls {
                     }
                     else {
                         group.members.append(member)
+                        group.lastUpdate = Date()
                     }
                     myDispatchGroup.leave()
                 })
@@ -363,7 +390,7 @@ class APICalls {
         var groupId: String?
         let myMembers = Set(members.map { $0 })
         
-        groupTable.insert(["name" : name, "adminId" : self.currentUser!.id]) { (result, error) in
+        groupTable.insert(["name" : name, "adminId" : self.currentUser!.id, "lastMessage" : Date()]) { (result, error) in
             if error != nil {
                 print(error!)
                 closure(nil)
@@ -391,7 +418,7 @@ class APICalls {
                 }
             }
             
-            newGroup = Group(id: groupId!, members: members, groupName: name, admin: self.currentUser!.id, messages: [Message]())
+            newGroup = Group(id: groupId!, members: members, groupName: name, admin: self.currentUser!.id, messages: [Message](), lastUpdate: Date())
             
             self.groupList.append(newGroup!)
             closure(newGroup!)
@@ -521,5 +548,27 @@ class APICalls {
                 })
             }
         })
+    }
+}
+
+extension Formatter {
+    static let iso8601: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.calendar = Calendar(identifier: .iso8601)
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXXX"
+        return formatter
+    }()
+}
+extension Date {
+    var iso8601: String {
+        return Formatter.iso8601.string(from: self)
+    }
+}
+
+extension String {
+    var dateFromISO8601: Date? {
+        return Formatter.iso8601.date(from: self)   // "Mar 22, 2017, 10:22 AM"
     }
 }

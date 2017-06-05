@@ -359,9 +359,6 @@ extension GroupsViewController: UITableViewDelegate, UITableViewDataSource {
         apiCalls.getGroupsAPI(sid: apiCalls.currentUser!.id,
                               closure: { (groupList) in
             self.groups = groupList
-            self.groups?.sort(by: { (group1, group2) in
-                return (group1.groupName < group2.groupName)
-            })
             self.groupsTableView.reloadData()
             loadView.removeFromSuperview()
         })
