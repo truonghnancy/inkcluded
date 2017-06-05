@@ -207,11 +207,14 @@ class DrawView: UIView {
     }
     
     func determineScaleFactor(originalSize size: CGSize) -> Float {
+        var newSize = CGSize(width: size.width, height: size.height)
         if (size.width == 0 || size.height == 0) {
-            return 1;
+            // Hacky solution to resize drawings from the windows team bc their WILL SDK doesn't save size
+            newSize.width = 650
+            newSize.height = 650
         }
     
-        return Float(self.frame.size.width / size.width)
+        return Float(self.frame.size.width / newSize.width)
     }
     
     func refreshViewWithElements(elements: [AnyObject], atSize size: CGSize) -> [AnyObject] {
