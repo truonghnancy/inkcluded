@@ -218,11 +218,7 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
                     //  creator. Append the creator manually just this once.
                     self.createdGroup?.members.append((self.apiCalls?.currentUser)!)
                     // Reload the groups on the main menu.
-                    self.groupsViewController?.groups?.append(self.createdGroup!)
-                    self.groupsViewController?.groups?.sort(by: {
-                        (group1, group2) in
-                        return (group1.groupName < group2.groupName)
-                    })
+                    self.groupsViewController?.groups?.insert(self.createdGroup!, at: 0)
                     self.groupsViewController?.groupsTableView?.reloadData()
                     
                     self.selectedRecipients = []
