@@ -119,6 +119,7 @@ class GroupsViewController: UIViewController {
             alertController.addAction(cancelAction)
             
             self.present(alertController, animated: true, completion: nil)
+            self.groupsTableView.setEditing(false, animated: true)
         }
         rename.backgroundColor = UIColor(colorLiteralRed: 26.0/255.0, green: 128.0/255.0, blue: 43.0/255.0, alpha: 1.0)
         
@@ -128,6 +129,7 @@ class GroupsViewController: UIViewController {
             self.addGroup = self.groups![indexPath.row]
             self.selectedGroup = self.groups![indexPath.row]
             self.performSegue(withIdentifier: "createGroupSegue", sender: self)
+            self.groupsTableView.setEditing(false, animated: true)
         }
         
         add.backgroundColor = UIColor(colorLiteralRed: 75.0/255.0, green: 177.0/255.0, blue: 86.0/255.0, alpha: 1.0)
@@ -140,6 +142,7 @@ class GroupsViewController: UIViewController {
             print(indexPath.row)
             
             self.confirmDelete(groupName: groupselect.groupName, tableView: tableView, indexPath: indexPath)
+            self.groupsTableView.setEditing(false, animated: true)
         }
         delete.backgroundColor = .red
         
