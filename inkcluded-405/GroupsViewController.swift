@@ -119,6 +119,7 @@ class GroupsViewController: UIViewController {
             alertController.addAction(cancelAction)
             
             self.present(alertController, animated: true, completion: nil)
+            self.groupsTableView.setEditing(false, animated: true)
         }
         rename.backgroundColor = UIColor(colorLiteralRed: 26.0/255.0, green: 128.0/255.0, blue: 43.0/255.0, alpha: 1.0)
         
@@ -128,6 +129,7 @@ class GroupsViewController: UIViewController {
             self.addGroup = self.groups![indexPath.row]
             self.selectedGroup = self.groups![indexPath.row]
             self.performSegue(withIdentifier: "createGroupSegue", sender: self)
+            self.groupsTableView.setEditing(false, animated: true)
         }
         
         add.backgroundColor = UIColor(colorLiteralRed: 75.0/255.0, green: 177.0/255.0, blue: 86.0/255.0, alpha: 1.0)
@@ -140,6 +142,7 @@ class GroupsViewController: UIViewController {
             print(indexPath.row)
             
             self.confirmDelete(groupName: groupselect.groupName, tableView: tableView, indexPath: indexPath)
+            self.groupsTableView.setEditing(false, animated: true)
         }
         delete.backgroundColor = .red
         
@@ -193,7 +196,7 @@ extension GroupsViewController: MenuViewDelegate {
     }
     
     func confirmLogout() {
-        let alert = UIAlertController(title: "Log Out", message: "Do you want to log out as \(APICalls.sharedInstance.currentUser!.firstName)?", preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: "Log Out", message: "Do you want to log out as \(APICalls.sharedInstance.currentUser!.firstName)?", preferredStyle: .alert)
         
         let LogoutAction = UIAlertAction(title: "Logout", style: .destructive, handler: handleLogout)
         let CancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: handleCancelLogout)
@@ -201,9 +204,6 @@ extension GroupsViewController: MenuViewDelegate {
         alert.addAction(LogoutAction)
         alert.addAction(CancelAction)
         
-        alert.popoverPresentationController?.sourceView = self.view
-        alert.popoverPresentationController?.sourceRect = CGRect(x: 1.0, y: 1.0, width: self.view.bounds.size.width / 2.0, height: self.view.bounds.size.height / 2.0)
-        //        (self.view.bounds.size.width / 2.0, self.view.bounds.size.height / 2.0, 1.0, 1.0)
         
         self.present(alert, animated: true, completion: nil)
     }
@@ -304,7 +304,7 @@ extension GroupsViewController: UITableViewDelegate, UITableViewDataSource {
 //    }
     
     func confirmDelete(groupName: String, tableView: UITableView, indexPath: IndexPath) {
-        let alert = UIAlertController(title: "Delete Group", message: "Do you want to permanently delete \(groupName)?", preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: "Delete Group", message: "Do you want to permanently delete \(groupName)?", preferredStyle: .alert)
         
         let DeleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: handleDeleteGroup(tableView: tableView, forRowAt: indexPath))
         let CancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: handleCancelGroup)
@@ -312,8 +312,8 @@ extension GroupsViewController: UITableViewDelegate, UITableViewDataSource {
         alert.addAction(DeleteAction)
         alert.addAction(CancelAction)
         
-        alert.popoverPresentationController?.sourceView = self.view
-        alert.popoverPresentationController?.sourceRect = CGRect(x: 1.0, y: 1.0, width: self.view.bounds.size.width / 2.0, height: self.view.bounds.size.height / 2.0)
+//        alert.popoverPresentationController?.sourceView = self.view
+//        alert.popoverPresentationController?.sourceRect = CGRect(x: 1.0, y: 1.0, width: self.view.bounds.size.width / 2.0, height: self.view.bounds.size.height / 2.0)
 //        (self.view.bounds.size.width / 2.0, self.view.bounds.size.height / 2.0, 1.0, 1.0)
         
         self.present(alert, animated: true, completion: nil)
