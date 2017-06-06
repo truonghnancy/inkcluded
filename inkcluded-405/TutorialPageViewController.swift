@@ -38,8 +38,7 @@ class TutorialPageViewController: UIPageViewController {
                 self.newTutorialViewController(num: "4"),
                 self.newTutorialViewController(num: "5"),
                 self.newTutorialViewController(num: "6"),
-                self.newTutorialViewController(num: "7"),
-                self.newTutorialViewController(num: "8")]
+                self.newTutorialViewController(num: "7")]
     }()
     
     private func newTutorialViewController(num: String) -> UIViewController {
