@@ -48,19 +48,19 @@ struct Group {
         self.lastUpdate = lastUpdate
     }
     
-    mutating func setLastUpdate(date: Date) {
+    mutating internal func setLastUpdate(date: Date) {
         self.lastUpdate = date
     }
     
-    mutating func setGroupName(name: String) {
+    mutating internal func setGroupName(name: String) {
         self.groupName = name
     }
     
-    mutating func setMembers(members: [User]) {
+    mutating internal func setMembers(members: [User]) {
         self.members = members
     }
     
-    mutating func addMember(member: User) {
+    mutating internal func addMember(member: User) {
         self.members.append(member)
     }
 }
