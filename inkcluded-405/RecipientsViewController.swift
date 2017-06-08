@@ -16,15 +16,16 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
     @IBOutlet var friendsSearchController: UISearchDisplayController!
     @IBOutlet var friendsTableView: UITableView!
     @IBOutlet var selectButton: UIBarButtonItem!
+    
+    // The main groups view -- will be set before segueing to this view.
     var groupsViewController : GroupsViewController?
     
-    var apiCalls : APICalls?               // The database interface
-    var curUid : String?                   // The current user ID
-    var selectedRecipients = [User]()      // A list of selected recipients
-    var friends : [User]?                  // A list of friends to select
-    var searchResults = [User]()           // A list of search results
-    var doShowSearchResults : Bool = false // If the search table is visible
-    var createdGroup : Group?              // A group created from recipients
+    var curUid : String?                    // The current user ID
+    var selectedRecipients = [User]()       // A list of selected recipients
+    var friends : [User]?                   // A list of friends to select
+    var searchResults = [User]()            // A list of search results
+    var doShowSearchResults : Bool = false  // If the search table is visible
+    var createdGroup : Group?               // A group created from recipients
     
     /**
      * Performs setup once the view loads.
@@ -33,9 +34,8 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
         super.viewDidLoad()
         
         // Query the API to populate the inital friends list.
-        self.apiCalls = APICalls.sharedInstance
-        self.friends = Array(APICalls.sharedInstance.friendsList)
-        self.curUid = apiCalls?.currentUser?.id
+        self.friends = Array(getAzureApi().friendsList)
+        self.curUid = getAzureApi().currentUser?.id
         selectButton.isEnabled = false
         
         // Why is this not on by default? Don't let users go forwards and
@@ -48,7 +48,7 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
      */
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.friends = Array(APICalls.sharedInstance.friendsList)
+        self.friends = Array(getAzureApi().friendsList)
         
         self.friendsTableView.reloadData()
     }
@@ -70,7 +70,7 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
     }
     
     /**
-     * Sets the content of one cell in the table.
+     * Sets the contents of one cell in the table.
      */
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -79,7 +79,7 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
                     withIdentifier: "friendCell") as! FriendTableViewCell
         
         // Get the corresponding friend from the appropriate list. Make sure to
-        //  check the bounds, just in case some odd searching race condition has
+        //  check bounds, just in case some odd searching race condition has
         //  emptied the list while we still think we need to display something.
         var tempFriend : User?
         if doShowSearchResults && indexPath.row < searchResults.count {
@@ -93,7 +93,11 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
             return cell
         }
         
-        if groupsViewController?.addGroup != nil && (groupsViewController?.addGroup?.members.contains(tempFriend!))! {
+        // If we're adding to an existing group and the user is already in the
+        //  group, disable selection.
+        if groupsViewController?.addGroup != nil
+           && (groupsViewController?.addGroup?
+               .members.contains(tempFriend!))! {
             cell.selectionStyle = UITableViewCellSelectionStyle.none
             cell.textLabel?.textColor = UIColor.gray
             cell.isUserInteractionEnabled = false
@@ -112,18 +116,6 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
     }
     
     /**
-     * Returns the first index of a User in an array.
-     */
-    func getIndexOfUser(_ userArray : [User], keyUser : User) -> Int {
-        for (idx, tempUser) in userArray.enumerated() {
-            if tempUser.id == keyUser.id {
-                return idx
-            }
-        }
-        return -1
-    }
-    
-    /**
      * Responds to a cell's being selected.
      */
     func tableView(_ tableView: UITableView,
@@ -137,7 +129,8 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
                     friends?.append(tempRecipient)
                     // Since searching is by exact match, we can just end it.
                     doShowSearchResults = false
-                    self.friendsSearchController.setActive(false, animated: true)
+                    self.friendsSearchController.setActive(false,
+                                                           animated: true)
                     friendsTableView.reloadData()
                 }
             }
@@ -167,94 +160,31 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
             // Remove the friend from the recipients list.
             let toRemove : User = (friends?[indexPath.row])!
             
-            self.selectedRecipients = self.selectedRecipients.filter { (selectedUser) -> Bool in
+            self.selectedRecipients = self.selectedRecipients.filter {
+                (selectedUser) -> Bool in
                 return selectedUser.id != toRemove.id
             }
             
+            // If there are no more recipients selected, disable "Select".
             self.selectButton.isEnabled = self.selectedRecipients.count > 0
         }
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "newCanvasSegue" {
-            let destination = segue.destination as? GroupHistoryViewController
-            if createdGroup == nil {
-                destination?.curGroup = groupsViewController?.addGroup
-            }
-            else {
-                destination?.curGroup = createdGroup
-            }
-        }
-    }
-    
     /**
-     * Responds to the 'Select' button's being pressed.
+     * Responds to the "Select" button's being pressed.
      */
     @IBAction func selectPressed(_ sender: UIBarButtonItem) {
-        print(groupsViewController?.addGroup?.id)
-        
+        // Double check that recipients have been selected.
         if (self.selectedRecipients.count > 0) {
+            // If we're adding to an existing group, then...
             if self.groupsViewController?.addGroup != nil {
                 self.addNewMembers()
-                return
             }
-            let alertController = UIAlertController(title: "Group Name", message: "", preferredStyle: .alert)
-            
-            let confirmAction = UIAlertAction(title: "Confirm", style: .default) { (_) in
-                let newGroupName = alertController.textFields![0].text
-                
-                APICalls.sharedInstance.createGroup(members: self.selectedRecipients, name: newGroupName != nil ? newGroupName! : "New Group") { (newGroup) in
-                    if (newGroup == nil) {
-                        let alert = UIAlertController(title: "Error", message: "Failed to Create New Group", preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
-                        self.present(alert, animated: true, completion: nil)
-                        
-                        return
-                    }
-                    
-                    self.createdGroup = newGroup
-                    
-                    // The groups recipients are inserted separately from its
-                    //  creator. Append the creator manually just this once.
-                    self.createdGroup?.members.append((self.apiCalls?.currentUser)!)
-                    // Reload the groups on the main menu.
-                    self.groupsViewController?.groups?.insert(self.createdGroup!, at: 0)
-                    self.groupsViewController?.groupsTableView?.reloadData()
-                    
-                    self.selectedRecipients = []
-                    self.selectButton.isEnabled = false
-                    self.performSegue(withIdentifier: "newCanvasSegue", sender: self)
-                }
-            }
-            
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
-            
-            alertController.addTextField { (textField) in
-                textField.placeholder = "New Group Name"
-            }
-            
-            alertController.addAction(confirmAction)
-            alertController.addAction(cancelAction)
-        
-            self.present(alertController, animated: true, completion: nil)
-        }
-    }
-    
-    func addNewMembers() {
-        let apicalls = APICalls.sharedInstance
-        print("before", self.selectedRecipients)
-        apicalls.addNewMembers(group: (self.groupsViewController?.addGroup)!, members: self.selectedRecipients) { newGroup in
-            if newGroup == nil {
-                let alert = UIAlertController(title: "Error", message: "Failed to Add New Members", preferredStyle: .alert)
-                self.present(alert, animated: true, completion: nil)
-            }
+            // Else...
             else {
-                print("added")
-                self.groupsViewController?.addGroup = newGroup
-                self.performSegue(withIdentifier: "newCanvasSegue", sender: self)
+                self.createNewGroup()
             }
         }
-        
     }
     
     /**
@@ -282,21 +212,134 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
     }
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         // Query the API to get the search results.
-        apiCalls?.findUserByEmail(
-         email: searchBar.text!,
-         closure: { (tempFriends) in
+        getAzureApi().findUserByEmail(email: searchBar.text!, closure: {
+            (tempFriends) in
             // Don't let users add themselves to groups.
-            let filteredFriends = tempFriends!.filter { (tempUser) -> Bool in
+            let filteredFriends = tempFriends!.filter {
+                (tempUser) -> Bool in
                 return tempUser.id != self.curUid
             }
-            self.searchResults = filteredFriends.count > 0 ? filteredFriends : [User]()
+            self.searchResults = filteredFriends.count > 0
+                                 ? filteredFriends : [User]()
             self.friendsSearchController.searchResultsTableView.reloadData()
-         })
+        })
         
         // If the user tapped outside the search bar:
         if (!self.friendsSearchController.isActive) {
             doShowSearchResults = false
             friendsTableView.reloadData()
+        }
+    }
+    
+    /**
+     * Segues to the appropriate modified or created group.
+     */
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "newCanvasSegue" {
+            let destination = segue.destination as? GroupHistoryViewController
+            if createdGroup == nil {
+                destination?.curGroup = groupsViewController?.addGroup
+            }
+            else {
+                destination?.curGroup = createdGroup
+            }
+        }
+    }
+    
+    /**
+     * Accesses the APICalls interface to Azure.
+     */
+    func getAzureApi() -> APICalls {
+        return APICalls.sharedInstance
+    }
+    
+    /**
+     * Returns the first index of a User in an array, -1 if not found.
+     */
+    func getIndexOfUser(_ userArray : [User], keyUser : User) -> Int {
+        for (idx, tempUser) in userArray.enumerated() {
+            if tempUser.id == keyUser.id {
+                return idx
+            }
+        }
+        return -1
+    }
+    
+    /**
+     * Creates a new group.
+     */
+    func createNewGroup() {
+        let alertController = UIAlertController(title: "Group Name",
+                               message: "", preferredStyle: .alert)
+        
+        let confirmAction = UIAlertAction(title: "Confirm",
+                                          style: .default) { (_) in
+            let newGroupName = alertController.textFields![0].text
+            
+            self.getAzureApi().createGroup(members: self.selectedRecipients,
+             name: newGroupName != nil ? newGroupName! : "New Group") {
+                (newGroup) in
+                if (newGroup == nil) {
+                    let alert = UIAlertController(title: "Error",
+                                 message: "Failed to Create New Group",
+                                 preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Cancel",
+                                    style: .default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                    
+                    return
+                }
+                
+                self.createdGroup = newGroup
+                
+                // The groups recipients are inserted separately from its
+                //  creator. Append the creator manually just this once.
+                self.createdGroup?.members.append((self.getAzureApi()
+                                                       .currentUser)!)
+                // Reload the groups on the main menu.
+                self.groupsViewController?.groups?.insert(self.createdGroup!,
+                                                          at: 0)
+                self.groupsViewController?.groupsTableView?.reloadData()
+                
+                self.selectedRecipients = []
+                self.selectButton.isEnabled = false
+                self.performSegue(withIdentifier: "newCanvasSegue",
+                                  sender: self)
+            }
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) {
+            (_) in
+        }
+        
+        alertController.addTextField { (textField) in
+            textField.placeholder = "New Group Name"
+        }
+        alertController.addAction(confirmAction)
+        alertController.addAction(cancelAction)
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    /**
+     * Adds new members to an existing group.
+     * Eric Roh
+     */
+    func addNewMembers() {
+        getAzureApi()
+         .addNewMembers(group: (self.groupsViewController?.addGroup)!,
+                        members: self.selectedRecipients) { newGroup in
+            if newGroup == nil {
+                let alert = UIAlertController(title: "Error",
+                             message: "Failed to Add New Members",
+                             preferredStyle: .alert)
+                self.present(alert, animated: true, completion: nil)
+            }
+            else {
+                self.groupsViewController?.addGroup = newGroup
+                self.performSegue(withIdentifier: "newCanvasSegue",
+                                  sender: self)
+            }
         }
     }
 }
