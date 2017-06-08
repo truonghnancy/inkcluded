@@ -216,7 +216,7 @@ class RecipientsViewController: UIViewController, UITableViewDelegate,
                     
                     // The groups recipients are inserted separately from its
                     //  creator. Append the creator manually just this once.
-                    self.createdGroup?.members.append((self.apiCalls?.currentUser)!)
+                    self.createdGroup?.addMember(member: (self.apiCalls?.currentUser)!)
                     // Reload the groups on the main menu.
                     self.groupsViewController?.groups?.insert(self.createdGroup!, at: 0)
                     self.groupsViewController?.groupsTableView?.reloadData()

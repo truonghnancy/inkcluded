@@ -31,11 +31,11 @@ struct User: Hashable {
 }
 
 struct Group {
-    var lastUpdate: Date
+    private(set) var lastUpdate: Date
     private(set) var id: String;
-    var members: [User];
+    private(set)var members: [User];
     
-    var groupName: String;
+    private(set) var groupName: String;
     private(set) var admin: String;
     private(set) var messages: [Message];
     
@@ -46,6 +46,22 @@ struct Group {
         self.admin = admin;
         self.messages = messages;
         self.lastUpdate = lastUpdate
+    }
+    
+    mutating func setLastUpdate(date: Date) {
+        self.lastUpdate = date
+    }
+    
+    mutating func setGroupName(name: String) {
+        self.groupName = name
+    }
+    
+    mutating func setMembers(members: [User]) {
+        self.members = members
+    }
+    
+    mutating func addMember(member: User) {
+        self.members.append(member)
     }
 }
 
@@ -338,7 +354,7 @@ class APICalls {
             else if let item = result {
                 for var grp in self.groupList {
                     if grp.id == group.id {
-                        grp.groupName = newName
+                        grp.setGroupName(name: newName)
                     }
                 }
                 closure(newName)
@@ -366,8 +382,8 @@ class APICalls {
                         return
                     }
                     else {
-                        group.members.append(member)
-                        group.lastUpdate = Date()
+                        group.addMember(member: member)
+                        group.setLastUpdate(date: Date())
                     }
                     myDispatchGroup.leave()
                 })

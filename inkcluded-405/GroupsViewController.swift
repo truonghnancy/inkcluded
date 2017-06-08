@@ -103,7 +103,7 @@ class GroupsViewController: UIViewController {
                 APICalls.sharedInstance.renameGroup(group: self.groups![indexPath.row], newName: newGroupName!) { newName in
                     print(newName)
                     if let name = newName {
-                        self.groups![indexPath.row].groupName = name
+                        self.groups![indexPath.row].setGroupName(name: name)
                         tableView.reloadData()
                     }
                 }
